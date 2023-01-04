@@ -1,0 +1,7 @@
+# ignored files
+.DS_Store
+.vs/
+bin/
+obj/
+/**/build
+node_modules
