@@ -275,11 +275,18 @@ const attachHomePageEvent = () => {
 };
 
 // DROP DOWN MENU
-const toggler = document.querySelector("#menu-toggle");
-const theDropDown = document.querySelector(".dropdown-menu");
+const toggler = document.querySelector("#menu-toggle") as HTMLButtonElement;
+const theDropDown = document.querySelector("#dropdown-menu") as HTMLDivElement;
+
+let isOpen: boolean = false;
 
 toggler!.addEventListener("click", () => {
-  theDropDown!.classList.toggle("hidden");
+    isOpen =!isOpen;
+    if(isOpen){
+        theDropDown!.style.display = "block";
+    }else{
+        theDropDown!.style.display = "none";
+    }
 });
 
 const productInCart = (product: IProduct) => {
@@ -308,16 +315,23 @@ const renderCart = async () => {
 
   document.querySelector("#count-item")!.innerHTML = String(productsInCart.length)
 
+
   const cartItems = (document.querySelector(".cart-render")!.innerHTML =
     productsInCart
       .map(
-
         (product: IProduct) => `
         <div class="cart-items">
         <div id="cartBox" class="d-flex">
 
             <div id="imgBox" class="d-flex m-2 gap-2">
-              <img src="src/img/trash-can.svg" class="remove-item remove-img" data-product-id=${product.id}>
+            <button type="button" class="remove-item remove-img" data-product-id=${product.id}>
+                <i class="fa fa-trash" data-product-id=${product.id}></i>
+
+                <i class="fa fa-trash-can" data-product-id=${product.id}></i>
+                </button>
+                <i class="fa fa-trash-can" data-product-id=${product.id}></i>
+            </button>
+
               <img class="menu-img img-fluid"
               src="https://bortakvall.se${product.images.thumbnail}"
               alt="picture of ${product.name}"/>
@@ -373,10 +387,10 @@ const renderCart = async () => {
     element.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
 
-      console.log("TARGET", target);
       deleteFromCart(target.dataset.productId!);
     });
   });
+
   document?.querySelectorAll(".reduce-btn").forEach((element) => {
     element?.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
@@ -449,10 +463,6 @@ const renderCartinCheckout = async () => {
               </div>
               <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                 <h5 class="mb-0"><p>Summa ${Number(localStorage.getItem(String(product.id))) * product.price} kr</p></h5>
-
-              </div>
-              <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
               </div>
             </div>
           </div>
