@@ -2,12 +2,10 @@
 
 ## A shop for those who love candy
 
-A webshop for those who love candy also when they are away and not only at home.
+First group project for the JavaScript course of Medieinstitutet of an online store for those who love gummy bears.
 
 ## About this app
-This app is build with JavaScript and TypesScript and styling is with bootsrap and css
-
-## Installations
+This app is built with Vanilla JavaScript and TypesScript and styling done with bootstrap and css
 
 ### Install dependenices
 npm install  
@@ -15,5 +13,5 @@ npm install
 ## Bootstrap
 npm install bootsrap
 
-## Start watching typescript
+## Start script
 npm run dev
