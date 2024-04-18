@@ -2,7 +2,7 @@
 import { IOrderRequest, IOrderResponse } from './interfaces'
 
 const urlProducts = 'https://www.bortakvall.se/api/v2/products'
-const urlOrders = 'https://bortakvall.se/api/v2/orders'
+const urlOrders = 'https://www.bortakvall.se/api/v2/orders'
 
 export const fetchProducts = async () => {
         const resp = await fetch(urlProducts)
