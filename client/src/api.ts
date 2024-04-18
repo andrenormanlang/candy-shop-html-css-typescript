@@ -1,8 +1,8 @@
 
 import { IOrderRequest, IOrderResponse } from './interfaces'
 
-const urlProducts = 'https://bortakvall.se/api/products';
-const urlOrders = 'https://bortakvall.se/api/orders'
+const urlProducts = 'https://www.bortakvall.se/api/v2/products'
+const urlOrders = 'https://bortakvall.se/api/v2/orders'
 
 export const fetchProducts = async () => {
         const resp = await fetch(urlProducts)
