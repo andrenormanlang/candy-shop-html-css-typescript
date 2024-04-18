@@ -93,7 +93,7 @@ const renderProducts = (products: IProduct[]) => {
       .map(
         (product: IProduct) => `
         <div class="card shadow-lg" style="width: 18rem;">
-        <img class="card-img-top img-fluid cardImg" src="https://bortakvall.se${product.images.thumbnail
+        <img class="card-img-top img-fluid cardImg" src="https://www.bortakvall.se${product.images.thumbnail
           }" alt="picture of ${product.name}"
         <div class="card-body">
         <h5 class="card-title">${product.name}</h5>
