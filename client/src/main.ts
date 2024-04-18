@@ -191,7 +191,7 @@ const renderProductDescription = (product: IProduct) => {
 
           <div class="row">
             <div class="col-sm-5 p-0 mb-4">
-              <img src="https://bortakvall.se${product.images.large}" class="img-fluid" alt="...">
+              <img src="https://www.bortakvall.se${product.images.large}" class="img-fluid" alt="...">
             </div>
             <div class="col-sm-6 pb-3" style="background-color:yellow;">
               <h4 class="mt-5 fw-bold ">${product.name}</h4>
