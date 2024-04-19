@@ -1,8 +1,10 @@
 
 import { IOrderRequest, IOrderResponse } from './interfaces'
 
-const urlProducts = 'https://www.bortakvall.se/api/v2/products';
-const urlOrders = 'https://www.bortakvall.se/api/v2/orders'
+// const urlProducts = 'https://www.bortakvall.se/api/v2/products';
+// const urlOrders = 'https://www.bortakvall.se/api/v2/orders'
+const urlProducts = 'https://candy-shop-rest-api.onrender.com/products';
+const urlOrders = 'https://candy-shop-rest-api.onrender.com/orders'
 
 export const fetchProducts = async () => {
   const resp = await fetch(urlProducts)
