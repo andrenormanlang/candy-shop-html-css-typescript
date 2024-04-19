@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Varela+Round&display=swap');
-
 /* font-family: 'Open Sans', sans-serif;
 font-family: 'Varela Round', sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Varela+Round&display=swap');
+
 
 
 body {
@@ -14,23 +14,16 @@ h1,h2,h3,h4,h5,h6 {
   font-family: 'Varela Round', sans-serif;
 }
 
-nav {
-  /* z-index:2; */
-  /* opacity: 0.5; */
-}
 
 /*font-size for stock heading */
 .small-font h5 {
   font-size: 0.8rem;
 }
 
-
-
 /*Pushing all the cards down so the nav wont clip em */
 .padding-top {
   padding-top:12vh;
 }
-
 
 /*Does affect the flow of the page */
 .hide{
@@ -42,7 +35,6 @@ nav {
   visibility: hidden;
  
 }
-
 
 /* MOBILE */
 .dropdown-menu {
@@ -68,10 +60,7 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%;
-    
-    
-    
+    height: 100%;  
   }
 
   /* spacing mellan lis */

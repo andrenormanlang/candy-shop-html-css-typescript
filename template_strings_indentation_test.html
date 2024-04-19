@@ -1,0 +1,26 @@
+<div class="cart-items">
+  <div id="cartBox" class="d-flex">
+    <div id="imgBox" class="d-flex m-2 gap-2">
+      <button type="button" class="remove-item remove-img" data-product-id=${product.id}>
+        <i class="fa fa-trash" data-product-id=${product.id}></i>
+        <i class="fa fa-trash-can" data-product-id=${product.id}></i>
+      </button>
+      <i class="fa fa-trash-can" data-product-id=${product.id}></i>
+      </button>
+      <img class="menu-img img-fluid" src="https://bortakvall.se${product.images.thumbnail}"
+        alt="picture of ${product.name}" />
+    </div>
+  <h5 class="card-title m-2">${product.name}</h5>
+  </div>
+  <div class="menu-items d-flex justify-content-end gap-3">
+    <p>${product.price} kr</p>
+    <p>${Number(localStorage.getItem(String(product.id))) * product.price} kr</p>
+  </div>
+  <div class="test d-flex justify-content-end">
+    <div class="counter-icon m-2">
+      <button class="reduce-btn" data-product-id=${product.id}>-</button>
+      <span class="sum-products">${localStorage.getItem(String(product.id))} </span>
+      <button class="increase-btn" data-product-id=${product.id}>+</button>
+    </div>
+  </div>
+</div>
