@@ -33,7 +33,7 @@ h1,h2,h3,h4,h5,h6 {
 /*Does not affect the flow of the page*/
 .hidden {
   visibility: hidden;
- 
+
 }
 
 /* MOBILE */
@@ -49,7 +49,7 @@ h1,h2,h3,h4,h5,h6 {
     z-index: 1;
     overflow-y: scroll;
     box-shadow: 0 0 15px 5px rgba(68, 68, 68, 0.4);
-    
+
   }
 
   /*desktop size */
@@ -60,14 +60,14 @@ h1,h2,h3,h4,h5,h6 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%;  
+    height: 100%;
   }
 
   /* spacing mellan lis */
   .dropdown-menu li {
     margin: 10px 0;
   }
-  
+
   /* DESKTOP */
   @media screen and (min-width: 768px) {
     .dropdown-menu {
@@ -106,7 +106,7 @@ h1,h2,h3,h4,h5,h6 {
   border-radius: 10px 10px 10px 10px;
   align-items: center;
   margin-left:10px;
-  
+
 }
 
 /*removes default styling for the X button in cart */
@@ -124,10 +124,10 @@ h1,h2,h3,h4,h5,h6 {
 
 
 .reduce-btn, .increase-btn {
-  background-color: rgb(13,202,240);  
+  background-color: rgb(13,202,240);
   border-radius: 0px 10px 10px 00px;
   border:1px solid rgb(4, 159, 190); ;
-  
+
 }
 
 .reduce-btn {
@@ -188,5 +188,45 @@ h1,h2,h3,h4,h5,h6 {
 
 }
 
+.modal-content {
+  transition: transform 0.3s ease-out;
+}
 
+.modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.modal-footer {
+  background-color: #f8f9fa;
+  border-top: 2px solid #dee2e6;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+}
+
+/* Ensuring text is easily readable on all devices */
+.modal-title, .modal-body p {
+  font-size: 1.2rem;
+}
+
+/* Highlighting the price */
+.modal-body h3 {
+  color: #198754; /* Bootstrap success color */
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+/* Responsive Image */
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
 
