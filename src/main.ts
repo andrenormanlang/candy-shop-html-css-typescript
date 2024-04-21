@@ -9,7 +9,7 @@ import {
 } from "./interfaces";
 import "bootstrap/dist/css/bootstrap.css";
 import * as bootstrap from "bootstrap";
-import "./style.css";
+import "./style.scss";
 
 let products: IProduct[] = JSON.parse(localStorage.getItem("products") ?? "[]");
 
@@ -45,18 +45,29 @@ const outofStockItems = () => {
 
 const stockPhrase = () => {
   document.querySelector("#storage-instockvsoutofstock")!.innerHTML = `
-<h5>Vi har ${inStockItems().length} sorters godis i lager. ${
+<h5>We have ${inStockItems().length} various types of candy in stock and ${
     outofStockItems().length
-  } Sorter är slutsålda</h5>`;
+  }  are sold out</h5>`;
 };
 
 const renderProductStatus = (product: IProduct) => {
-  return product.stock_status === "instock" &&
-    product.stock_quantity &&
-    renderProductQuantity(product)
-    ? `<span style="color: green; font-weight:bold; ">I Lager</span>`
-    : `<p style="color: red; font-weight:bold;">Slut i lager</p>`;
+  const availableQuantity = renderProductQuantity(product);
+  if (product.stock_status === "instock" && availableQuantity > 0) {
+    return `<span id="product-quantity${product.id}" style="color: green; font-weight:bold;">${renderProductQuantity(
+      product
+    )}</span> <span style="color: green; font-weight:bold;">in stock </span>`;
+  } else {
+    return `<span style="color: red; font-weight:bold;">SOLD OUT</span>`;
+  }
 };
+
+const renderProductStatusAndQuantity = (product: IProduct) => {
+  const availableQuantity = renderProductQuantity(product);
+  return product.stock_status === "instock" && availableQuantity > 0
+    ? `<span style="color: green; font-weight:bold;">I Lager (${availableQuantity})</span>`
+    : `<span style="color: red; font-weight:bold;">Slut i Lager</span>`;
+};
+
 
 const updateProductStatus = (product: IProduct) => {
   document.querySelector(`#product-status${product.id}`)!.innerHTML =
@@ -102,10 +113,8 @@ const renderProducts = (products: IProduct[]) => {
           product.images.thumbnail
         }"alt="picture of ${product.name}" <div class="card-body">
         <h5 class="card-title">${product.name}</h5>
-        <p id="product-status${product.id}">${renderProductStatus(product)}</p>
-        <p id="product-quantity${product.id}">${renderProductQuantity(
-            product
-          )}</p>
+        <p id="product-status${product.id}">${renderProductStatus(product)} </p>
+
         <p class="card-text fw-bold fst-italic">${product.price}kr</p>
         <a href="#"></a>
           <div class="d-flex flex-column card-body card-buttons">
@@ -364,7 +373,7 @@ const renderCart = async () => {
       .map(
         (product: IProduct) =>
           `<div class="cart-items">
-      <div id="cartBox" class="d-flex">
+      <div id="cartBox" class="d-flex ">
         <div id="imgBox" class="d-flex m-2 gap-2">
           <button type="button" class="remove-item remove-img" data-product-id=${
             product.id
@@ -382,7 +391,7 @@ const renderCart = async () => {
       <h5 class="card-title m-2">${product.name}</h5>
       </div>
       <div class="menu-items d-flex justify-content-end gap-3">
-        <p>${product.price} kr</p>
+
         <p>${
           Number(localStorage.getItem(String(product.id))) * product.price
         } kr</p>

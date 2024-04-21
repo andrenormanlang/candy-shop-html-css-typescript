@@ -21,6 +21,7 @@ export const fetchProducts = async () => {
 export const fetchProduct = async (id:string) => {
   const resp = await fetch(urlProducts+`/${id}`)
   console.log("Response fetch status", resp.status);
+  console.log("Response fetch statusText", resp.statusText);
 
   if(!resp.ok){
       throw new Error(`No response from server: ${resp.status} ${resp.statusText}`)
