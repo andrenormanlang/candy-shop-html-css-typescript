@@ -1,7 +1,6 @@
 import { fetchProduct, fetchProducts, createOrders } from "./api";
 import {
   IProduct,
-  IProductResponse,
   IProductsResponse,
   IOrderRequest,
   IOrderItemRequest,
@@ -237,22 +236,28 @@ const renderProductDescription = (product: IProduct) => {
     });
 };
 
-function displayProductDetailsInModal(product: {
-  images: { large: any };
-  name: any;
-  description: any;
-  price: any;
-  id: string;
-}) {
+function displayProductDetailsInModal(product: any) {
   const modalBody = document.querySelector(".modal-body") as HTMLElement;
 
   modalBody!.innerHTML = `
-    <div>
-      <img src="https://bortakvall.se${product.images.thumbnail}" alt="${product.name}" class="img-fluid">
-      <h4>${product.name}</h4>
-      <p>${product.description}</p>
-      <p>Price: ${product.price} kr</p>
-    </div>`;
+
+  <div class="modal-content">
+    </div>
+    <div class="modal-body">
+      <div class="d-flex">
+        <div class="flex-shrink-0">
+          <img src="https://bortakvall.se${product.images.thumbnail}" alt="${product.name}" class="img-fluid" style="max-width: 200px; height: auto;">
+        </div>
+        <div class="flex-grow-1 ms-3">
+          <h4>${product.name}</h4>
+          <p>${product.description}</p>
+          <p class="font-weight-bold">Price: ${product.price} kr</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>`;
   const addToCartBtn = document.querySelector(
     "#addToCartBtn"
   ) as HTMLButtonElement;
