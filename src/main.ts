@@ -53,21 +53,15 @@ const stockPhrase = () => {
 const renderProductStatus = (product: IProduct) => {
   const availableQuantity = renderProductQuantity(product);
   if (product.stock_status === "instock" && availableQuantity > 0) {
-    return `<span id="product-quantity${product.id}" style="color: green; font-weight:bold;">${renderProductQuantity(
+    return `<span id="product-quantity${
+      product.id
+    }" style="color: green; font-weight:bold;">${renderProductQuantity(
       product
     )}</span> <span style="color: green; font-weight:bold;">in stock </span>`;
   } else {
     return `<span style="color: red; font-weight:bold;">SOLD OUT</span>`;
   }
 };
-
-const renderProductStatusAndQuantity = (product: IProduct) => {
-  const availableQuantity = renderProductQuantity(product);
-  return product.stock_status === "instock" && availableQuantity > 0
-    ? `<span style="color: green; font-weight:bold;">I Lager (${availableQuantity})</span>`
-    : `<span style="color: red; font-weight:bold;">Slut i Lager</span>`;
-};
-
 
 const updateProductStatus = (product: IProduct) => {
   document.querySelector(`#product-status${product.id}`)!.innerHTML =
@@ -108,31 +102,80 @@ const renderProducts = (products: IProduct[]) => {
       )
       .map(
         (product: IProduct) =>
-          `<div class="card shadow-lg" style="width: 18rem;">
-        <img class="card-img-top img-fluid cardImg" src="https://bortakvall.se${
-          product.images.thumbnail
-        }"alt="picture of ${product.name}" <div class="card-body">
-        <h5 class="card-title">${product.name}</h5>
-        <p id="product-status${product.id}">${renderProductStatus(product)} </p>
-
-        <p class="card-text fw-bold fst-italic">${product.price}kr</p>
-        <a href="#"></a>
-          <div class="d-flex flex-column card-body card-buttons">
-            <button type="button" class="btn product-description-btn card-btn btn-info mb-2" data-product-id=${
+          `
+            <div class="card shadow-lg" data-product-id=${
               product.id
-            }>Läs mer</button>
-            <button type="button" id="product-add${
-              product.id
-            }" class="cart-btn btn btn-success card-btn"data-cart-id=${
+            } style="width: 18rem;">
+            <h1 class="text-uppercase product-card-title mt-2">${
+              product.name
+            }</h1>
+                  <img class="card-img-top img-fluid cardImg p-3" src="https://bortakvall.se${
+                    product.images.thumbnail
+                  }"alt="picture of ${product.name}" <div class="card-body">
+                  <p id="product-status${product.id}">${renderProductStatus(
+            product
+          )} </p>
+                  <p class="card-text fw-bold fst-italic">${product.price}kr</p>
+                  <a href="#"></a>
+                    <div class="d-flex flex-column card-body card-buttons">
+                      <button type="button" id="product-add${
+                        product.id
+                      }" class="cart-btn btn btn-success card-btn"data-cart-id=${
             product.id
           }>Lägg till</button>
-          </div>
-    </div>`
+                    </div>
+              </div>`
       )
       .join(""));
   products.forEach(updateProductAddToCart);
+  document.querySelectorAll(".card").forEach((card) => {
+    card.addEventListener("click", (event) => {
+      if ((event.target as HTMLElement).closest("button")) {
+        return;
+      }
+      const productId = card.getAttribute("data-product-id");
+      const product = products.find((p) => p.id.toString() === productId);
+      if (product) {
+        displayProductDetailsInModal(product);
+      }
+    });
+  });
+
+  document.querySelectorAll(".card").forEach((card) => {
+    card.addEventListener("mousemove", (e) => {
+      // Ensure that e.target is not null and is an instance of HTMLElement
+      if (
+        e.target &&
+        e.target instanceof HTMLElement &&
+        e instanceof MouseEvent
+      ) {
+        const rect = e.target.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const rotateY = 20 * (x / rect.width - 0.5);
+        const rotateX = -20 * (y / rect.height - 0.5);
+
+        e.target.style.setProperty("--rotateX", `${rotateX}deg`);
+        e.target.style.setProperty("--rotateY", `${rotateY}deg`);
+      }
+    });
+
+    card.addEventListener("mouseout", (e) => {
+      // Ensure that e.target is not null and is an instance of HTMLElement
+      if (e.target && e.target instanceof HTMLElement) {
+        e.target.style.setProperty("--rotateX", "0deg");
+        e.target.style.setProperty("--rotateY", "0deg");
+      }
+    });
+  });
+
   return cardItems;
 };
+
+getProducts().then(() => {
+  renderProducts(products);
+  // ...any other code needed after products are fetched and rendered
+});
 
 const addEventToCartButton = () => {
   document.querySelectorAll(".cart-btn").forEach((element) => {
@@ -207,30 +250,29 @@ const renderProductDescription = (product: IProduct) => {
             product.images.large
           }" class="img-fluid" alt="...">
         </div>
-          <div class="col-sm-6 pb-3" style="background-color:yellow;">
-            <h4 class="mt-5 fw-bold ">${product.name}</h4>
-            <h6 class="card-subtitle mb-2 text-muted"></h6>
-            <p class="mb-4 d-flex justify-content-center">Art. nr: ${
-              product.id
-            }</p>
-            <h5 class="mt-2 card-text fw-bold fst-italic">${
-              product.price
-            }kr</h5>
-            <p class="card-text mt-3">${product.description}</p>
-            <p id="product-status${product.id}">${renderProductStatus(
+        <div class="col-sm-6 pb-3" style="background-color:yellow;">
+          <h4 class="mt-5 fw-bold ">${product.name}</h4>
+          <h6 class="card-subtitle mb-2 text-muted"></h6>
+          <p class="mb-4 d-flex justify-content-center">Art. nr: ${
+            product.id
+          }</p>
+          <h5 class="mt-2 card-text fw-bold fst-italic">${product.price}kr</h5>
+          <p class="card-description-text mt-3">${product.description}</p>
+          <p id="product-status${product.id}">${renderProductStatus(
     product
   )}</p>
-            <p id="product-quantity${product.id}">${renderProductQuantity(
+          <p id="product-quantity${product.id}">${renderProductQuantity(
     product
   )}</p>
-            <div class="container"></div>
-            <button type="button" id="product-description-add" class="cart-btn btn btn-success" data-product-id=${
-              product.id
-            }>Add to cart</button>
-            <button id="main-homepage" type="button" class="btn btn-primary">Back to main</button>
-          </div>
+          <button type="button" id="product-description-add" class="cart-btn btn btn-success" data-product-id=${
+            product.id
+          }>
+            Add to cart
+          </button>
+          <button id="main-homepage" type="button" class="btn btn-primary">Back to main</button>
         </div>
       </div>
+    </div>
   </div>`;
 
   attachHomePageEvent();
@@ -258,8 +300,8 @@ function displayProductDetailsInModal(product: any) {
           <img src="https://bortakvall.se${product.images.thumbnail}" alt="${product.name}" class="img-fluid" style="max-width: 200px; height: auto;">
         </div>
         <div class="flex-grow-1 ms-3">
-          <h4>${product.name}</h4>
-          <p>${product.description}</p>
+          <p class="card-product-description-name">${product.name}</p>
+          <h5 class="card-product-description">${product.description}</h5>
           <p class="font-weight-bold">Price: ${product.price} kr</p>
         </div>
       </div>
@@ -373,45 +415,59 @@ const renderCart = async () => {
       .map(
         (product: IProduct) =>
           `<div class="cart-items">
-      <div id="cartBox" class="d-flex ">
-        <div id="imgBox" class="d-flex m-2 gap-2">
-          <button type="button" class="remove-item remove-img" data-product-id=${
-            product.id
-          }>
-            <i class="fa fa-trash" data-product-id=${product.id}></i>
-            <i class="fa fa-trash-can" data-product-id=${product.id}></i>
-          </button>
-          <i class="fa fa-trash-can" data-product-id=${product.id}></i>
-          </button>
-          <img class="menu-img img-fluid" src="https://bortakvall.se${
-            product.images.thumbnail
-          }"
-            alt="picture of ${product.name}" />
-        </div>
-      <h5 class="card-title m-2">${product.name}</h5>
-      </div>
-      <div class="menu-items d-flex justify-content-end gap-3">
-
-        <p>${
-          Number(localStorage.getItem(String(product.id))) * product.price
-        } kr</p>
-      </div>
-      <div class="test d-flex justify-content-end">
-        <div class="counter-icon m-2">
-          <button class="reduce-btn" data-product-id=${product.id}>-</button>
-          <span class="sum-products">${localStorage.getItem(
-            String(product.id)
-          )} </span>
-          <button class="increase-btn" data-product-id=${product.id}>+</button>
-        </div>
-    </div>
-  </div>`
+            <div class="row g-3 align-items-center">
+              <div class="col-2">
+                <button type="button" class="remove-item btn btn-outline-secondary btn-sm" data-product-id="${
+                  product.id
+                }">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="col-4">
+                <img class="menu-img img-fluid" src="https://bortakvall.se${
+                  product.images.thumbnail
+                }" alt="picture of ${product.name}" />
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-12">
+                    <h5 class="card-title">${product.name}</h5>
+                  </div>
+                  <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="price">${
+                        Number(localStorage.getItem(String(product.id))) *
+                        product.price
+                      } kr</div>
+                      <div class="quantity-controls">
+                        <button class="reduce-btn btn btn-outline-secondary" data-product-id=${
+                          product.id
+                        }>-</button>
+                        <span class="sum-products">${localStorage.getItem(
+                          String(product.id)
+                        )}</span>
+                        <button class="increase-btn btn btn-outline-secondary" data-product-id=${
+                          product.id
+                        }>+</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="my-4">
+          </div>
+          `
       )
       .join(""));
 
-  document.querySelector("#total-cart")!.innerHTML = `
-    <h5>Total ${totalCart} kr</h5>
-    <button class="btn btn-warning" id="checkout-btn">Till Kassan</button>`;
+  document.querySelector(
+    "#total-cart"
+  )!.innerHTML = `<div id="total-cart" class="total-cart">
+    <div class="total-text">Total</div>
+    <div class="total-price">${totalCart} kr</div>
+    <button class="btn-checkout" id="checkout-btn">Till Kassan</button>
+  </div>`;
 
   const checkoutBtn = document.querySelector("#checkout-btn");
   checkoutBtn?.addEventListener("click", () => {

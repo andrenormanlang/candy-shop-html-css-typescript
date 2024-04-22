@@ -1,14 +1,16 @@
 /* font-family: 'Open Sans', sans-serif;
 font-family: 'Varela Round', sans-serif; */
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Varela+Round&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Chicle&family=Libre+Franklin:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Varela+Round&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Varela&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Varela&display=swap");
 body {
   background-color: pink;
   font-size: 18px;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Varela Round", sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Varela Round", sans-serif;
+  font-family: "Anton", sans-serif;
 }
 
 /*font-size for stock heading */
@@ -31,313 +33,263 @@ h1, h2, h3, h4, h5, h6 {
   visibility: hidden;
 }
 
-/* Navbar */
-.container-fluid {
-  padding-left: 1rem;
-  padding-right: 2rem;
-}
-
-.navbar {
+/*NAVBAR */
+nav {
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px 20px;
   position: fixed;
   top: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem;
-}
-.navbar .container-fluid {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-.navbar .navbar-brand {
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-}
-.navbar #navbar-content {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-@media (max-width: 768px) {
-  .navbar #navbar-content {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-.navbar #menu-toggle {
-  margin-left: auto;
-  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 5rem;
 }
 
-.cart-btn {
-  background-color: rgb(13, 202, 240);
-  color: white;
-  font-size: 16px;
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Additional styles for the menu toggle */
+.btn-menu-toggle {
   position: relative;
-  transition: background-color 0.3s, transform 0.2s;
+  background-color: #17a2b8; /* Bootstrap info color or your custom color */
+  border: none;
+  transition: background-color 0.3s;
 }
-.cart-btn:hover, .cart-btn:focus {
-  background-color: #0aa1c0;
-  transform: translateY(-2px);
-  cursor: pointer;
+
+.btn-menu-toggle:hover, .btn-menu-toggle:focus {
+  background-color: #138496; /* A darker shade for interaction */
 }
-.cart-btn:active {
-  transform: translateY(1px);
-}
-.cart-btn .counter-item {
+
+.badge-notification {
   position: absolute;
-  top: -10px;
-  right: -10px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: rgb(245, 37, 37);
+  top: -0.9rem;
+  left: 1.3rem;
+  transform: translate(50%, -50%);
+  background-color: #dc3545; /* Bootstrap danger color for contrast */
   color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-}
-
-.cart-counter {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: #ff0000;
-  color: #ffffff;
   border-radius: 50%;
   width: 20px;
   height: 20px;
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
+  transition: transform 0.3s;
 }
 
-.cart-preview {
-  display: none;
+.badge-notification::after {
+  content: "";
   position: absolute;
+  top: 0;
   right: 0;
-  background: white;
-  width: 300px;
-  border: 1px solid #ccc;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
-
-.cart-icon:hover .cart-preview {
-  display: block;
-}
-
-/* MOBILE */
-.dropdown-menu {
-  position: fixed;
-  display: block;
-  top: 74px;
-  right: 0;
-  bottom: 0;
-  width: 88%;
-  background-color: rgb(255, 254, 254);
-  z-index: 1;
-  overflow-y: scroll;
-  box-shadow: 0 0 15px 5px rgba(68, 68, 68, 0.4);
-}
-.dropdown-menu ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
   height: 100%;
+  border-radius: 50%;
+  animation: badge-bump 0.5s infinite alternate;
 }
-.dropdown-menu ul li {
-  margin: 10px 0;
-}
-@media screen and (min-width: 768px) {
-  .dropdown-menu {
-    padding: 2rem;
-    width: 30rem;
-    height: auto;
+
+@keyframes badge-bump {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
   }
 }
-
-/*SHOPPING CART heading*/
-.card-title {
-  font-size: 1rem;
-  font-weight: 600;
+.counter-span {
+  position: relative;
+  z-index: 2; /* Ensure the number is above the pseudo-element */
 }
 
-/*SHOPPING CART img */
-.menu-img {
-  box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
-  border-radius: 5%;
-  max-width: 100%;
-  height: auto;
-  width: 40%;
+/* Ensure button scales well for accessibility */
+.btn-menu-toggle, .badge-notification, .counter-span {
+  transform-origin: center;
+  transform: scale(var(--scale-factor, 1));
 }
 
-/* Adds a little white background to the counter */
-/* kind of unecessary */
-.counter-icon {
+:root:hover {
+  --scale-factor: 1.15; /* Scale up on hover */
+}
+
+/* CART */
+#dropdown-menu {
+  position: fixed; /* Keep the dropdown fixed */
+  top: 5rem; /* Adjusted to the height of your navbar */
+  right: 1rem; /* Align with the right side of the screen or toggle button */
+  width: 360px; /* Width of the dropdown */
+  max-height: calc(100vh - 5rem); /* Maximum height to ensure it doesn't go off screen */
+  overflow-y: auto; /* Enable vertical scrolling */
+  z-index: 101; /* Above the navbar */
+  display: none; /* Initially hidden */
+  background-color: rgb(255, 254, 254); /* Theming variable for background */
+  box-shadow: rgba(68, 68, 68, 0.4) 0px 4px 8px; /* Theming variable for shadow */
+  padding: 1rem; /* Inner padding */
+}
+
+/* Cart Item Styling */
+.cart-items {
   display: flex;
-  justify-content: space-between;
-  background-color: rgb(255, 255, 255);
-  box-shadow: inset 0 0px 3px #000000;
-  border-radius: 10px 10px 10px 10px;
   align-items: center;
-  margin-left: 10px;
+  justify-content: space-between;
+  padding: 10px 0; /* Spacing between cart items */
 }
 
-/*removes default styling for the X button in cart */
-.remove-item {
-  border: none;
-  background-color: transparent;
-  padding: 0;
-  margin: 10px;
+.cart-item-image {
+  width: 50px; /* Small thumbnail size */
+  height: 50px;
+  border-radius: 4px; /* Slightly rounded corners for images */
+  object-fit: cover; /* Ensure the image covers the thumbnail area */
 }
 
-/*TRASH CAN img */
-.remove-img {
-  width: 1.2rem;
+.cart-item-details {
+  flex-grow: 1;
+  padding-left: 10px; /* Space between image and details */
 }
 
-.reduce-btn,
+.card-title {
+  font-size: 0.8rem; /* Decrease font size to your liking */
+  font-weight: bold; /* Bold font weight for emphasis */
+  margin-bottom: 16px;
+  /* Other styles... */
+}
+
 .increase-btn {
-  background-color: rgb(13, 202, 240);
-  border-radius: 0px 10px 10px 0px;
-  border: 1px solid rgb(4, 159, 190);
+  background-color: #f0f0f0; /* Light background for buttons */
+  border: 1px solid #d1d1d1; /* Border to distinguish the buttons */
+  border-radius: 4px; /* Rounded buttons */
+  padding: 2px 4px; /* Reduced padding to make button smaller */
+  margin: 0 3px; /* Adjusted margin if necessary */
+  cursor: pointer;
+  font-size: 0.85rem; /* Smaller font size for text inside the button */
 }
 
 .reduce-btn {
-  border-radius: 10px 0px 0px 10px;
+  background-color: #f0f0f0; /* Light background for buttons */
+  border: 1px solid #d1d1d1; /* Border to distinguish the buttons */
+  border-radius: 4px; /* Rounded buttons */
+  padding: 2px 4px; /* Reduced padding to make button smaller */
+  margin: 0 3px; /* Adjusted margin if necessary */
+  cursor: pointer;
+  font-size: 0.85rem; /* Smaller font size for text inside the button */
 }
 
-.total-title {
+.cart-item-name {
+  font-size: 0.9rem; /* Smaller font size for cart item names */
+  font-weight: bold;
+}
+
+.cart-item-quantity {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-btn {
+  background-color: #f0f0f0; /* Light background for buttons */
+  border: 1px solid #d1d1d1; /* Border to distinguish the buttons */
+  border-radius: 4px; /* Rounded buttons */
+  padding: 5px 8px; /* Smaller buttons */
+  margin: 0 5px; /* Space between buttons */
+  cursor: pointer;
+}
+
+.cart-item-price {
+  font-weight: bold;
+}
+
+.total-cart {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  padding: 10px;
+  background-color: #f8f9fa; /* Choose a color that fits the design */
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.total-text {
   font-size: 1.2rem;
-  font-weight: 600;
-  margin: 0.5rem;
+  font-weight: bold;
 }
 
-/* yellow check out button */
-.btn-warning {
-  width: 80%;
-  margin: 0 10%;
+.total-price {
+  font-size: 1.5rem;
+  color: #28a745; /* Adjust for contrast */
+  font-weight: bold;
 }
 
-/*BACK TO TOP ICON */
-.round-arrow {
-  width: 10%;
-  background-color: white;
-  border-radius: 50%;
-  position: fixed;
-  bottom: 15px;
-  left: 5px;
+.btn-checkout {
+  padding: 10px 20px;
+  font-size: 1.2em;
+  color: white;
+  background-color: #ffc107; /* Match this color to your brand */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-checkout:hover {
+  background-color: #e0a800; /* Darken on hover */
+}
+
+/* PRODUCT CARD */
+.product-card-title {
+  font-family: "Anton", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 900;
+  padding-top: 10px;
+}
+
+.card {
+  perspective: 1000px; /* Create perspective */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transition for hover effect */
+  cursor: pointer; /* Change cursor to indicate clickable */
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: inherit; /* Match the card's border-radius */
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+  z-index: 0;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card:hover {
+  transform: scale(1.2) rotateX(var(--rotateX)) rotateY(var(--rotateY));
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  border: 2px solid #ececec; /* subtle border */
   z-index: 1;
 }
 
-@media screen and (min-width: 768px) {
-  .round-arrow {
-    width: 8%;
-    left: 2rem;
-    bottom: 20px;
-  }
-}
-@media screen and (min-width: 1025px) {
-  .round-arrow {
-    width: 6%;
-    left: 2rem;
-    bottom: 20px;
-  }
-}
-/*The counter ontop of the cart */
-.counter-item {
-  color: white;
-  z-index: 4;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: rgb(245, 37, 37);
-  top: -2px;
-  left: 28px;
+.card:hover .product-card-title {
+  transform: scale(1.1);
+  color: #ff4500;
 }
 
-.modal-content {
-  transition: transform 0.3s ease-out;
+.card-img-top:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease-in-out;
 }
 
-.modal-header {
-  background-color: #f8f9fa;
-  border-bottom: 2px solid #dee2e6;
+/* PRODUCT DESCRIPTION */
+.card-product-description-name {
+  font-family: "Anton", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
 }
 
-.modal-footer {
-  background-color: #f8f9fa;
-  border-top: 2px solid #dee2e6;
-}
-
-.modal-body {
-  padding: 20px;
-}
-
-.btn-close {
-  background: none;
-  border: none;
-  font-size: 20px;
-}
-
-/* Ensuring text is easily readable on all devices */
-.modal-title,
-.modal-body p {
-  font-size: 1.2rem;
-}
-
-/* Highlighting the price */
-.modal-body h3 {
-  color: #198754; /* Bootstrap success color */
-  font-weight: bold;
-  margin-top: 15px;
-}
-
-/* Responsive Image */
-.img-fluid {
-  max-width: 100%;
-  height: auto;
-}
-
-#cartBox {
-  width: 100%; /* Adjust this value according to your preference */
-}
-
-@media screen and (max-width: 768px) {
-  .navbar {
-    padding: 10px;
-  }
-  .btn {
-    padding: 8px 16px;
-    font-size: 16px; /* Bigger touch targets for mobile */
-  }
-}
-.btn:hover, .btn:focus {
-  background-color: #007BFF; /* Change according to your primary color */
-  color: white;
-  outline: none;
-}
-
-input, button {
-  transition: all 0.3s ease;
-}
-
-input:focus {
-  border-color: #66AFE9;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+.card-product-description {
+  font-family: "Varela Round", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 300;
 }/*# sourceMappingURL=style.css.map */
