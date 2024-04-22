@@ -373,12 +373,19 @@ const theDropDown = document.querySelector("#dropdown-menu") as HTMLDivElement;
 
 let isOpen: boolean = false;
 
-toggler!.addEventListener("click", () => {
-  isOpen = !isOpen;
+toggler.addEventListener('click', () => {
+  isOpen = !isOpen; // Toggle the state of the dropdown
   if (isOpen) {
-    theDropDown!.style.display = "block";
+    theDropDown.style.display = "block"; // First make the dropdown block to render it
+    requestAnimationFrame(() => {
+      // Then, on the next animation frame, add the 'show' class
+      theDropDown.classList.add('show');
+    });
   } else {
-    theDropDown!.style.display = "none";
+    theDropDown.classList.remove('show'); // Remove the 'show' class to start the hiding transition
+    setTimeout(() => {
+      theDropDown.style.display = "none"; // After the transition ends, set display to none
+    }, 500); // This duration should match the CSS transition-duration property
   }
 });
 

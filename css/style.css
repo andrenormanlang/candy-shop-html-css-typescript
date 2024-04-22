@@ -42,8 +42,12 @@ nav {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
-  height: 5rem;
+  z-index: 1;
+  height: 6rem;
+}
+
+.container-nav {
+  max-width: 1200px;
 }
 
 /* Additional styles for the menu toggle */
@@ -51,11 +55,13 @@ nav {
   position: relative;
   background-color: #17a2b8; /* Bootstrap info color or your custom color */
   border: none;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.1s;
 }
-
 .btn-menu-toggle:hover, .btn-menu-toggle:focus {
   background-color: #138496; /* A darker shade for interaction */
+}
+.btn-menu-toggle:active {
+  transform: scale(0.95);
 }
 
 .badge-notification {
@@ -122,6 +128,17 @@ nav {
   background-color: rgb(255, 254, 254); /* Theming variable for background */
   box-shadow: rgba(68, 68, 68, 0.4) 0px 4px 8px; /* Theming variable for shadow */
   padding: 1rem; /* Inner padding */
+  transform: translateY(-20px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s;
+  will-change: opacity, transform; /* Optimize for transitions */
+}
+
+#dropdown-menu.show {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Cart Item Styling */
