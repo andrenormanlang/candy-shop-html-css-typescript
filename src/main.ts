@@ -35,8 +35,8 @@ const getProducts = async () => {
     stockPhrase();
     description();
     addEventToCartButton();
-    renderCart();
     renderCartinCheckout();
+    renderCart();
 
     hideSpinner();
     console.log("Products", products);
@@ -419,11 +419,26 @@ const renderCart = async () => {
 
   let totalCart = totalPrice(productsInCart);
 
+  // Update the item count display
   document.querySelector("#count-item")!.innerHTML = String(
     productsInCart.length
   );
 
-  const cartItems = (document.querySelector(".cart-render")!.innerHTML =
+
+  // Check if the cart is empty and display a message
+  let cartItemsContainer = document.querySelector(".cart-render");
+
+  if (cartItemsContainer) {
+    if (productsInCart.length === 0) {
+        cartItemsContainer.innerHTML = `<div class='empty-cart-message'>Get some sweets!</div>`;
+        document.querySelector(".total-cart")!.innerHTML = ""; // Clear total cart if empty
+        let checkoutBtn = document.querySelector("#checkout-btn");
+        if (checkoutBtn) {
+            (checkoutBtn as HTMLElement).style.display = "none";
+        }
+
+    } else  {
+(document.querySelector(".cart-render")!.innerHTML =
     productsInCart
       .map(
         (product: IProduct) =>
@@ -469,49 +484,53 @@ const renderCart = async () => {
               </div>
             </div>
             <hr class="my-4">
-          </div>
-          `
-      )
-      .join(""));
+            </div>
+            `
+          )
+          .join(""));
 
   document.querySelector(".total-cart")!.innerHTML = `
     <div class="total-text">Total</div>
     <div class="total-price">${totalCart} kr</div>
     <button class="btn-checkout" id="checkout-btn">To checkout</button>`;
 
-  const checkoutBtn = document.querySelector("#checkout-btn");
-  checkoutBtn?.addEventListener("click", () => {
+    const checkoutBtn = document.querySelector(".checkout-btn");
+    checkoutBtn?.addEventListener("click", () => {
+      console.log("Checkout button clicked"); // Add this line for debugging
     // TRANSITION
     document.querySelector("#main-page")?.classList.remove("hide");
-    // document.querySelector("#product-description")?.classList.add("hide");
-    // document.querySelector(".checkout-form")?.classList.remove("hide");
-
     theDropDown!.classList.toggle("hidden");
-
     document.querySelector(".description")?.classList.add("hide");
-  });
 
-  document.querySelectorAll(".remove-item").forEach((element) => {
-    element.addEventListener("click", (e) => {
-      const target = e.target as HTMLElement;
+      theDropDown!.classList.toggle("hidden");
 
-      deleteFromCart(target.dataset.productId!);
+      document.querySelector(".description")?.classList.add("hide");
     });
-  });
 
-  document?.querySelectorAll(".reduce-btn").forEach((element) => {
-    element?.addEventListener("click", (e) => {
-      const target = e.target as HTMLElement;
-      removeFromCart(target.dataset.productId!);
+    document.querySelectorAll(".remove-item").forEach((element) => {
+      element.addEventListener("click", (e) => {
+        const target = e.target as HTMLElement;
+
+        deleteFromCart(target.dataset.productId!);
+      });
     });
-  });
-  document?.querySelectorAll(".increase-btn").forEach((element) => {
-    element?.addEventListener("click", (e) => {
-      const target = e.target as HTMLElement;
-      console.log(target);
-      addToCart(target.dataset.productId!);
+
+    document?.querySelectorAll(".reduce-btn").forEach((element) => {
+      element?.addEventListener("click", (e) => {
+        const target = e.target as HTMLElement;
+        removeFromCart(target.dataset.productId!);
+      });
     });
-  });
+    document?.querySelectorAll(".increase-btn").forEach((element) => {
+      element?.addEventListener("click", (e) => {
+        const target = e.target as HTMLElement;
+        console.log(target);
+        addToCart(target.dataset.productId!);
+      });
+    });
+
+  }
+
 
   // document.querySelector("#checkout-btn")!.addEventListener("click", () => {
   //   // TRANSITION
@@ -549,17 +568,17 @@ const renderCart = async () => {
 
   // Handle transition to the payment form within the modal
   document
-    .querySelector("#proceedToPaymentButton")
-    ?.addEventListener("click", () => {
+  .querySelector("#proceedToPaymentButton")
+  ?.addEventListener("click", () => {
       const modalBody = document.querySelector("#checkoutModal .modal-body");
       if (modalBody) {
         modalBody.innerHTML =
           document.querySelector(".checkout-form")?.innerHTML || ""; // Load form into modal
 
-        // Optionally adjust modal title
-        const modalTitle = document.querySelector(
-          "#checkoutModal .modal-title"
-        );
+          // Optionally adjust modal title
+          const modalTitle = document.querySelector(
+            "#checkoutModal .modal-title"
+          );
         if (modalTitle) {
           modalTitle.textContent = "Complete Your Payment";
         }
@@ -567,8 +586,9 @@ const renderCart = async () => {
         // Reattach event listeners or validate form within the modal, if necessary
       }
     });
+  }
 
-  return cartItems;
+
 };
 
 getProducts().then(() => {

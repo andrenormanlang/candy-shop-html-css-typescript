@@ -1,27 +1,11 @@
-<div class="container mt-5 mb-4">
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col-sm-5 p-0 mb-4">
-        <img src="https://bortakvall.se${
-          product.images.large
-        }" class="img-fluid" alt="...">
-      </div>
-      <div class="col-sm-6 pb-3" style="background-color:yellow;">
-        <h4 class="mt-5 fw-bold ">${product.name}</h4>
-        <h6 class="card-subtitle mb-2 text-muted"></h6>
-        <p class="mb-4 d-flex justify-content-center">Art. nr: ${
-          product.id
-          }</p>
-        <h5 class="mt-2 card-text fw-bold fst-italic">${product.price}kr</h5>
-        <p class="card-description-text mt-3">${product.description}</p>
-        <p id="product-status${product.id}">${renderProductStatus(product)}</p>
-        <p id="product-quantity${product.id}">${renderProductQuantity(product)}</p>
-        <button type="button" id="product-description-add" class="cart-btn btn btn-success" data-product-id=${
-          product.id }>
-          Add to cart
-        </button>
-        <button id="main-homepage" type="button" class="btn btn-primary">Back to main</button>
-      </div>
+<div class="checkout-form hide container mx-auto padding-top checkout-container">
+  <!-- SUMMARY OF CART ITEMS-->
+  <div id="checkout-products" class="checkout-list">
+    <div id="checkoutSummary" class="mt-5 d-flex flex-wrap flex-column flex-md-row justify-content-between">
     </div>
+    <div id="total-cart-checkout"
+      class="total-cart-box bg-warning text-black d-flex flex-wrap card border-0 rounded-3 mb-4 w-100 p-3 h-100 d-inline-block text-center">
+    </div>
+    
   </div>
 </div>

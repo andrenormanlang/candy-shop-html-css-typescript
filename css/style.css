@@ -52,9 +52,11 @@ nav {
 
 /* Additional styles for the menu toggle */
 .btn-menu-toggle {
+  margin-top: 1rem;
   position: relative;
   background-color: #17a2b8; /* Bootstrap info color or your custom color */
   border: none;
+  padding: 0.5rem 0.5rem;
   transition: background-color 0.3s, transform 0.1s;
 }
 .btn-menu-toggle:hover, .btn-menu-toggle:focus {
@@ -139,6 +141,13 @@ nav {
   transform: translateY(0);
   opacity: 1;
   visibility: visible;
+}
+
+.empty-cart-message {
+  color: #ff4500; /* Or any color that fits your design */
+  font-size: 16px;
+  text-align: center;
+  padding: 20px;
 }
 
 /* Cart Item Styling */
