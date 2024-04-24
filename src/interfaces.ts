@@ -30,12 +30,13 @@ export interface IOrderItemRequest{
         product_id: number,
         qty: number,
         item_price: number,
-        item_total: number   
+        item_total: number
 }
 
 // Order response
 export interface IOrder{
     id: number,
+    [key: string]: any;
     order_date: string,
     customer_first_name: string,
     customer_last_name: string,
@@ -56,7 +57,7 @@ export interface IOrderItem{
     product_id: number,
     qty: number,
     item_price: number,
-    item_total: number   
+    item_total: number
 }
 
 

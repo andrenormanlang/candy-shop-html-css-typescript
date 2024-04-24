@@ -3,8 +3,8 @@
     <div class="row">
       <div class="col-sm-5 p-0 mb-4">
         <img src="https://bortakvall.se${
-  product.images.large
-}" class="img-fluid" alt="...">
+          product.images.large
+        }" class="img-fluid" alt="...">
       </div>
       <div class="col-sm-6 pb-3" style="background-color:yellow;">
         <h4 class="mt-5 fw-bold ">${product.name}</h4>
@@ -12,20 +12,16 @@
         <p class="mb-4 d-flex justify-content-center">Art. nr: ${
           product.id
           }</p>
-        <h5 class="mt-2 card-text fw-bold fst-italic">${
-          product.price
-          }kr</h5>
-        <p class="card-text mt-3">${product.description}</p>
-        <p id="product-status${product.id}">${renderProductStatus(
-          product
-          )}</p>
-        <p id="product-quantity${product.id}">${renderProductQuantity(
-          product
-          )}</p>
+        <h5 class="mt-2 card-text fw-bold fst-italic">${product.price}kr</h5>
+        <p class="card-description-text mt-3">${product.description}</p>
+        <p id="product-status${product.id}">${renderProductStatus(product)}</p>
+        <p id="product-quantity${product.id}">${renderProductQuantity(product)}</p>
         <button type="button" id="product-description-add" class="cart-btn btn btn-success" data-product-id=${
-          product.id }>Add to cart</button>
+          product.id }>
+          Add to cart
+        </button>
         <button id="main-homepage" type="button" class="btn btn-primary">Back to main</button>
       </div>
     </div>
   </div>
-</div>`
+</div>

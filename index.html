@@ -22,43 +22,50 @@
   <!--.navbar-->
   <!--.#backToTop-->
   <!--.dropdown-menu-->
-  <!--.main-page #main-page-->
+  <!--.main-page #main-page w/ spinner-->
   <!--card-product-description-->
   <!--checkout-form-->
   <!--#checkoutSummary-->
   <!--.form-container-->
 
 
-<!--NAVBAR-->
-<nav class="bg-dark">
-  <div class="container-nav mx-auto">
-    <div class="d-flex justify-content-between align-items-center">
-      <a class="navbar-brand" href="index.html">
-        <img src="src/img/logo-bk.svg" height="40" alt="Bortakväll Logo" />
-      </a>
-      <button id="menu-toggle" class="btn-menu-toggle rounded-3 position-relative">
-        <img src="src/img/cart.svg" height="20" alt="supermarket cart" />
-        <span id="count-notification" class="badge-notification">
-          <span id="count-item" class="counter-span">0</span>
-        </span>
-      </button>
+  <!--NAVBAR-->
+  <nav class="bg-dark">
+    <div class="container-nav mx-auto">
+      <div class="d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="index.html">
+          <img src="src/img/logo-bk.svg" height="40" alt="Bortakväll Logo" />
+        </a>
+        <button id="menu-toggle" class="btn-menu-toggle rounded-3 position-relative">
+          <img src="src/img/cart.svg" height="20" alt="supermarket cart" />
+          <span id="count-notification" class="badge-notification">
+            <span id="count-item" class="counter-span">0</span>
+          </span>
+        </button>
+      </div>
+      <div id="storage-instockvsoutofstock" class="stock-phrase text-white small-font mx-auto">
+        <!-- Stock phrase text will go here -->
+      </div>
     </div>
-    <div id="storage-instockvsoutofstock" class="stock-phrase text-white small-font mx-auto">
-      <!-- Stock phrase text will go here -->
-    </div>
-  </div>
-</nav>
+  </nav>
 
   <!-- DROPDOWN MENU-->
   <div id="dropdown-menu" class="dropdown-menu flex-column padding-top">
     <div class="cart-render position-relative ">
     </div>
-    <div id="total-cart" class="total-cart-box"></div>
+    <div class="total-cart" ></div>
   </div>
 
 
   <!-- MAIN PAGE items-->
   <div id="main-page" class="main-page">
+    <!--- SPINNER -->
+    <div id="spinner"
+      class="d-none position-fixed top-0 end-0 bottom-0 start-0 bg-light bg-opacity-50 d-flex justify-content-center align-items-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
     <div class="container mx-auto mt-5">
       <div id="card-container" class="d-flex flex-wrap gap-3 text-center padding-top  justify-content-center">
       </div>
@@ -92,6 +99,28 @@
 
 
   <!--CHECKOUT PAGE-->
+  <!-- Checkout Summary Modal -->
+  <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="checkoutModalLabel">Checkout Summary</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Inject your checkout summary here -->
+          <div id="checkoutSummaryModalBody"></div>
+          <div id="total-cart-checkout" class="total-cart-box"></div>
+          <button type="button" class="btn btn-primary" id="proceedToFormButton">Proceed to Form</button>
+        </div>
+        <!-- <div class="modal-footer">
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+
+
   <div class="checkout-form hide container mx-auto padding-top checkout-container">
     <!-- SUMMARY OF CART ITEMS-->
     <div id="checkout-products" class="checkout-list">
@@ -145,18 +174,57 @@
             </div>
           </div>
           <button type="submit" class="btn btn-primary mt-4 mb-4">Köp</button>
-          <button type="reset" class="btn btn-danger mt-4 mb-4">Avbryt</button>
+          <button type="button" class="cancel-purchase" data-bs-toggle="modal"
+            data-bs-target="#confirmationModal">Avbryt</button>
         </form>
       </div>
     </div>
   </div>
 
+  <!-- Confirmation Cancel Purchase Modal -->
+  <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmationModalLabel">Confirm Action</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to cancel the purchase?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="confirmContinuePurchaseBtn">No</button>
+          <button type="button" class="btn btn-primary" id="confirmCancelBtn">Yes, Cancel It</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!--CHECKOUTFORM -->
 
-  <div id="order-confirmation">
-
+  <!-- Order Confirmation Modal -->
+  <div class="modal fade" id="orderConfirmationModal" tabindex="-1" aria-labelledby="orderConfirmationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="orderConfirmationModalLabel">Order Confirmation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Order details will be injected here -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
   </div>
+
+
 
   <!-- Script -->
   <script type="module" src="/src/main.ts">

@@ -74,7 +74,7 @@ nav{
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1;
+  z-index: 100;
   height: 6rem;
 }
 
@@ -238,28 +238,23 @@ nav{
   cursor: pointer;
 }
 
-.cart-item-price {
-  font-weight: bold;
-}
+
 
 .total-cart {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 20px 0;
-  padding: 10px;
-  background-color: #f8f9fa; /* Choose a color that fits the design */
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  font-size: 0.8rem;
 }
 
 .total-text {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
 }
 
 .total-price {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: #28a745; /* Adjust for contrast */
   font-weight: bold;
 }
@@ -312,7 +307,7 @@ nav{
 }
 
 .card:hover {
-  transform: scale(1.20) rotateX(var(--rotateX)) rotateY(var(--rotateY));
+  transform: scale(1.05) rotateX(var(--rotateX)) rotateY(var(--rotateY));
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   border: 2px solid #ececec; /* subtle border */
@@ -329,16 +324,131 @@ nav{
   transition: transform 0.3s ease-in-out;
 }
 
+@media screen and (max-width: 768px) {
+  .image-description img {
+    max-width: 80%; /* Adjust the max-width for smaller screens */
+    height: auto; /* This maintains the aspect ratio of the image */
+  }
+
+
+}
+
+// .products-images{
+//   max-width: 80%;
+//   justify-content: center;
+//   padding-left: 3rem;
+// }
+
 /* PRODUCT DESCRIPTION */
-.card-product-description-name {
+.modal-header{
+  justify-content: center;
+}
+
+/* Default styles for larger screens */
+.image-description img {
+  max-width: 100%; /* This ensures the image is responsive and won't overflow its container */
+  height: auto; /* This maintains the aspect ratio of the image */
+}
+
+/* Styles for smaller screens */
+@media screen and (max-width: 768px) {
+  .image-description img {
+    max-width: 80%; /* Adjust the max-width for smaller screens */
+    height: auto; /* This maintains the aspect ratio of the image */
+  }
+
+
+}
+
+/* Even smaller screens */
+@media screen and (max-width: 480px) {
+  .image-description  {
+    max-width: 80%; /* Further adjust the max-width for very small screens */
+    height: auto; /* This maintains the aspect ratio of the image */
+  }
+
+
+
+}
+
+.modal-title {
   font-family: 'Anton', sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 300;
 }
 
 .card-product-description {
   font-family: 'Varela Round', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.8em;
   font-weight: 300;
+ text-align: left;
+ word-spacing: -0.09rem;
+}
+
+
+/* CHECKOUT SUMMARY */
+.checkout-item {
+  border: 1px solid #eaeaea;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #eaeaea;
+  padding: 0.5rem 1rem;
+}
+
+.checkout-title {
+  margin: 0;
+  color: #333;
+  font-size: 1.25rem;
+}
+
+.checkout-body {
+  padding: 1rem;
+}
+
+.checkout-image-container {
+  justify-content: center;
+}
+
+.checkout-image {
+  max-height: 200px;
+  object-fit: cover;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.checkout-description-container {
+  padding: 0.5rem 0;
+}
+
+.checkout-description {
+  color: #666;
+  font-size: 1rem;
+}
+
+.btn-cart-checkout {
+  background-color: #ffc107;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.checkout-price-container {
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
+}
+
+.checkout-price {
+  color: #333;
+  font-weight: 500;
+  font-size: 1.25rem;
 }
 
