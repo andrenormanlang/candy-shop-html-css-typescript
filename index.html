@@ -124,7 +124,7 @@
   </div>
 
 
-  <div class="checkout-form hide container mx-auto padding-top checkout-container" style="max-width: 500px;">
+  <div class="checkout-form hide container mx-auto padding-top checkout-container" style="max-width: 300px;">
     <!-- SUMMARY OF CART ITEMS-->
     <div id="checkout-products" class="checkout-list">
       <div id="checkoutSummary" class="mt-5 d-flex flex-wrap flex-column flex-md-row justify-content-between">
@@ -133,53 +133,45 @@
       <div id="total-cart-checkout">
 
       </div>
-      <div class="form-container" style="max-width: 500px;">
+      <div class="form-container" style="max-width: 400px;">
         <form id="form-customer">
-          <div class="form-row">
-            <div class="col-lg-12">
-              <label for="inputFirstName">Förnamn</label>
-              <input type="text" class="form-control" id="inputFirstName" placeholder="Förnamn">
-              <span id="customer_first_name" class="error-message"></span>
-            </div>
-            <div class="col-lg-3">
-              <label for="inputLastName">Efternamn</label>
-              <input type="text" class="form-control" id="inputLastName" placeholder="Efternamn">
-              <span id="customer_last_name" class="error-message"></span>
-            </div>
-            <div class="col-lg-3">
-              <label for="inputAddress">Adress</label>
-              <input type="text" class="form-control" id="inputAddress" placeholder="Adress">
-              <span id="customer_address" class="error-message"></span>
-            </div>
+          <div class="form-group">
+            <label for="inputFirstName">Förnamn</label>
+            <input type="text" class="form-control" id="inputFirstName" placeholder="Förnamn">
+            <span id="customer_first_name" class="error-message"></span>
           </div>
-          <div class="form-row">
-            <div class="col-lg-3">
-              <label for="inputZip">Postnummer</label>
-              <input type="text" class="form-control" id="inputZip" pattern="^(s-|S-){0,1}[0-9]{3}\s?[0-9]{2}$"
-                placeholder="225 39">
-              <span id="customer_postcode" class="error-message"></span>
-            </div>
-            <div class="col-lg-3">
-              <label for="inputCity">Ort</label>
-              <input type="text" class="form-control" id="inputCity" placeholder="Malmö" required>
-              <span id="customer_city" class="error-message"></span>
-            </div>
-            <div class="col-lg-3">
-              <label for="inputEmail">E-post</label>
-              <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
-              <span id="customer_email" class="error-message"></span>
-            </div>
+          <div class="form-group">
+            <label for="inputLastName">Efternamn</label>
+            <input type="text" class="form-control" id="inputLastName" placeholder="Efternamn">
+            <span id="customer_last_name" class="error-message"></span>
           </div>
-          <div class="form-row">
-            <div class="col-lg-3">
-              <label for="inputPhone">Telefon</label>
-              <input type="tel" class="form-control" id="inputPhone" placeholder="07/+46">
-              <span id="customer_phone" class="error-message"></span>
-            </div>
+          <div class="form-group">
+            <label for="inputAddress">Adress</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="Adress">
+            <span id="customer_address" class="error-message"></span>
+          </div>
+          <div class="form-group">
+            <label for="inputZip">Postnummer</label>
+            <input type="text" class="form-control" id="inputZip" pattern="^(s-|S-){0,1}[0-9]{3}\s?[0-9]{2}$" placeholder="225 39">
+            <span id="customer_postcode" class="error-message"></span>
+          </div>
+          <div class="form-group">
+            <label for="inputCity">Ort</label>
+            <input type="text" class="form-control" id="inputCity" placeholder="Malmö" required>
+            <span id="customer_city" class="error-message"></span>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail">E-post</label>
+            <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
+            <span id="customer_email" class="error-message"></span>
+          </div>
+          <div class="form-group">
+            <label for="inputPhone">Telefon</label>
+            <input type="tel" class="form-control" id="inputPhone" placeholder="07/+46">
+            <span id="customer_phone" class="error-message"></span>
           </div>
           <button type="submit" class="btn btn-primary mt-4 mb-4">Köp</button>
-          <button type="button" class="cancel-purchase" data-bs-toggle="modal"
-            data-bs-target="#confirmationModal">Avbryt</button>
+          <button type="button" class="btn btn-danger cancel-purchase" data-bs-toggle="modal" data-bs-target="#confirmationModal">Avbryt</button>
         </form>
       </div>
     </div>
