@@ -409,4 +409,43 @@ nav {
   color: #333;
   font-weight: 500;
   font-size: 1.25rem;
+}
+
+@media (min-width: 500px) {
+  /* This will apply only to screens wider than 500px */
+  .cart-item-card .card-body {
+    padding: 1rem; /* Add more padding */
+  }
+  .cart-item-card .product-name {
+    font-size: 1rem; /* Increase the font size slightly for readability */
+    text-align: left; /* Align text to the left */
+  }
+  .cart-item-card .quantity-controls {
+    justify-content: start; /* Align the quantity controls to the start on larger screens */
+    margin-right: 1rem; /* Add some space between quantity controls and the price */
+  }
+  .cart-item-card .price {
+    font-size: 1.2rem; /* Make the price stand out more */
+    font-weight: bold; /* Optional: Make the price font bold */
+  }
+  .cart-item-card .img-fluid {
+    width: 120px; /* Make the image a bit larger */
+  }
+}
+#total-cart-checkout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffc107;
+  color: white;
+  border: none;
+  border-radius: 6px;
+}
+
+.total-price-checkout {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: green;
+  justify-content: center;
+  align-items: center;
 }/*# sourceMappingURL=style.css.map */

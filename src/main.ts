@@ -639,49 +639,44 @@ const renderCartinCheckout = async () => {
   }
 
   let checkoutSummaryElement = document.querySelector("#checkoutSummary");
-  if (checkoutSummaryElement) {
-    checkoutSummaryElement.innerHTML = productsInCart
-      .map((product: IProduct) => {
-        return `
-        <div class="col">
-        <div class="card mb-2">
+if (checkoutSummaryElement) {
+  checkoutSummaryElement.innerHTML = `
+    <div class="row">` + // The row container
+    productsInCart.map((product) => {
+      return `
+      <div class="col-12 mb-3">
+        <div class="card cart-item-card">
           <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="d-flex flex-row align-items-center">
-                <div class="me-3">
-                  <img src="https://bortakvall.se${
-                    product.images.thumbnail
-                  }" class="img-fluid rounded-3"
-                    alt="${product.name}" style="width: 90px;">
-                </div>
+            <div class="row g-0">
+              <!-- Image and product name on the left -->
+              <div class="col-4 d-grid align-items-start pe-3"> <!-- Changed to use Bootstrap's grid system -->
+                <img src="https://bortakvall.se${product.images.thumbnail}" class="img-fluid rounded-3 mb-2">
+                <h6 class="product-name small text-muted">${product.name}</h6>
+              </div>
+
+              <!-- Quantity in the middle -->
+              <div class="col-4 d-grid align-items-center justify-content-center">
                 <div>
-                  <h6 class="mb-0">${product.name}</h6>
+                  <button class="reduce-btn btn btn-outline-secondary btn-sm" data-product-id="${product.id}">-</button>
+                  <span class="sum-products mx-2">${localStorage.getItem(String(product.id))}</span>
+                  <button class="increase-btn btn btn-outline-secondary btn-sm" data-product-id="${product.id}">+</button>
                 </div>
               </div>
-              <div class="d-flex flex-row align-items-center">
-                <div class="quantity-controls">
-                  <button class="reduce-btn btn-checkout btn-outline-secondary" data-product-id=${
-                    product.id
-                  }>-</button>
-                  <span class="sum-products">${localStorage.getItem(
-                    String(product.id)
-                  )}</span>
-                  <button class="increase-btn btn-checkout btn-outline-secondary" data-product-id=${
-                    product.id
-                  }>+</button>
-                </div>
-                <div class="price">${
-                  Number(localStorage.getItem(String(product.id)) || 0) *
-                  product.price
-                } kr</div>
+
+              <!-- Price on the right -->
+              <div class="col-4 d-flex align-items-center justify-content-end">
+                <div>${Number(localStorage.getItem(String(product.id)) || 0) * product.price} kr</div>
               </div>
             </div>
           </div>
-        </div>`;
-      })
-      .join("");
-  }
+        </div>
+      </div>
 
+
+    `;
+    }).join("") +
+    `</div>`;
+}
   let totalProductPrice = productsInCart.reduce((total, product) => {
     const quantity = localStorage.getItem(String(product.id)) || "0";
     return total + parseInt(quantity) * product.price;
@@ -690,12 +685,13 @@ const renderCartinCheckout = async () => {
   let totalCartCheckoutElement = document.querySelector("#total-cart-checkout");
   if (totalCartCheckoutElement) {
     totalCartCheckoutElement.innerHTML = `
-    <div class="d-flex justify-content-between align-items-center">
-      <h5>Total</h5>
-      <h5>${totalProductPrice} kr</h5>
+    <div class="d-flex total-price-checkout justify-content-center align-items-center" style="height: 100px;">
+      <p>Total</p>
+      &nbsp;
+      <p>${totalProductPrice} kr</p>
     </div>
   `;
-  }
+}
 
   // Re-attach event listeners to the newly added buttons in the checkout
 };
@@ -752,42 +748,12 @@ const orderItemsRequest = () => {
   );
 };
 
-let confirmationModalElement = document.getElementById("confirmationModal");
-let checkoutModalElement = document.getElementById("checkoutModal");
-let confirmContinuePurchaseBtnElement = document.getElementById(
-  "confirmContinuePurchaseBtn"
-);
-let dataBsDismissModalElement = document.querySelector(
-  '[data-bs-dismiss="modal"]'
-);
 
-if (
-  confirmationModalElement &&
-  checkoutModalElement &&
-  confirmContinuePurchaseBtnElement &&
-  dataBsDismissModalElement
-) {
-  const confirmModal = new bootstrap.Modal(confirmationModalElement, {});
-  const checkoutModal = new bootstrap.Modal(checkoutModalElement, {});
-
-  confirmContinuePurchaseBtnElement.addEventListener("click", function () {
-    confirmModal.hide();
-    setTimeout(() => {
-      checkoutModal.show();
-    }, 500);
-  });
-
-  dataBsDismissModalElement.addEventListener("click", function () {
-    confirmModal.hide();
-  });
-}
-
-document
-  .getElementById("confirmCancelBtn")!
-  .addEventListener("click", function () {
+// Handle the cancel button in the checkout form
+document.getElementById("confirmCancelBtn")!.addEventListener("click", function () {
     localStorage.clear();
     window.location.reload();
-  });
+});
 
 const orderSubmitForm = () => {
   const formCustomer = document.querySelector("#form-customer");

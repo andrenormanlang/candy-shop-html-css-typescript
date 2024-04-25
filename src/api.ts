@@ -1,4 +1,4 @@
-
+import axios from 'axios';
 import { IOrderRequest, IOrderResponse } from './interfaces'
 
 // const urlProducts = 'https://www.bortakvall.se/api/v2/products';
@@ -7,50 +7,52 @@ const urlProducts = 'https://candy-shop-rest-api.onrender.com/products';
 const urlOrders = 'https://candy-shop-rest-api.onrender.com/orders'
 
 export const fetchProducts = async () => {
-  const resp = await fetch(urlProducts)
-  console.log("Response fetch status", resp.status);
-
-  if(!resp.ok){
-      throw new Error(`No response from server: ${resp.status} ${resp.statusText}`)
+  try {
+    const response = await axios.get(urlProducts);
+    console.log("Response fetch status", response.status);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error(`No response from server: ${error.response?.status} ${error.response?.statusText}`);
+      throw error;
+    }
+    throw new Error('An unexpected error occurred');
   }
-
-  console.log("Response", resp);
-  return await resp.json()
 }
 
-export const fetchProduct = async (id:string) => {
-  const resp = await fetch(urlProducts+`/${id}`)
-  console.log("Response fetch status", resp.status);
-  console.log("Response fetch statusText", resp.statusText);
-
-  if(!resp.ok){
-      throw new Error(`No response from server: ${resp.status} ${resp.statusText}`)
+export const fetchProduct = async (id: string) => {
+  try {
+    const response = await axios.get(`${urlProducts}/${id}`);
+    console.log("Response fetch status", response.status);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error(`No response from server: ${error.response?.status} ${error.response?.statusText}`);
+      throw error;
+    }
+    throw new Error('An unexpected error occurred');
   }
-
-  console.log("Response", resp);
-  return await resp.json()
 }
 
-export const createOrders = async(submitOrder: IOrderRequest) =>{
-  const resp = await fetch(urlOrders,{
-    method: "POST",
-    headers: {
-    'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(submitOrder),
-  })
-
-  if(!resp.ok) {
-    throw new Error(`Could't post to server: ${resp.status} ${resp.statusText}`);
+export const createOrders = async (submitOrder: IOrderRequest) => {
+  try {
+    const response = await axios.post(urlOrders, submitOrder, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    if (response.status === 200) {
+      console.log("Congrats, server responded");
+    } else {
+      console.log("That didn't go that well");
+    }
+    console.log(response.status);
+    return response.data as IOrderResponse;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error(`Couldn't post to server: ${error.response?.status} ${error.response?.statusText}`);
+      throw error;
+    }
+    throw new Error('An unexpected error occurred');
   }
-
-  if(resp.status === 200) {
-    console.log("Congrats, server responded");
-  }else{
-    console.log("That didnt go that well");
-  }
-
-  console.log(resp.status);
-
-  return await resp.json() as IOrderResponse
 }
