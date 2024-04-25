@@ -97,11 +97,11 @@ nav{
 
 /* Additional styles for the menu toggle */
 .btn-menu-toggle {
-  margin-top: 1rem;
+  margin-top: 0.2rem;
   position: relative;
   background-color: #17a2b8; /* Bootstrap info color or your custom color */
   border: none;
-  padding: 0.5rem 0.5rem;
+  padding: 0.3rem 0.3rem;
   transition: background-color 0.3s, transform 0.1s; // Added transform to the transition
 
   &:hover, &:focus {
