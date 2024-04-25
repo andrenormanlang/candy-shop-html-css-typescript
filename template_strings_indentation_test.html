@@ -1,23 +1,62 @@
-<div class="col-12 mb-3">
-  <div class="card cart-item-card">
-    <div class="card-body">
-      <div class="d-flex flex-row justify-content-between align-items-center text-center text-sm-start">
-        <!-- Image and product name on the left -->
-        <div class="pe-3"> <!-- Adds padding to the right of the image and name -->
-          <img src="https://bortakvall.se${product.images.thumbnail}" class="img-fluid rounded-3" style="width: 60px;">
-          <h6 class="product-name small text-muted">${product.name}</h6>
-        </div>
+<div class="modal fade" id="checkoutFormModal">
+  <div class="modal-content checkout-form hide container mx-auto padding-top checkout-container"
+    style="max-width: 500px;">
+    <div class="modal-header">
+      <h5 class="modal-title">Checkout Form</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-container">
+        <form id="form-customer">
+          <div class="form-group">
+            <!-- <label for="inputFirstName">First Name</label> -->
+            <input type="text" class="form-control" id="inputFirstName" placeholder="First Name" minlength="3" required>
+            <span id="customer_first_name" class="error-message"></span>
+          </div>
+          <div class="form-group">
+            <!-- <label for="inputLastName">Last Name</label> -->
+            <input type="text" class="form-control" id="inputLastName" placeholder="Last Name" minlength="2" required>
+            <span id="customer_last_name" class="error-message"></span>
+          </div>
+          <div class="form-group">
+            <!-- <label for="inputAddress">Adress</label> -->
+            <input type="text" class="form-control" id="inputAddress" minlength="5" placeholder="Adress" required>
+            <span id="customer_address" class="error-message"></span>
+          </div>
+          <div class="form-group">
+            <!-- <label for="inputZip">Postnummer</label> -->
+            <input type="text" class="form-control" id="inputZip" pattern="^(s-|S-){0,1}[0-9]{3}\s?[0-9]{2}$"
+              placeholder="ZipCode (format: 225 39)" required>
+            <span id="customer_postcode" class="error-message"></span>
+          </div>
+          <div class="form-group">
+            <!-- <label for="inputCity">Ort</label> -->
+            <input type="text" class="form-control" id="inputCity" placeholder="Malmö" minlength="3" required>
+            <span id="customer_city" class="error-message"></span>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail">E-post</label>
+            <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com"
+              onkeyup="validateEmail(this.value)">
+            <span id="customer_email" class="error-message"></span>
 
-        <!-- Quantity in the middle -->
-        <div class="quantity-controls d-flex align-items-center justify-content-center">
-          <button class="reduce-btn btn btn-outline-secondary btn-sm" data-product-id="${product.id}">-</button>
-          <span class="sum-products mx-2">${localStorage.getItem(String(product.id))}</span>
-          <button class="increase-btn btn btn-outline-secondary btn-sm" data-product-id="${product.id}">+</button>
-        </div>
-
-        <!-- Price on the right -->
-        <div class="price">${Number(localStorage.getItem(String(product.id)) || 0) * product.price} kr</div>
+          </div>
+          <div class="form-group">
+            <label for="inputPhone">Telefon</label>
+            <input type="tel" class="form-control" id="inputPhone" placeholder="07/+46">
+            <span id="customer_phone" class="error-message"></span>
+          </div>
+          <button type="submit" class="btn btn-primary mt-4 mb-4">Köp</button>
+          <button type="button" class="btn btn-danger cancel-purchase" data-bs-toggle="modal"
+            data-bs-target="#confirmationModal">Avbryt</button>
+        </form>
       </div>
     </div>
   </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary mt-4 mb-4">Köp</button>
+    <button type="button" class="btn btn-danger cancel-purchase" data-bs-toggle="modal"
+      data-bs-target="#confirmationModal">Avbryt</button>
+  </div>
+</div>
 </div>

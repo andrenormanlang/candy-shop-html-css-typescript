@@ -748,12 +748,43 @@ const orderItemsRequest = () => {
   );
 };
 
-
 // Handle the cancel button in the checkout form
-document.getElementById("confirmCancelBtn")!.addEventListener("click", function () {
+let confirmationModalElement = document.getElementById("confirmationModal");
+let checkoutModalElement = document.getElementById("checkoutModal");
+let confirmContinuePurchaseBtnElement = document.getElementById(
+  "confirmContinuePurchaseBtn"
+);
+let dataBsDismissModalElement = document.querySelector(
+  '[data-bs-dismiss="modal"]'
+);
+
+if (
+  confirmationModalElement &&
+  checkoutModalElement &&
+  confirmContinuePurchaseBtnElement &&
+  dataBsDismissModalElement
+) {
+  const confirmModal = new bootstrap.Modal(confirmationModalElement, {});
+  const checkoutModal = new bootstrap.Modal(checkoutModalElement, {});
+
+  confirmContinuePurchaseBtnElement.addEventListener("click", function () {
+    confirmModal.hide();
+    setTimeout(() => {
+      checkoutModal.show();
+    }, 500);
+  });
+
+  dataBsDismissModalElement.addEventListener("click", function () {
+    confirmModal.hide();
+  });
+}
+
+document
+  .getElementById("confirmCancelBtn")!
+  .addEventListener("click", function () {
     localStorage.clear();
     window.location.reload();
-});
+  });
 
 const orderSubmitForm = () => {
   const formCustomer = document.querySelector("#form-customer");
@@ -801,6 +832,9 @@ const showOrderConfirmationModal = (orderResponse: IOrder) => {
     const orderConfirmationModalElement = document.getElementById(
       "orderConfirmationModal"
     );
+    let confirmContinuePurchaseBtnElement = document.getElementById(
+      "confirmContinuePurchaseBtn"
+    );
     if (orderConfirmationModalElement) {
       const orderConfirmationModal = new bootstrap.Modal(
         orderConfirmationModalElement
@@ -819,6 +853,7 @@ const showOrderConfirmationModal = (orderResponse: IOrder) => {
 };
 
 orderSubmitForm();
+
 
 const orderConfirmation = async (orderResponse: IOrder) => {
   document.querySelector(".checkout-form")?.classList.add("hide");
