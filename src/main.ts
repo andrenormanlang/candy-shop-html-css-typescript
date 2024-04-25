@@ -14,7 +14,6 @@ import "./style.scss";
 let products: IProduct[] = JSON.parse(localStorage.getItem("products") ?? "[]");
 
 let productsResponse: IProductsResponse;
-let orderResponse: IOrderResponse;
 
 const showSpinner = () => {
   const spinner = document.getElementById("spinner")!;
@@ -615,15 +614,16 @@ getProducts().then(() => {
 
           // Reattach event listeners for the cloned form
           const formCustomerInModal = modalBody.querySelector("#form-customer");
-          if (formCustomerInModal) {
-            formCustomerInModal.addEventListener("submit", async (e) => {
+
+            formCustomerInModal!.addEventListener("submit", async (e) => {
               e.preventDefault();
+              e.stopPropagation();
               // Handle form submission here or validate inputs
               orderSubmitForm();
-              orderConfirmation(orderResponse.data);
+              // orderConfirmation(orderResponse.data);
               console.log("Form submitted!");
             });
-          }
+
         }
       }
     });
@@ -714,6 +714,7 @@ const orderFormRequest = async () => {
   let phoneInput =
     document.querySelector<HTMLInputElement>("#inputPhone")!.value;
 
+
   let productsInCart = productsAddedInCart();
 
   let totalSumPrice = totalPrice(productsInCart);
@@ -721,6 +722,7 @@ const orderFormRequest = async () => {
   console.log(totalSumPrice);
 
   let newOrderRequest: IOrderRequest = {
+    order_date: new Date().toISOString(),
     customer_first_name: firstNameInput,
     customer_last_name: lastNameInput,
     customer_address: adressInput,
@@ -729,6 +731,8 @@ const orderFormRequest = async () => {
     customer_email: emailInput,
     customer_phone: phoneInput,
     order_total: totalSumPrice,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
     order_items: orderItemsRequest(),
   };
 
@@ -801,7 +805,7 @@ const orderSubmitForm = () => {
         localStorage.clear();
         renderCart();
         showOrderConfirmationModal(orderResponse.data);
-        orderConfirmation(orderResponse.data);
+        orderConfirmation(orderResponse);
         console.log("Order successful:", orderResponse.data);
       } else if (orderResponse.status === "fail") {
         console.error("Order failed:", orderResponse.data);
@@ -816,46 +820,101 @@ const orderSubmitForm = () => {
     });
   }
 };
-const showOrderConfirmationModal = (orderResponse: IOrder) => {
-  const modalBody = document.querySelector(
-    "#orderConfirmationModal .modal-body"
-  );
+// const showOrderConfirmationModal = (orderResponse: IOrder) => {
+//   const modalBody = document.querySelector(
+//     "#orderConfirmationModal .modal-body"
+//   );
 
+//   if (modalBody) {
+//     modalBody.innerHTML = `
+//       <p>Thank you for your order, ${orderResponse.customer_first_name}!</p>
+//       <p>Your order number is: ${orderResponse.id}</p>
+//       <p>Total: ${orderResponse.order_total} kr</p>
+//       <p>Order Date: ${orderResponse.created_at}</p>
+//     `;
+
+//     const orderConfirmationModalElement = document.getElementById(
+//       "orderConfirmationModal"
+//     );
+//     // let confirmContinuePurchaseBtnElement = document.getElementById(
+//     //   "confirmContinuePurchaseBtn"
+//     // );
+//     if (orderConfirmationModalElement) {
+//       const orderConfirmationModal = new bootstrap.Modal(
+//         orderConfirmationModalElement
+//       );
+//       orderConfirmationModal.show();
+//     } else {
+//       console.error(
+//         'Element with id "orderConfirmationModal" was not found in the DOM'
+//       );
+//     }
+//   } else {
+//     console.error(
+//       'Element with selector "#orderConfirmationModal .modal-body" was not found in the DOM'
+//     );
+//   }
+// };
+
+const showOrderConfirmationModal = (orderResponse: IOrder) => {
+  // Close all active Bootstrap modals
+  document.querySelectorAll('.modal').forEach(modal => {
+    let bsModal = bootstrap.Modal.getInstance(modal);
+    if (bsModal) {
+      bsModal.hide();
+    }
+  });
+
+  const modalBody = document.querySelector("#orderConfirmationModal .modal-body");
   if (modalBody) {
     modalBody.innerHTML = `
-      <p>Thank you for your order, ${orderResponse.customer_first_name}!</p>
-      <p>Your order number is: ${orderResponse.id}</p>
-      <p>Total: ${orderResponse.order_total} kr</p>
-      <p>Order Date: ${orderResponse.created_at}</p>
+    <div class="card mt-5">
+    <div class="card-body mx-4">
+      <div class="container">
+        <h5 class="my-5 mx-5" style="font-size: 30px;">Thank you for your order!</h5>
+          <div class="row">
+            <ul class="list-unstyled">
+              <li class="text-black font-weight-bold">${orderResponse.customer_first_name} ${orderResponse.customer_last_name}</li>
+              <li class="text-muted mt-1"><span class="text-black">Order#:</span> ${orderResponse.id}</li>
+              <li class="text-black mt-1">${orderResponse.order_date}</li>
+              <li class="text-black mt-1">ORDER TOTAL: ${orderResponse.order_total} Kr</li>
+            </ul>
+            <hr style="border: 2px solid black;">
+          </div>
+        <div class="row text-black">
+        <div class="col-xl-12">
+
+    </div>
+    <hr style="border: 2px solid black;">
+</div>
     `;
 
-    const orderConfirmationModalElement = document.getElementById(
-      "orderConfirmationModal"
-    );
-    let confirmContinuePurchaseBtnElement = document.getElementById(
-      "confirmContinuePurchaseBtn"
-    );
+    const orderConfirmationModalElement = document.getElementById("orderConfirmationModal");
     if (orderConfirmationModalElement) {
-      const orderConfirmationModal = new bootstrap.Modal(
-        orderConfirmationModalElement
-      );
+      const orderConfirmationModal = new bootstrap.Modal(orderConfirmationModalElement);
       orderConfirmationModal.show();
-    } else {
-      console.error(
-        'Element with id "orderConfirmationModal" was not found in the DOM'
-      );
     }
-  } else {
-    console.error(
-      'Element with selector "#orderConfirmationModal .modal-body" was not found in the DOM'
-    );
   }
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+  const orderConfirmationCloseBtn = document.querySelector("#orderConfirmationModal .btn-close");
+  if (orderConfirmationCloseBtn) {
+    orderConfirmationCloseBtn.addEventListener("click", () => {
+      document.querySelector("#main-page")!.classList.remove("hide");
+      document.querySelectorAll(".section-to-hide").forEach(section => {
+        section.classList.add("hide");
+      });
+    });
+  }
+});
 
 orderSubmitForm();
 
 
-const orderConfirmation = async (orderResponse: IOrder) => {
+
+
+const orderConfirmation = async (orderResponse: IOrderResponse) => {
   document.querySelector(".checkout-form")?.classList.add("hide");
 
   document.querySelector("#order-confirmation")!.innerHTML = `
@@ -865,16 +924,15 @@ const orderConfirmation = async (orderResponse: IOrder) => {
           <h5 class="my-5 mx-5" style="font-size: 30px;">Tack för din order</h5>
             <div class="row">
               <ul class="list-unstyled">
-                <li class="text-black font-weight-bold">${orderResponse.customer_first_name} ${orderResponse.customer_last_name}</li>
-                <li class="text-muted mt-1"><span class="text-black">Ordernummer:</span> ${orderResponse.id}</li>
-                <li class="text-black mt-1">${orderResponse.order_date}</li>
+                <li class="text-black font-weight-bold">${orderResponse.data.customer_first_name} ${orderResponse.data.customer_last_name}</li>
+                <li class="text-muted mt-1"><span class="text-black">Ordernummer:</span> ${orderResponse.data.id}</li>
+                <li class="text-black mt-1">${orderResponse.data.order_date}</li>
               </ul>
               <hr style="border: 2px solid black;">
             </div>
           <div class="row text-black">
           <div class="col-xl-12">
-          <h6 class="float-none fw-bold">Total Summa:${orderResponse.order_total}
-          </h6>
+
       </div>
       <hr style="border: 2px solid black;">
   </div>`;

@@ -458,6 +458,10 @@ nav{
   font-size: 1.25rem;
 }
 
+.modal-backdrop.show {
+  opacity: 0.5; /* You can adjust the opacity level to control the dimming effect */
+}
+
 
 // Add media query for screens with a minimum width of 500px
 @media (min-width: 500px) {

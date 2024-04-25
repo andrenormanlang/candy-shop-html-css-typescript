@@ -14,14 +14,17 @@ export interface IProduct {
 
 // POST request
 export interface IOrderRequest {
-    customer_first_name?: string,
-    customer_last_name: string,
-    customer_address: string,
-    customer_postcode: string,
-    customer_city: string,
-    customer_email: string,
-    customer_phone?: string,
-    order_total: number,
+  order_date: string,
+  customer_first_name?: string,
+  customer_last_name: string,
+  customer_address: string,
+  customer_postcode: string,
+  customer_city: string,
+  customer_email: string,
+  customer_phone?: string,
+  order_total: number,
+  created_at: string,
+  updated_at: string,
     order_items: IOrderItemRequest[]
 }
 

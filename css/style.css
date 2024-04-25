@@ -411,6 +411,10 @@ nav {
   font-size: 1.25rem;
 }
 
+.modal-backdrop.show {
+  opacity: 0.5; /* You can adjust the opacity level to control the dimming effect */
+}
+
 @media (min-width: 500px) {
   /* This will apply only to screens wider than 500px */
   .cart-item-card .card-body {

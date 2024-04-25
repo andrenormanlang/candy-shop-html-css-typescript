@@ -43,9 +43,11 @@ export const createOrders = async (submitOrder: IOrderRequest) => {
     });
     if (response.status === 200) {
       console.log("Congrats, server responded");
-    } else {
-      console.log("That didn't go that well");
+      console.log('Response data:', response.data);
     }
+    // else {
+    //   console.log("That didn't go that well");
+    // }
     console.log(response.status);
     return response.data as IOrderResponse;
   } catch (error) {
