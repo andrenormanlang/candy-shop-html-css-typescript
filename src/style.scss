@@ -63,6 +63,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /*NAVBAR */
+.container-nav {
+  max-width: 1200px;
+}
+
 nav{
   background-color: #fff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -72,12 +76,25 @@ nav{
   left: 0;
   right: 0;
   z-index: 100;
-  height: 6rem;
+  height: 9rem;
 }
 
-.container-nav {
-  max-width: 1200px;
+.stock-phrase{
+  display: flex;
+  font-family: Anton;
+  justify-content: center;
+  align-items: center;
+  // background-color: #ffc107;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
 }
+
 /* Additional styles for the menu toggle */
 .btn-menu-toggle {
   margin-top: 1rem;

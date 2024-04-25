@@ -55,10 +55,10 @@ const outofStockItems = () => {
 };
 
 const stockPhrase = () => {
-  document.querySelector("#storage-instockvsoutofstock")!.innerHTML = `
-<h5>We have ${inStockItems().length} various types of candy in stock and ${
+  document.querySelector('.stock-phrase')!.innerHTML = `
+<p>We have ${inStockItems().length} various types of candy in stock and ${
     outofStockItems().length
-  }  are sold out</h5>`;
+  }  are sold out</p>`;
 };
 
 const renderProductStatus = (product: IProduct) => {
