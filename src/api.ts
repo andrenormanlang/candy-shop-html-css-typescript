@@ -58,3 +58,14 @@ export const createOrders = async (submitOrder: IOrderRequest) => {
     throw new Error('An unexpected error occurred');
   }
 }
+
+export const updateProductQuantityInDB = async (productId :string, newQuantity : number) => {
+  try {
+    const response = await axios.patch(`https://candy-shop-rest-api.onrender.com/products/${productId}`, {
+      stock_quantity: newQuantity
+    });
+    console.log('DB Update Response:', response.data);
+  } catch (error) {
+    console.error('Failed to update product quantity in DB:', error);
+  }
+};

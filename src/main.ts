@@ -1,4 +1,4 @@
-import { fetchProduct, fetchProducts, createOrders } from "./api";
+import { fetchProduct, fetchProducts, createOrders, updateProductQuantityInDB } from "./api";
 import {
   IProduct,
   IProductsResponse,
@@ -45,6 +45,31 @@ const getProducts = async () => {
 
   return productsResponse;
 };
+
+// const getProducts = async () => {
+//   showSpinner();
+//   try {
+//     productsResponse = await fetchProducts();
+//     products = productsResponse.data;
+//     products.forEach(product => {
+//       if (!localStorage.getItem(String(product.id))) {
+//         localStorage.setItem(String(product.id), String(product.stock_quantity));
+//       }
+//     });
+//     renderProducts(products);
+//     stockPhrase();
+//     description();
+//     addEventToCartButton();
+//     renderCartinCheckout();
+//     renderCart();
+
+//     hideSpinner();
+//     console.log("Products", products);
+//   } catch (err) {
+//     console.error("Problem with the server", err);
+//   }
+//   return productsResponse;
+// };
 
 const inStockItems = () => {
   return products.filter((item) => renderProductQuantity(item) > 0);
@@ -200,6 +225,65 @@ const addToCart = (productId: string) => {
 
   hideSpinner(); // Hide the spinner here after all updates
 };
+
+// const addToCart = async (productId :string) => {
+//   showSpinner();
+//   const product = products.find(p => p.id === Number(productId));
+//   if (!product) {
+//     console.error("Product not found");
+//     hideSpinner();
+//     return;
+//   }
+
+//   let productQuantity = Number(localStorage.getItem(productId) || 0);
+//   if (product.stock_quantity > 0) {
+//     productQuantity++;
+//     localStorage.setItem(productId, String(productQuantity));
+//     product.stock_quantity--; // Reduce the local stock quantity
+
+//     renderCart();
+//     renderCartinCheckout();
+//     updateProductQuantity(product);
+//     updateProductStatus(product);
+//     updateProductAddToCart(product);
+//     renderProductDescription(product);
+//     stockPhrase();
+
+//     // Update the database
+//     await updateProductQuantityInDB(productId, product.stock_quantity);
+//   }
+//   hideSpinner();
+// };
+
+// const removeFromCart = async (productId : string) => {
+//   showSpinner();
+//   const product = products.find(p => p.id === Number(productId));
+//   if (!product) {
+//     console.error("Product not found");
+//     hideSpinner();
+//     return;
+//   }
+
+//   let productQuantity = Number(localStorage.getItem(productId) || 0);
+//   if (productQuantity > 0) {
+//     productQuantity--;
+//     localStorage.setItem(productId, String(productQuantity));
+//     product.stock_quantity++; // Increase the local stock quantity
+
+//     renderCartinCheckout();
+//     renderCart();
+//     updateProductQuantity(product);
+//     updateProductStatus(product);
+//     updateProductAddToCart(product);
+//     renderProductDescription(product);
+//     stockPhrase();
+
+//     // Update the database
+//     await updateProductQuantityInDB(productId, product.stock_quantity);
+//   }
+//   hideSpinner();
+// };
+
 
 const removeFromCart = (productId: string) => {
   showSpinner(); // Start spinner at the beginning of the operation
