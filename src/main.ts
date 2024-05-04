@@ -1,4 +1,9 @@
-import { fetchProduct, fetchProducts, createOrders, updateProductQuantityInDB } from "./api";
+import {
+  fetchProduct,
+  fetchProducts,
+  createOrders,
+  updateProductQuantityInDB,
+} from "./api";
 import {
   IProduct,
   IProductsResponse,
@@ -54,7 +59,7 @@ const outofStockItems = () => {
 };
 
 const stockPhrase = () => {
-  document.querySelector('.stock-phrase')!.innerHTML = `
+  document.querySelector(".stock-phrase")!.innerHTML = `
 <p>We have ${inStockItems().length} various types of candy in stock and ${
     outofStockItems().length
   }  are sold out</p>`;
@@ -65,9 +70,9 @@ const renderProductStatus = (product: IProduct) => {
   if (product.stock_status === "instock" && availableQuantity > 0) {
     return `<span id="product-quantity${
       product.id
-    }" style="color: green; font-weight:bold;">${renderProductQuantity(
+    }" style="color: red; font-weight:bold;">${renderProductQuantity(
       product
-    )}</span> <span style="color: green; font-weight:bold;">in stock </span>`;
+    )}</span> <span style="color: red; font-weight:bold;">in stock </span>`;
   } else {
     return `<span style="color: red; font-weight:bold;"></span>`;
   }
@@ -110,78 +115,72 @@ const renderProducts = (products: IProduct[]) => {
       .sort((a, b) =>
         a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase())
       )
-        .map(
-          (product: IProduct) => {
-            const isOutOfStock = renderProductQuantity(product) === 0;
-            return `
-              <div class="card shadow-lg relative ${isOutOfStock ? 'sold-out' : ''}" data-product-id=${product.id} style="width: 18rem;">
-                ${isOutOfStock ? '<div class="sold-out-message absolute top-0 left-0 w-full h-full flex items-center justify-center">SOLD OUT</div>' : ''}
-                <h1 class="text-uppercase product-card-title mt-2">${product.name}</h1>
-                <img class="card-img card-img-top img-fluid cardImg p-3 products-images" src="https://bortakvall.se${product.images.thumbnail}" alt="picture of ${product.name}">
+      .map((product: IProduct) => {
+        const isOutOfStock = renderProductQuantity(product) === 0;
+        return `
+              <div class="card shadow-lg relative ${
+                isOutOfStock ? "sold-out" : ""
+              }" data-product-id=${product.id} style="width: 18rem;">
+                ${
+                  isOutOfStock
+                    ? '<div class="sold-out-message absolute top-0 left-0 w-full h-full flex items-center justify-center">SOLD OUT</div>'
+                    : ""
+                }
+                <h1 class="text-uppercase product-card-title mt-2">${
+                  product.name
+                }</h1>
+                <img class="card-img card-img-top img-fluid cardImg p-3 products-images" src="https://bortakvall.se${
+                  product.images.thumbnail
+                }" alt="picture of ${product.name}">
                 <div class="card-body">
                   <i class="info-icon">i</i>
                   <p class="price-tag">${product.price}kr</p>
 
-                  <p id="product-status${product.id}" class="stock-tag bg-green">${renderProductStatus(product)}</p>
+                  <p id="product-status${
+                    product.id
+                  }" class="stock-tag bg-red">${renderProductStatus(
+          product
+        )}</p>
                   <a href="#"></a>
                   <div class="d-flex flex-column card-body card-buttons">
-                    <button type="button" id=${product.id} class="cart-btn btn btn-success card-btn" data-cart-id=${product.id} ${isOutOfStock ? 'disabled' : ''}>Add to cart</button>
+                    <button type="button" id=${
+                      product.id
+                    } class="cart-btn btn btn-success card-btn" data-cart-id=${
+          product.id
+        } ${isOutOfStock ? "disabled" : ""}>Add to cart</button>
                   </div>
                 </div>
               </div>
             `;
-          }
-      )
+      })
       .join(""));
-      addEventToCartButton();
+  addEventToCartButton();
   document.querySelectorAll(".info-icon").forEach((icon) => {
-  icon.addEventListener("click", (event) => {
-    // Prevent the event from bubbling up to the card
-    event.stopPropagation();
+    icon.addEventListener("click", (event) => {
+      // Prevent the event from bubbling up to the card
+      event.stopPropagation();
 
-    // Get the card that contains this icon
-    const card = (icon as HTMLElement).closest(".card");
+      // Get the card that contains this icon
+      const card = (icon as HTMLElement).closest(".card");
 
-    if (card) {
-      const productId = card.getAttribute("data-product-id");
-      const product = products.find((p) => p.id.toString() === productId);
-      if (product) {
-        displayProductDetailsInModal(product);
+      if (card) {
+        const productId = card.getAttribute("data-product-id");
+        const product = products.find((p) => p.id.toString() === productId);
+        if (product) {
+          displayProductDetailsInModal(product);
+        }
       }
-    }
+    });
   });
-});
 
   return cardItems;
 };
 
 getProducts().then(() => {
   renderProducts(products);
-  // Call this after renderProducts
-  // ...any other code needed after products are fetched and rendered
+
   console.log("Calling addEventToCartButton...");
 });
-// After the product cards have been added to the DOM
-// After the product cards have been added to the DOM
-// const addEventToCartButton = () => {
-//   document.querySelectorAll(".cart-btn-cards").forEach((button) => {
-//     button.addEventListener("click", (event) => {
-//       event.preventDefault();
-
-//       // Get the product ID from the button's data-cart-id attribute
-//       const productId = (event.target as HTMLElement).dataset.cartId;
-
-//       // Find the product with this ID
-//       const product = products.find((p) => p.id.toString() === productId);
-
-//       // If the product exists, add it to the cart
-//       if (product) {
-//         addToCart(product.id.toString());
-//       }
-//     });
-//   });
-// };
-
 
 const addEventToCartButton = () => {
   document.querySelectorAll(".cart-btn").forEach((element) => {
@@ -208,11 +207,11 @@ const addToCart = (productId: string) => {
     productQuantity++;
     localStorage.setItem(productId, String(productQuantity));
     renderCart();
-  renderCartinCheckout();
-  updateProductQuantity(product);
-  updateProductStatus(product);
-  updateProductAddToCart(product);
-  stockPhrase();
+    renderCartinCheckout();
+    updateProductQuantity(product);
+    updateProductStatus(product);
+    updateProductAddToCart(product);
+    stockPhrase();
     stockPhrase();
   } else {
     console.error("Product is out of stock");
@@ -223,7 +222,6 @@ const addToCart = (productId: string) => {
 
   hideSpinner(); // Hide the spinner here after all updates
 };
-
 
 const removeFromCart = (productId: string) => {
   showSpinner(); // Start spinner at the beginning of the operation
@@ -266,8 +264,6 @@ const deleteFromCart = (productId: string) => {
 
   stockPhrase();
 };
-
-
 
 function displayProductDetailsInModal(product: IProduct) {
   const modalBody = document.querySelector(".modal-body") as HTMLElement;
@@ -359,25 +355,27 @@ const renderCart = async () => {
     productsInCart.length
   );
 
-
   // Check if the cart is empty and display a message
   let cartItemsContainer = document.querySelector(".cart-render");
+  if (cartItemsContainer) {
+    cartItemsContainer.innerHTML = `<div class='empty-cart-message'>Get some sweets!</div>`;
+  } else {
+    console.error('Element with class "cart-render" not found');
+  }
 
   if (cartItemsContainer) {
     if (productsInCart.length === 0) {
-        cartItemsContainer.innerHTML = `<div class='empty-cart-message'>Get some sweets!</div>`;
-        document.querySelector(".total-cart")!.innerHTML = ""; // Clear total cart if empty
-        let checkoutBtn = document.querySelector("#checkout-btn");
-        if (checkoutBtn) {
-            (checkoutBtn as HTMLElement).style.display = "none";
-        }
-
-    } else  {
-(document.querySelector(".cart-render")!.innerHTML =
-    productsInCart
-      .map(
-        (product: IProduct) =>
-          `<div class="cart-items">
+      cartItemsContainer.innerHTML = `<div class='empty-cart-message'>Get some sweets!</div>`;
+      document.querySelector(".total-cart")!.innerHTML = ""; // Clear total cart if empty
+      let checkoutBtn = document.querySelector("#checkout-btn");
+      if (checkoutBtn) {
+        (checkoutBtn as HTMLElement).style.display = "none";
+      }
+    } else {
+      document.querySelector(".cart-render")!.innerHTML = productsInCart
+        .map(
+          (product: IProduct) =>
+            `<div class="cart-items">
             <div class="row g-3 align-items-center">
               <div class="col-2">
                 <button type="button" class="remove-item btn btn-outline-secondary btn-sm" data-product-id="${
@@ -421,108 +419,115 @@ const renderCart = async () => {
             <hr class="my-4">
             </div>
             `
-          )
-          .join(""));
+        )
+        .join("");
 
-  document.querySelector(".total-cart")!.innerHTML = `
+      document.querySelector(".total-cart")!.innerHTML = `
     <div class="total-text">Total</div>
     <div class="total-price">${totalCart} kr</div>
     <button class="btn-checkout" id="checkout-btn">To checkout</button>`;
 
-    const checkoutBtn = document.querySelector(".checkout-btn");
-    checkoutBtn?.addEventListener("click", () => {
-      console.log("Checkout button clicked"); // Add this line for debugging
-    // TRANSITION
-    document.querySelector("#main-page")?.classList.remove("hide");
-    theDropDown!.classList.toggle("hidden");
-    document.querySelector(".description")?.classList.add("hide");
+      const checkoutBtn = document.querySelector(".checkout-btn");
+      checkoutBtn?.addEventListener("click", () => {
+        console.log("Checkout button clicked"); // Add this line for debugging
+        // TRANSITION
+        document.querySelector("#main-page")?.classList.remove("hide");
+        theDropDown!.classList.toggle("hidden");
+        document.querySelector(".description")?.classList.add("hide");
 
-      theDropDown!.classList.toggle("hidden");
+        theDropDown!.classList.toggle("hidden");
 
-      document.querySelector(".description")?.classList.add("hide");
-    });
-
-    document.querySelectorAll(".remove-item").forEach((element) => {
-      element.addEventListener("click", (e) => {
-        const target = e.target as HTMLElement;
-        const productId = target.dataset.productId!;
-
-        // Show the confirmation modal
-        const modalElement = document.getElementById('confirmationModal');
-        if (modalElement) {
-          const confirmationModal = new bootstrap.Modal(modalElement);
-          confirmationModal.show();
-
-          document.getElementById('confirmRemoveBtn')?.addEventListener('click', async () => {
-            removeFromCart(productId);
-            await renderCart();
-            confirmationModal.hide();
-          });
-      } else {
-        console.error('Modal element not found');
-      }
-    })
-  });
-
-
-    document?.querySelectorAll(".reduce-btn").forEach((element) => {
-      element?.addEventListener("click", (e) => {
-        const target = e.target as HTMLElement;
-        removeFromCart(target.dataset.productId!);
+        document.querySelector(".description")?.classList.add("hide");
       });
-    });
-    document?.querySelectorAll(".increase-btn").forEach((element) => {
-      element?.addEventListener("click", (e) => {
-        const target = e.target as HTMLElement;
-        console.log(target);
-        addToCart(target.dataset.productId!);
-      });
-    });
+document.querySelectorAll(".remove-item").forEach((element) => {
+  element.addEventListener("click", (e) => {
+    e.stopPropagation(); // Stop event bubbling
 
-  }
+    const target = e.target as HTMLElement;
+    const productId = target.dataset.productId!;
 
+    // Show the confirmation modal
+    const modalElement = document.getElementById("confirmationModal");
+    if (modalElement) {
+      const confirmationModal = new bootstrap.Modal(modalElement);
+      confirmationModal.show();
 
-  document.querySelector("#checkout-btn")?.addEventListener("click", () => {
-    // Hide Main Page and Dropdown Menu
-    theDropDown?.classList.remove("show");
-    theDropDown.style.display = "none";
+      // Get the confirmation button
+      const confirmRemoveBtn = document.getElementById("confirmRemoveBtn");
+      if (confirmRemoveBtn) {
+        // Remove the previous event listener
+        const newConfirmRemoveBtn = confirmRemoveBtn.cloneNode(true);
+        confirmRemoveBtn.parentNode?.replaceChild(newConfirmRemoveBtn, confirmRemoveBtn);
 
-    // Populate and Show the Checkout Summary Modal
-    const modalBody = document.querySelector("#checkoutSummaryModalBody");
-    if (modalBody) {
-      modalBody.innerHTML =
-        document.querySelector("#checkoutSummary")?.innerHTML || "";
-      const checkoutModalElement = document.getElementById("checkoutModal");
-      if (checkoutModalElement) {
-        const checkoutModal = new bootstrap.Modal(checkoutModalElement);
-        checkoutModal.show();
+        // Add the new event listener
+        newConfirmRemoveBtn.addEventListener("click", async (e) => {
+          e.stopPropagation(); // Stop event bubbling
+
+          deleteFromCart(productId);
+          await renderCart();
+          confirmationModal.hide();
+        });
       }
+    } else {
+      console.error("Modal element not found");
     }
   });
+});
 
-  // Handle transition to the payment form within the modal
-  document
-  .querySelector("#proceedToPaymentButton")
-  ?.addEventListener("click", () => {
-      const modalBody = document.querySelector("#checkoutModal .modal-body");
+      document?.querySelectorAll(".reduce-btn").forEach((element) => {
+        element?.addEventListener("click", (e) => {
+          const target = e.target as HTMLElement;
+          removeFromCart(target.dataset.productId!);
+        });
+      });
+      document?.querySelectorAll(".increase-btn").forEach((element) => {
+        element?.addEventListener("click", (e) => {
+          const target = e.target as HTMLElement;
+          console.log(target);
+          addToCart(target.dataset.productId!);
+        });
+      });
+    }
+
+    document.querySelector("#checkout-btn")?.addEventListener("click", () => {
+      // Hide Main Page and Dropdown Menu
+      theDropDown?.classList.remove("show");
+      theDropDown.style.display = "none";
+
+      // Populate and Show the Checkout Summary Modal
+      const modalBody = document.querySelector("#checkoutSummaryModalBody");
       if (modalBody) {
         modalBody.innerHTML =
-          document.querySelector(".checkout-form")?.innerHTML || ""; // Load form into modal
+          document.querySelector("#checkoutSummary")?.innerHTML || "";
+        const checkoutModalElement = document.getElementById("checkoutModal");
+        if (checkoutModalElement) {
+          const checkoutModal = new bootstrap.Modal(checkoutModalElement);
+          checkoutModal.show();
+        }
+      }
+    });
+
+    // Handle transition to the payment form within the modal
+    document
+      .querySelector("#proceedToPaymentButton")
+      ?.addEventListener("click", () => {
+        const modalBody = document.querySelector("#checkoutModal .modal-body");
+        if (modalBody) {
+          modalBody.innerHTML =
+            document.querySelector(".checkout-form")?.innerHTML || ""; // Load form into modal
 
           // Optionally adjust modal title
           const modalTitle = document.querySelector(
             "#checkoutModal .modal-title"
           );
-        if (modalTitle) {
-          modalTitle.textContent = "Complete Your Payment";
+          if (modalTitle) {
+            modalTitle.textContent = "Complete Your Payment";
+          }
+
+          // Reattach event listeners or validate form within the modal, if necessary
         }
-
-        // Reattach event listeners or validate form within the modal, if necessary
-      }
-    });
+      });
   }
-
-
 };
 
 getProducts().then(() => {
@@ -550,15 +555,14 @@ getProducts().then(() => {
           // Reattach event listeners for the cloned form
           const formCustomerInModal = modalBody.querySelector("#form-customer");
 
-            formCustomerInModal!.addEventListener("submit", async (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              // Handle form submission here or validate inputs
-              orderSubmitForm();
-              // orderConfirmation(orderResponse.data);
-              console.log("Form submitted!");
-            });
-
+          formCustomerInModal!.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            // Handle form submission here or validate inputs
+            orderSubmitForm();
+            // orderConfirmation(orderResponse.data);
+            console.log("Form submitted!");
+          });
         }
       }
     });
@@ -574,33 +578,46 @@ const renderCartinCheckout = async () => {
   }
 
   let checkoutSummaryElement = document.querySelector("#checkoutSummary");
-if (checkoutSummaryElement) {
-  checkoutSummaryElement.innerHTML = `
+  if (checkoutSummaryElement) {
+    checkoutSummaryElement.innerHTML =
+      `
     <div class="row">` + // The row container
-    productsInCart.map((product) => {
-      return `
+      productsInCart
+        .map((product) => {
+          return `
       <div class="col-12 mb-3">
         <div class="card cart-item-card">
           <div class="card-body">
             <div class="row g-0">
               <!-- Image and product name on the left -->
               <div class="col-4 d-grid align-items-start pe-3"> <!-- Changed to use Bootstrap's grid system -->
-                <img src="https://bortakvall.se${product.images.thumbnail}" class="img-fluid rounded-3 mb-2">
+                <img src="https://bortakvall.se${
+                  product.images.thumbnail
+                }" class="img-fluid rounded-3 mb-2">
                 <h6 class="product-name small text-muted">${product.name}</h6>
               </div>
 
               <!-- Quantity in the middle -->
               <div class="col-4 d-grid align-items-center justify-content-center">
                 <div>
-                  <button class="reduce-btn btn btn-outline-secondary btn-sm" data-product-id="${product.id}">-</button>
-                  <span class="sum-products mx-2">${localStorage.getItem(String(product.id))}</span>
-                  <button class="increase-btn btn btn-outline-secondary btn-sm" data-product-id="${product.id}">+</button>
+                  <button class="reduce-btn btn btn-outline-secondary btn-sm" data-product-id="${
+                    product.id
+                  }">-</button>
+                  <span class="sum-products mx-2">${localStorage.getItem(
+                    String(product.id)
+                  )}</span>
+                  <button class="increase-btn btn btn-outline-secondary btn-sm" data-product-id="${
+                    product.id
+                  }">+</button>
                 </div>
               </div>
 
               <!-- Price on the right -->
               <div class="col-4 d-flex align-items-center justify-content-end">
-                <div>${Number(localStorage.getItem(String(product.id)) || 0) * product.price} kr</div>
+                <div>${
+                  Number(localStorage.getItem(String(product.id)) || 0) *
+                  product.price
+                } kr</div>
               </div>
             </div>
           </div>
@@ -609,9 +626,10 @@ if (checkoutSummaryElement) {
 
 
     `;
-    }).join("") +
-    `</div>`;
-}
+        })
+        .join("") +
+      `</div>`;
+  }
   let totalProductPrice = productsInCart.reduce((total, product) => {
     const quantity = localStorage.getItem(String(product.id)) || "0";
     return total + parseInt(quantity) * product.price;
@@ -626,7 +644,7 @@ if (checkoutSummaryElement) {
       <p>${totalProductPrice} kr</p>
     </div>
   `;
-}
+  }
 
   // Re-attach event listeners to the newly added buttons in the checkout
 };
@@ -648,7 +666,6 @@ const orderFormRequest = async () => {
     document.querySelector<HTMLInputElement>("#inputEmail")!.value;
   let phoneInput =
     document.querySelector<HTMLInputElement>("#inputPhone")!.value;
-
 
   let productsInCart = productsAddedInCart();
 
@@ -755,52 +772,19 @@ const orderSubmitForm = () => {
     });
   }
 };
-// const showOrderConfirmationModal = (orderResponse: IOrder) => {
-//   const modalBody = document.querySelector(
-//     "#orderConfirmationModal .modal-body"
-//   );
-
-//   if (modalBody) {
-//     modalBody.innerHTML = `
-//       <p>Thank you for your order, ${orderResponse.customer_first_name}!</p>
-//       <p>Your order number is: ${orderResponse.id}</p>
-//       <p>Total: ${orderResponse.order_total} kr</p>
-//       <p>Order Date: ${orderResponse.created_at}</p>
-//     `;
-
-//     const orderConfirmationModalElement = document.getElementById(
-//       "orderConfirmationModal"
-//     );
-//     // let confirmContinuePurchaseBtnElement = document.getElementById(
-//     //   "confirmContinuePurchaseBtn"
-//     // );
-//     if (orderConfirmationModalElement) {
-//       const orderConfirmationModal = new bootstrap.Modal(
-//         orderConfirmationModalElement
-//       );
-//       orderConfirmationModal.show();
-//     } else {
-//       console.error(
-//         'Element with id "orderConfirmationModal" was not found in the DOM'
-//       );
-//     }
-//   } else {
-//     console.error(
-//       'Element with selector "#orderConfirmationModal .modal-body" was not found in the DOM'
-//     );
-//   }
-// };
 
 const showOrderConfirmationModal = (orderResponse: IOrder) => {
   // Close all active Bootstrap modals
-  document.querySelectorAll('.modal').forEach(modal => {
+  document.querySelectorAll(".modal").forEach((modal) => {
     let bsModal = bootstrap.Modal.getInstance(modal);
     if (bsModal) {
       bsModal.hide();
     }
   });
 
-  const modalBody = document.querySelector("#orderConfirmationModal .modal-body");
+  const modalBody = document.querySelector(
+    "#orderConfirmationModal .modal-body"
+  );
   if (modalBody) {
     modalBody.innerHTML = `
     <div class="card mt-5">
@@ -824,20 +808,26 @@ const showOrderConfirmationModal = (orderResponse: IOrder) => {
 </div>
     `;
 
-    const orderConfirmationModalElement = document.getElementById("orderConfirmationModal");
+    const orderConfirmationModalElement = document.getElementById(
+      "orderConfirmationModal"
+    );
     if (orderConfirmationModalElement) {
-      const orderConfirmationModal = new bootstrap.Modal(orderConfirmationModalElement);
+      const orderConfirmationModal = new bootstrap.Modal(
+        orderConfirmationModalElement
+      );
       orderConfirmationModal.show();
     }
   }
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  const orderConfirmationCloseBtn = document.querySelector("#orderConfirmationModal .btn-close");
+  const orderConfirmationCloseBtn = document.querySelector(
+    "#orderConfirmationModal .btn-close"
+  );
   if (orderConfirmationCloseBtn) {
     orderConfirmationCloseBtn.addEventListener("click", () => {
       document.querySelector("#main-page")!.classList.remove("hide");
-      document.querySelectorAll(".section-to-hide").forEach(section => {
+      document.querySelectorAll(".section-to-hide").forEach((section) => {
         section.classList.add("hide");
       });
     });
@@ -845,9 +835,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 orderSubmitForm();
-
-
-
 
 const orderConfirmation = async (orderResponse: IOrderResponse) => {
   document.querySelector(".checkout-form")?.classList.add("hide");
