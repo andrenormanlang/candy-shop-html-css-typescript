@@ -601,18 +601,12 @@ const renderCartinCheckout = async () => {
                 <h6 class="product-name small text-muted">${product.name}</h6>
               </div>
 
-              <!-- Quantity in the middle -->
-              <div class="col-4 d-grid align-items-center justify-content-center">
-                <div>
-                  <button class="reduce-btn btn btn-outline-secondary btn-sm" data-product-id="${
-                    product.id
-                  }">-</button>
-                  <span class="sum-products mx-2">${localStorage.getItem(
-                    String(product.id)
-                  )}</span>
-                  <button class="increase-btn btn btn-outline-secondary btn-sm" data-product-id="${
-                    product.id
-                  }">+</button>
+             <!-- Quantity in the middle -->
+              <div class="col-4 d-flex align-items-center justify-content-center">
+                <div class="d-flex align-items-center">
+                  <button class="reduce-btn btn btn-outline-secondary btn-sm" data-product-id=${product.id}>-</button>
+                  <span class="sum-products mx-2">${localStorage.getItem(String(product.id))}</span>
+                  <button class="increase-btn btn btn-outline-secondary btn-sm" data-product-id=${product.id}>+</button>
                 </div>
               </div>
 
@@ -649,6 +643,7 @@ const renderCartinCheckout = async () => {
     </div>
   `;
   }
+
 
   // Re-attach event listeners to the newly added buttons in the checkout
 };
@@ -709,10 +704,10 @@ const orderItemsRequest = () => {
 };
 
 // Handle the cancel button in the checkout form
-let confirmationModalElement = document.getElementById("confirmationModal");
+let confirmationModalElement = document.getElementById("confirmationModalForm");
 let checkoutModalElement = document.getElementById("checkoutModal");
 let confirmContinuePurchaseBtnElement = document.getElementById(
-  "confirmContinuePurchaseBtn"
+  "confirmContinueOrderBtn"
 );
 let dataBsDismissModalElement = document.querySelector(
   '[data-bs-dismiss="modal"]'
@@ -740,7 +735,7 @@ if (
 }
 
 document
-  .getElementById("confirmCancelBtn")!
+  .getElementById("confirmCancelOrderBtn")!
   .addEventListener("click", function () {
     localStorage.clear();
     window.location.reload();
@@ -761,7 +756,7 @@ const orderSubmitForm = () => {
         localStorage.clear();
         renderCart();
         showOrderConfirmationModal(orderResponse.data);
-        orderConfirmation(orderResponse);
+        // orderConfirmationModal(orderResponse);
         console.log("Order successful:", orderResponse.data);
       } else if (orderResponse.status === "fail") {
         console.error("Order failed:", orderResponse.data);
@@ -777,7 +772,7 @@ const orderSubmitForm = () => {
   }
 };
 
-const showOrderConfirmationModal = (orderResponse: IOrder) => {
+const showOrderConfirmationModal = (orderResponse : IOrder) => {
   // Close all active Bootstrap modals
   document.querySelectorAll(".modal").forEach((modal) => {
     let bsModal = bootstrap.Modal.getInstance(modal);
@@ -786,80 +781,46 @@ const showOrderConfirmationModal = (orderResponse: IOrder) => {
     }
   });
 
-  const modalBody = document.querySelector(
-    "#orderConfirmationModal .modal-body"
-  );
+  const modalBody = document.querySelector("#orderConfirmationModalForm .modal-body");
   if (modalBody) {
     modalBody.innerHTML = `
-    <div class="card mt-5">
-    <div class="card-body mx-4">
-      <div class="container">
-        <h5 class="my-5 mx-5" style="font-size: 30px;">Thank you for your order!</h5>
-          <div class="row">
-            <ul class="list-unstyled">
-              <li class="text-black font-weight-bold">${orderResponse.customer_first_name} ${orderResponse.customer_last_name}</li>
-              <li class="text-muted mt-1"><span class="text-black">Order#:</span> ${orderResponse.id}</li>
-              <li class="text-black mt-1">${orderResponse.order_date}</li>
-              <li class="text-black mt-1">ORDER TOTAL: ${orderResponse.order_total} Kr</li>
-            </ul>
-            <hr style="border: 2px solid black;">
+      <div class="card mt-5">
+        <div class="card-body mx-4">
+          <div class="container">
+            <h5 class="my-5 mx-5" style="font-size: 30px;">Thank you for your order!</h5>
+            <div class="row">
+              <ul class="list-unstyled">
+                <li class="text-black font-weight-bold">${orderResponse.customer_first_name} ${orderResponse.customer_last_name}</li>
+                <li class="text-muted mt-1"><span class="text-black">Order#:</span> ${orderResponse.id}</li>
+                <li class="text-black mt-1">${orderResponse.order_date}</li>
+                <li class="text-black mt-1">ORDER TOTAL: ${orderResponse.order_total} Kr</li>
+              </ul>
+              <hr style="border: 2px solid black;">
+            </div>
           </div>
-        <div class="row text-black">
-        <div class="col-xl-12">
+        </div>
+      </div>`;
 
-    </div>
-    <hr style="border: 2px solid black;">
-</div>
-    `;
-
-    const orderConfirmationModalElement = document.getElementById(
-      "orderConfirmationModal"
-    );
+    const orderConfirmationModalElement = document.getElementById("orderConfirmationModalForm");
     if (orderConfirmationModalElement) {
-      const orderConfirmationModal = new bootstrap.Modal(
-        orderConfirmationModalElement
-      );
+      const orderConfirmationModal = new bootstrap.Modal(orderConfirmationModalElement, {
+        backdrop: 'static', // Prevent closing when clicking outside
+        keyboard: false // Prevent closing with keyboard (Esc key)
+      });
       orderConfirmationModal.show();
+
+      // Handle the close button click
+      orderConfirmationModalElement.querySelector('.btn-close-receipt')!.addEventListener("click", function () {
+        localStorage.clear();
+        window.location.reload();
+      });
+
     }
   }
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-  const orderConfirmationCloseBtn = document.querySelector(
-    "#orderConfirmationModal .btn-close"
-  );
-  if (orderConfirmationCloseBtn) {
-    orderConfirmationCloseBtn.addEventListener("click", () => {
-      document.querySelector("#main-page")!.classList.remove("hide");
-      document.querySelectorAll(".section-to-hide").forEach((section) => {
-        section.classList.add("hide");
-      });
-    });
-  }
-});
+
+
 
 orderSubmitForm();
 
-const orderConfirmation = async (orderResponse: IOrderResponse) => {
-  document.querySelector(".checkout-form")?.classList.add("hide");
-
-  document.querySelector("#order-confirmation")!.innerHTML = `
-  <div class="card mt-5">
-      <div class="card-body mx-4">
-        <div class="container">
-          <h5 class="my-5 mx-5" style="font-size: 30px;">Tack för din order</h5>
-            <div class="row">
-              <ul class="list-unstyled">
-                <li class="text-black font-weight-bold">${orderResponse.data.customer_first_name} ${orderResponse.data.customer_last_name}</li>
-                <li class="text-muted mt-1"><span class="text-black">Ordernummer:</span> ${orderResponse.data.id}</li>
-                <li class="text-black mt-1">${orderResponse.data.order_date}</li>
-              </ul>
-              <hr style="border: 2px solid black;">
-            </div>
-          <div class="row text-black">
-          <div class="col-xl-12">
-
-      </div>
-      <hr style="border: 2px solid black;">
-  </div>`;
-};

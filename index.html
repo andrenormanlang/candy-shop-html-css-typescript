@@ -193,8 +193,8 @@
               <span id="customer_phone" class="error-message"></span>
             </div>
             <button type="submit" class="btn btn-primary mt-4 mb-4">Purchase</button>
-            <button type="button" class="btn btn-danger cancel-purchase" data-bs-toggle="modal"
-              data-bs-target="#confirmationModal">CANCEL</button>
+            <button type="button" class="btn btn-danger cancel-purchase-btn" data-bs-toggle="modal"
+              data-bs-target="#confirmationModalForm">CANCEL</button>
           </form>
         </div>
       </div>
@@ -222,7 +222,7 @@
 
 
   <!-- Confirmation Cancel Purchase Modal -->
-  <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
+  <div class="modal fade" id="confirmationModalForm" tabindex="-1" aria-labelledby="confirmationModalFormLabel"
     aria-hidden="true" data-bs-backdrop='static'>
     <div class="modal-dialog">
       <div class="modal-content">
@@ -233,8 +233,8 @@
           Are you sure you want to cancel the purchase?
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="confirmContinuePurchaseBtn">NO</button>
-          <button type="button" class="btn btn-danger" id="confirmCancelBtn">YES</button>
+          <button type="button" class="btn btn-secondary" id="confirmContinueOrderBtn">NO</button>
+          <button type="button" class="btn btn-danger" id="confirmCancelOrderBtn">YES</button>
         </div>
       </div>
     </div>
@@ -243,19 +243,19 @@
   <!--CHECKOUTFORM -->
 
   <!-- Order Confirmation Modal -->
-  <div class="modal fade" id="orderConfirmationModal" tabindex="-1" aria-labelledby="orderConfirmationModalLabel"
+  <div class="modal fade" id="orderConfirmationModalForm" tabindex="-1" aria-labelledby="orderConfirmationModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="orderConfirmationModalLabel">Order Confirmation</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <!-- <button type="button" class="btn-close" data-bs-dismiss="orderModal" aria-label="Close"></button> -->
         </div>
         <div class="modal-body">
           <!-- Order details will be injected here -->
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn-close-receipt btn btn-info" data-bs-dismiss="orderModal">Close</button>
         </div>
       </div>
     </div>
