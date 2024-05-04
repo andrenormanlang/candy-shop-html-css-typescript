@@ -32,44 +32,18 @@ const getProducts = async () => {
     products = productsResponse.data;
     renderProducts(products);
     stockPhrase();
-    description();
     addEventToCartButton();
     renderCartinCheckout();
     renderCart();
 
     hideSpinner();
-    console.log("Products", products);
   } catch (err) {
     console.error("Problem with the server", err);
+    hideSpinner();
   }
 
   return productsResponse;
 };
-
-// const getProducts = async () => {
-//   showSpinner();
-//   try {
-//     productsResponse = await fetchProducts();
-//     products = productsResponse.data;
-//     products.forEach(product => {
-//       if (!localStorage.getItem(String(product.id))) {
-//         localStorage.setItem(String(product.id), String(product.stock_quantity));
-//       }
-//     });
-//     renderProducts(products);
-//     stockPhrase();
-//     description();
-//     addEventToCartButton();
-//     renderCartinCheckout();
-//     renderCart();
-
-//     hideSpinner();
-//     console.log("Products", products);
-//   } catch (err) {
-//     console.error("Problem with the server", err);
-//   }
-//   return productsResponse;
-// };
 
 const inStockItems = () => {
   return products.filter((item) => renderProductQuantity(item) > 0);
@@ -136,63 +110,84 @@ const renderProducts = (products: IProduct[]) => {
       .sort((a, b) =>
         a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase())
       )
-      .map(
-        (product: IProduct) =>
-          `
-        <div class="card shadow-lg" data-product-id=${
-          product.id
-        } style="width: 18rem;">
-          <h1 class="text-uppercase product-card-title mt-2">${
-            product.name
-          }</h1>
-          <img class="card-img-top img-fluid cardImg p-3 products-images" src="https://bortakvall.se${
-            product.images.thumbnail
-          }" alt="picture of ${product.name}" <div class="card-body">
-          <p id="product-status${product.id}">${renderProductStatus(
-            product
-          )} </p>
-          <p class="card-text fw-bold fst-italic">${product.price}kr</p>
-          <a href="#"></a>
-          <div class="d-flex flex-column card-body card-buttons">
-            <button type="button" id="product-add${
-              product.id
-            }" class="cart-btn btn btn-success card-btn" data-cart-id=${
-            product.id
-          }>Add to cart</button>
-          </div>
-        </div>`
+        .map(
+          (product: IProduct) => {
+            const isOutOfStock = renderProductQuantity(product) === 0;
+            return `
+              <div class="card shadow-lg" data-product-id=${product.id} style="width: 18rem;">
+                <h1 class="text-uppercase product-card-title mt-2">${product.name}</h1>
+                <img class="card-img-top img-fluid cardImg p-3 products-images" src="https://bortakvall.se${product.images.thumbnail}" alt="picture of ${product.name}">
+                <div class="card-body">
+                  <i class="info-icon">i</i>
+                  <p id="product-status${product.id}">${renderProductStatus(product)}</p>
+                  <p class="card-text fw-bold fst-italic">${product.price}kr</p>
+                  <a href="#"></a>
+                  <div class="d-flex flex-column card-body card-buttons">
+                    <button type="button" id=${product.id} class="cart-btn btn btn-success card-btn" data-cart-id=${product.id} ${isOutOfStock ? 'disabled' : ''}>Add to cart</button>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
       )
       .join(""));
-  products.forEach(updateProductAddToCart);
-  document.querySelectorAll(".card").forEach((card) => {
-    card.addEventListener("click", (event) => {
-      if ((event.target as HTMLElement).closest("button")) {
-        return;
-      }
+      addEventToCartButton();
+  document.querySelectorAll(".info-icon").forEach((icon) => {
+  icon.addEventListener("click", (event) => {
+    // Prevent the event from bubbling up to the card
+    event.stopPropagation();
+
+    // Get the card that contains this icon
+    const card = (icon as HTMLElement).closest(".card");
+
+    if (card) {
       const productId = card.getAttribute("data-product-id");
       const product = products.find((p) => p.id.toString() === productId);
       if (product) {
         displayProductDetailsInModal(product);
       }
-    });
+    }
   });
+});
+
+
 
   return cardItems;
 };
 
 getProducts().then(() => {
   renderProducts(products);
+  // Call this after renderProducts
   // ...any other code needed after products are fetched and rendered
   console.log("Calling addEventToCartButton...");
-  addEventToCartButton();
 });
+// After the product cards have been added to the DOM
+// After the product cards have been added to the DOM
+// const addEventToCartButton = () => {
+//   document.querySelectorAll(".cart-btn-cards").forEach((button) => {
+//     button.addEventListener("click", (event) => {
+//       event.preventDefault();
+
+//       // Get the product ID from the button's data-cart-id attribute
+//       const productId = (event.target as HTMLElement).dataset.cartId;
+
+//       // Find the product with this ID
+//       const product = products.find((p) => p.id.toString() === productId);
+
+//       // If the product exists, add it to the cart
+//       if (product) {
+//         addToCart(product.id.toString());
+//       }
+//     });
+//   });
+// };
+
 
 const addEventToCartButton = () => {
   document.querySelectorAll(".cart-btn").forEach((element) => {
     element.addEventListener("click", async (e: Event) => {
       e.preventDefault();
-      const target = e.target as HTMLElement;
-      const productId = target.dataset.cartId!;
+      const productId = (e.currentTarget as HTMLElement).dataset.cartId!;
       console.log(productId);
       addToCart(productId);
     });
@@ -211,78 +206,23 @@ const addToCart = (productId: string) => {
   let productQuantity = Number(localStorage.getItem(productId) || 0);
   if (renderProductQuantity(product) > 0) {
     productQuantity++;
-  }
-
-  localStorage.setItem(productId, String(productQuantity));
-
-  renderCart();
+    localStorage.setItem(productId, String(productQuantity));
+    renderCart();
   renderCartinCheckout();
   updateProductQuantity(product);
   updateProductStatus(product);
   updateProductAddToCart(product);
-  renderProductDescription(product);
   stockPhrase();
+    stockPhrase();
+  } else {
+    console.error("Product is out of stock");
+  }
+
+  renderCart();
+  renderCartinCheckout();
 
   hideSpinner(); // Hide the spinner here after all updates
 };
-
-// const addToCart = async (productId :string) => {
-//   showSpinner();
-//   const product = products.find(p => p.id === Number(productId));
-//   if (!product) {
-//     console.error("Product not found");
-//     hideSpinner();
-//     return;
-//   }
-
-//   let productQuantity = Number(localStorage.getItem(productId) || 0);
-//   if (product.stock_quantity > 0) {
-//     productQuantity++;
-//     localStorage.setItem(productId, String(productQuantity));
-//     product.stock_quantity--; // Reduce the local stock quantity
-
-//     renderCart();
-//     renderCartinCheckout();
-//     updateProductQuantity(product);
-//     updateProductStatus(product);
-//     updateProductAddToCart(product);
-//     renderProductDescription(product);
-//     stockPhrase();
-
-//     // Update the database
-//     await updateProductQuantityInDB(productId, product.stock_quantity);
-//   }
-//   hideSpinner();
-// };
-
-// const removeFromCart = async (productId : string) => {
-//   showSpinner();
-//   const product = products.find(p => p.id === Number(productId));
-//   if (!product) {
-//     console.error("Product not found");
-//     hideSpinner();
-//     return;
-//   }
-
-//   let productQuantity = Number(localStorage.getItem(productId) || 0);
-//   if (productQuantity > 0) {
-//     productQuantity--;
-//     localStorage.setItem(productId, String(productQuantity));
-//     product.stock_quantity++; // Increase the local stock quantity
-
-//     renderCartinCheckout();
-//     renderCart();
-//     updateProductQuantity(product);
-//     updateProductStatus(product);
-//     updateProductAddToCart(product);
-//     renderProductDescription(product);
-//     stockPhrase();
-
-//     // Update the database
-//     await updateProductQuantityInDB(productId, product.stock_quantity);
-//   }
-//   hideSpinner();
-// };
 
 
 const removeFromCart = (productId: string) => {
@@ -307,7 +247,6 @@ const removeFromCart = (productId: string) => {
     updateProductQuantity(product);
     updateProductStatus(product);
     updateProductAddToCart(product);
-    renderProductDescription(product);
     stockPhrase();
 
     hideSpinner();
@@ -324,137 +263,50 @@ const deleteFromCart = (productId: string) => {
   updateProductQuantity(product);
   updateProductStatus(product);
   updateProductAddToCart(product);
-  renderProductDescription(product);
+
   stockPhrase();
 };
 
-const renderProductDescription = (product: IProduct) => {
-  document.querySelector("#card-product-description")!.innerHTML = `
-  <div class="container mt-5 mb-4">
-    <div class="container mt-5">
-      <div class="row">
-        <div class="col-sm-5 p-0 mb-4">
-          <img src="https://bortakvall.se${
-            product.images.large
-          }" class="img-fluid" alt="...">
-        </div>
-        <div class="col-sm-6 pb-3" style="background-color:yellow;">
-          <h4 class="mt-5 fw-bold ">${product.name}</h4>
-          <h6 class="card-subtitle mb-2 text-muted"></h6>
-          <p class="mb-4 d-flex justify-content-center">Art. nr: ${
-            product.id
-          }</p>
-          <h5 class="mt-2 card-text fw-bold fst-italic">${product.price}kr</h5>
-          <p class="card-description-text mt-3">${product.description}</p>
-          <p id="product-status${product.id}">${renderProductStatus(
-    product
-  )}</p>
-          <p id="product-quantity${product.id}">${renderProductQuantity(
-    product
-  )}</p>
-          <button type="button" id="product-description-add" class="cart-btn btn btn-success" data-product-id=${
-            product.id
-          }>
-            Add to cart
-          </button>
-          <button id="main-homepage" type="button" class="btn btn-primary">Back to main</button>
-        </div>
-      </div>
-    </div>
-  </div>`;
 
-  attachHomePageEvent();
-  updateProductDescriptionAddToCart(product);
-  document
-    .querySelector("#product-description")
-    ?.querySelector(`#product-description-add`)
-    ?.addEventListener("click", (e) => {
-      const target = e.target as HTMLElement;
-      addToCart(target.dataset.productId!);
-      console.log(target.dataset.productId);
-    });
-};
 
-function displayProductDetailsInModal(product: any) {
+function displayProductDetailsInModal(product: IProduct) {
   const modalBody = document.querySelector(".modal-body") as HTMLElement;
 
   modalBody!.innerHTML = `
-
       <div class="modal-header">
         <h5 class="modal-title">${product.name}</h5>
-
       </div>
       <div class="modal-body">
         <div class="container-fluid">
           <div class="row">
-          <div class="col-12 col-md-6 mb-3 mb-md-0 image-description"> <!-- Wrap the image with this div -->
+          <div class="col-12 col-md-6 mb-3 mb-md-0 image-description">
           <img src="https://bortakvall.se${product.images.thumbnail}" alt="${product.name}" class="img-fluid">
         </div>
             <div class="card-product-description col-10 col-md-6">
               <p>${product.description}</p>
               <p class="fw-bold">Price: ${product.price} kr</p>
-
+              <button type="button" id="product-description-add" class="cart-btn btn btn-success" data-product-id=${product.id}>
+                Add to cart
+              </button>
           </div>
         </div>
       </div>
     `;
   const addToCartBtn = document.querySelector(
-    "#addToCartBtn"
+    "#product-description-add"
   ) as HTMLButtonElement;
 
-  addToCartBtn!.onclick = () => addToCart(product.id);
+  addToCartBtn!.onclick = () => addToCart(product.id.toString());
+
+  // Call your function to disable the button if the product quantity is zero
+  updateProductDescriptionAddToCart(product);
+
   const productModalElement = document.getElementById(
     "productModal"
   ) as HTMLElement;
 
   new bootstrap.Modal(productModalElement).show();
 }
-
-const description = () => {
-  document.querySelectorAll(".product-description-btn").forEach((element) => {
-    // element.addEventListener("click", async (e) => {
-    //   const target = e.target as HTMLElement;
-    //   console.log(target);
-
-    //   let productResponse: IProductResponse = await fetchProduct(
-    //     target.dataset.productId!
-    //   );
-
-    //   let product = productResponse.data;
-
-    //   //transition
-    //   document.querySelector("#main-page")?.classList.add("hide");
-    //   document.querySelector("#product-description")?.classList.remove("hide");
-    //   document.querySelector(".checkout-form")?.classList.add("hide");
-
-    //   renderProductDescription(product);
-    // });
-    element.addEventListener("click", async (e) => {
-      e.preventDefault();
-      const target = e.target as HTMLElement;
-      const productId = target.dataset.productId!;
-      const productResponse = await fetchProduct(productId);
-      const product = productResponse.data;
-      displayProductDetailsInModal(product);
-    });
-  });
-};
-
-const attachHomePageEvent = () => {
-  document
-    .querySelector("#main-homepage")
-    ?.addEventListener("click", async (e) => {
-      const target = e.target as HTMLElement;
-      console.log(target);
-
-      //transition
-      document.querySelector("#product-description")?.classList.add("hide");
-      //document.querySelector(".description")?.classList.add("hide");
-      document.querySelector("#main-page")?.classList.remove("hide");
-      document.querySelector(".description")?.classList.add("hide");
-      document.querySelector(".checkout-form")?.classList.add("hide");
-    });
-};
 
 // DROP DOWN MENU
 const toggler = document.querySelector("#menu-toggle") as HTMLButtonElement;
@@ -593,10 +445,25 @@ const renderCart = async () => {
     document.querySelectorAll(".remove-item").forEach((element) => {
       element.addEventListener("click", (e) => {
         const target = e.target as HTMLElement;
+        const productId = target.dataset.productId!;
 
-        deleteFromCart(target.dataset.productId!);
-      });
-    });
+        // Show the confirmation modal
+        const modalElement = document.getElementById('confirmationModal');
+        if (modalElement) {
+          const confirmationModal = new bootstrap.Modal(modalElement);
+          confirmationModal.show();
+
+          document.getElementById('confirmRemoveBtn')?.addEventListener('click', async () => {
+            removeFromCart(productId);
+            await renderCart();
+            confirmationModal.hide();
+          });
+      } else {
+        console.error('Modal element not found');
+      }
+    })
+  });
+
 
     document?.querySelectorAll(".reduce-btn").forEach((element) => {
       element?.addEventListener("click", (e) => {
@@ -614,22 +481,6 @@ const renderCart = async () => {
 
   }
 
-
-  // document.querySelector("#checkout-btn")!.addEventListener("click", () => {
-  //   // TRANSITION
-  //   document.querySelector("#main-page")?.classList.add("hide");
-  //   document.querySelector(".checkout-form")?.classList.remove("hide");
-
-  //   theDropDown!.classList.toggle("hide");
-  // });
-
-  // document.querySelector("#checkout-btn")!.addEventListener("click", () => {
-  //   // TRANSITION
-  //   document.querySelector("#main-page")?.classList.add("hide");
-  //   document.querySelector(".checkout-form")?.classList.remove("hide");
-
-  //   theDropDown!.classList.toggle("hide");
-  // });
 
   document.querySelector("#checkout-btn")?.addEventListener("click", () => {
     // Hide Main Page and Dropdown Menu
