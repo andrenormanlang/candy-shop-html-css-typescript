@@ -384,24 +384,59 @@ nav{
   background-color: #ffc107;
   cursor: pointer;
 }
+.price-tag {
+  position: absolute;
+  font-weight: 900;
+  color: white;
+  top: 65px;
+  right: 260px;
+  width: 60px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: red;
+  cursor: pointer;
+}
+.stock-tag {
+  position: absolute;
+  font-weight: 900;
 
-.sold-out {
-  position: relative;
+  top: 300px;
+  right: 80px;
+  width: 200px;
+  height: 30px;
+  border-radius: 15px;
+  cursor: pointer;
 }
 
-.sold-out .card-img {
-  opacity: 0.5;
-}
 
 .sold-out-message {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: red;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 0, 0, 0.5); // semi-transparent red
+  color: white;
   font-size: 2em;
   font-weight: bold;
   text-align: center;
+}
+
+.card {
+  position: relative;
+}
+
+
+
+.card #product-status {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: white;
+  padding: 10px;
 }
 
 // .products-images{
