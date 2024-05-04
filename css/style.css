@@ -52,9 +52,8 @@ nav {
 
 .stock-phrase {
   display: flex;
+  margin: auto;
   font-family: Anton;
-  justify-content: center;
-  align-items: center;
   color: white;
   border: none;
   border-radius: 6px;

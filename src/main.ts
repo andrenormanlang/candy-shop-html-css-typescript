@@ -1,8 +1,12 @@
+// import {
+//   fetchProduct,
+//   fetchProducts,
+//   createOrders,
+//   updateProductQuantityInDB,
+// } from "./api";
 import {
-  fetchProduct,
   fetchProducts,
   createOrders,
-  updateProductQuantityInDB,
 } from "./api";
 import {
   IProduct,

@@ -82,10 +82,8 @@ nav{
 
 .stock-phrase{
   display: flex;
+  margin: auto;
   font-family: Anton;
-  justify-content: center;
-  align-items: center;
-  // background-color: #ffc107;
   color: white;
   border: none;
   border-radius: 6px;
@@ -93,7 +91,6 @@ nav{
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s;
-
 }
 
 @media (max-width: 568px) {
