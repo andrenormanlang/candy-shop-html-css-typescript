@@ -195,11 +195,11 @@ const addEventToCartButton = () => {
 };
 
 const addToCart = (productId: string) => {
-  showSpinner();
+
   let product = products.find((e) => e.id === Number(productId));
   if (!product) {
     console.error("Product not found");
-    hideSpinner(); // Hide spinner if the product is not found
+    // Hide spinner if the product is not found
     return;
   }
 
@@ -220,22 +220,22 @@ const addToCart = (productId: string) => {
   renderCart();
   renderCartinCheckout();
 
-  hideSpinner(); // Hide the spinner here after all updates
+  // Hide the spinner here after all updates
 };
 
 const removeFromCart = (productId: string) => {
-  showSpinner(); // Start spinner at the beginning of the operation
+ // Start spinner at the beginning of the operation
   let product = products.find((e) => e.id === Number(productId));
   if (!product) {
     console.error("Product not found");
-    hideSpinner(); // Hide spinner if the product is not found
+    // Hide spinner if the product is not found
     return;
   }
 
   let productQuantity = Number(localStorage.getItem(productId) || 0);
   if (productQuantity <= 1) {
     deleteFromCart(productId);
-    hideSpinner(); // Hide spinner after deletion
+    // Hide spinner after deletion
   } else {
     productQuantity--;
     localStorage.setItem(productId, String(productQuantity));
@@ -247,7 +247,7 @@ const removeFromCart = (productId: string) => {
     updateProductStatus(product);
     stockPhrase();
 
-    hideSpinner();
+
   }
 };
 
@@ -802,12 +802,14 @@ document
     window.location.reload();
   });
 
+
 const orderSubmitForm = () => {
   const formCustomer = document.querySelector("#form-customer");
   if (formCustomer) {
     formCustomer.addEventListener("submit", async (e) => {
       e.preventDefault();
       showSpinner();
+
       const orderResponse = await orderFormRequest();
       hideSpinner();
 
@@ -817,9 +819,8 @@ const orderSubmitForm = () => {
         localStorage.clear();
         renderCart();
         showOrderConfirmationModal(orderResponse.data);
-        // orderConfirmationModal(orderResponse);
         console.log("Order successful:", orderResponse.data);
-      } else if (orderResponse.status === "fail") {
+      } else if (orderResponse && orderResponse.status === "fail") {
         console.error("Order failed:", orderResponse.data);
         // Display error messages
         Object.keys(orderResponse.data).forEach((key) => {
@@ -832,7 +833,6 @@ const orderSubmitForm = () => {
     });
   }
 };
-
 const showOrderConfirmationModal = (orderResponse: IOrder) => {
   // Close all active Bootstrap modals
   document.querySelectorAll(".modal").forEach((modal) => {
@@ -888,4 +888,4 @@ const showOrderConfirmationModal = (orderResponse: IOrder) => {
   }
 };
 
-orderSubmitForm();
+// orderSubmitForm();
