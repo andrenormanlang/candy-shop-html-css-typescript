@@ -4,10 +4,7 @@
 //   createOrders,
 //   updateProductQuantityInDB,
 // } from "./api";
-import {
-  fetchProducts,
-  createOrders,
-} from "./api";
+import { fetchProducts, createOrders } from "./api";
 import {
   IProduct,
   IProductsResponse,
@@ -78,7 +75,7 @@ const renderProductStatus = (product: IProduct) => {
       product
     )}</span> <span style="color: red; font-weight:bold;">in stock </span>`;
   } else {
-    return `<span style="color: red; font-weight:bold;"></span>`;
+    return `<span style="color: red; font-weight:bold;">SOLD OUT</span>`;
   }
 };
 
@@ -213,9 +210,8 @@ const addToCart = (productId: string) => {
     renderCart();
     renderCartinCheckout();
     updateProductQuantity(product);
-    updateProductStatus(product);
     updateProductAddToCart(product);
-    stockPhrase();
+    updateProductStatus(product);
     stockPhrase();
   } else {
     console.error("Product is out of stock");
@@ -247,8 +243,8 @@ const removeFromCart = (productId: string) => {
     renderCartinCheckout();
     renderCart();
     updateProductQuantity(product);
-    updateProductStatus(product);
     updateProductAddToCart(product);
+    updateProductStatus(product);
     stockPhrase();
 
     hideSpinner();
@@ -443,40 +439,44 @@ const renderCart = async () => {
 
         document.querySelector(".description")?.classList.add("hide");
       });
-document.querySelectorAll(".remove-item").forEach((element) => {
-  element.addEventListener("click", (e) => {
-    e.stopPropagation(); // Stop event bubbling
-
-    const target = e.target as HTMLElement;
-    const productId = target.dataset.productId!;
-
-    // Show the confirmation modal
-    const modalElement = document.getElementById("confirmationModal");
-    if (modalElement) {
-      const confirmationModal = new bootstrap.Modal(modalElement);
-      confirmationModal.show();
-
-      // Get the confirmation button
-      const confirmRemoveBtn = document.getElementById("confirmRemoveBtn");
-      if (confirmRemoveBtn) {
-        // Remove the previous event listener
-        const newConfirmRemoveBtn = confirmRemoveBtn.cloneNode(true);
-        confirmRemoveBtn.parentNode?.replaceChild(newConfirmRemoveBtn, confirmRemoveBtn);
-
-        // Add the new event listener
-        newConfirmRemoveBtn.addEventListener("click", async (e) => {
+      document.querySelectorAll(".remove-item").forEach((element) => {
+        element.addEventListener("click", (e) => {
           e.stopPropagation(); // Stop event bubbling
 
-          deleteFromCart(productId);
-          await renderCart();
-          confirmationModal.hide();
+          const target = e.target as HTMLElement;
+          const productId = target.dataset.productId!;
+
+          // Show the confirmation modal
+          const modalElement = document.getElementById("confirmationModal");
+          if (modalElement) {
+            const confirmationModal = new bootstrap.Modal(modalElement);
+            confirmationModal.show();
+
+            // Get the confirmation button
+            const confirmRemoveBtn =
+              document.getElementById("confirmRemoveBtn");
+            if (confirmRemoveBtn) {
+              // Remove the previous event listener
+              const newConfirmRemoveBtn = confirmRemoveBtn.cloneNode(true);
+              confirmRemoveBtn.parentNode?.replaceChild(
+                newConfirmRemoveBtn,
+                confirmRemoveBtn
+              );
+
+              // Add the new event listener
+              newConfirmRemoveBtn.addEventListener("click", async (e) => {
+                e.stopPropagation(); // Stop event bubbling
+
+                deleteFromCart(productId);
+                await renderCart();
+                confirmationModal.hide();
+              });
+            }
+          } else {
+            console.error("Modal element not found");
+          }
         });
-      }
-    } else {
-      console.error("Modal element not found");
-    }
-  });
-});
+      });
 
       document?.querySelectorAll(".reduce-btn").forEach((element) => {
         element?.addEventListener("click", (e) => {
@@ -573,6 +573,49 @@ getProducts().then(() => {
   }
 });
 
+const addToCheckout = (productId: string) => {
+  let product = products.find((e) => e.id === Number(productId));
+  if (!product) {
+    console.error("Product not found");
+    return;
+  }
+
+  let productQuantity = Number(localStorage.getItem(productId) || 0);
+  if (renderProductQuantity(product) > 0) {
+    productQuantity++;
+    localStorage.setItem(productId, String(productQuantity));
+    renderCartinCheckout();
+    updateProductQuantity(product);
+    updateProductStatus(product);
+    updateProductAddToCart(product);
+    stockPhrase();
+  } else {
+    console.error("Product is out of stock");
+  }
+};
+
+const removeFromCheckout = (productId: string) => {
+  let product = products.find((e) => e.id === Number(productId));
+  if (!product) {
+    console.error("Product not found");
+    return;
+  }
+
+  let productQuantity = Number(localStorage.getItem(productId) || 0);
+  if (productQuantity <= 1) {
+    deleteFromCart(productId);
+  } else {
+    productQuantity--;
+    localStorage.setItem(productId, String(productQuantity));
+    renderCartinCheckout();
+    updateProductQuantity(product);
+    updateProductStatus(product);
+    updateProductAddToCart(product);
+    stockPhrase();
+  }
+};
+
+
 const renderCartinCheckout = async () => {
   let productsInCart = productsAddedInCart();
 
@@ -602,13 +645,13 @@ const renderCartinCheckout = async () => {
               </div>
 
              <!-- Quantity in the middle -->
-              <div class="col-4 d-flex align-items-center justify-content-center">
-                <div class="d-flex align-items-center">
-                  <button class="reduce-btn btn btn-outline-secondary btn-sm" data-product-id=${product.id}>-</button>
-                  <span class="sum-products mx-2">${localStorage.getItem(String(product.id))}</span>
-                  <button class="increase-btn btn btn-outline-secondary btn-sm" data-product-id=${product.id}>+</button>
-                </div>
+             <div class="col-4 d-flex align-items-center justify-content-center">
+              <div class="d-flex align-items-center">
+                <button class="reduce-btn-checkout btn btn-outline-secondary btn-sm" data-product-id=${product.id}>-</button>
+                <span class="sum-products mx-2">${localStorage.getItem(String(product.id))}</span>
+                <button class="increase-btn-checkout btn btn-outline-secondary btn-sm" data-product-id=${product.id}>+</button>
               </div>
+            </div>
 
               <!-- Price on the right -->
               <div class="col-4 d-flex align-items-center justify-content-end">
@@ -643,6 +686,24 @@ const renderCartinCheckout = async () => {
     </div>
   `;
   }
+
+ // Re-attach event listeners to the newly added buttons in the checkout
+document.querySelectorAll('.increase-btn-checkout').forEach((element) => {
+  element.addEventListener('click', (e) =>
+    {
+      const target = e.target as HTMLElement;
+      console.log(target);
+      addToCheckout(target.dataset.productId!);
+    });
+});
+
+document?.querySelectorAll(".reduce-btn-checkout").forEach((element) => {
+  element?.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    removeFromCheckout(target.dataset.productId!);
+  });
+});
+
 
 
   // Re-attach event listeners to the newly added buttons in the checkout
@@ -772,7 +833,7 @@ const orderSubmitForm = () => {
   }
 };
 
-const showOrderConfirmationModal = (orderResponse : IOrder) => {
+const showOrderConfirmationModal = (orderResponse: IOrder) => {
   // Close all active Bootstrap modals
   document.querySelectorAll(".modal").forEach((modal) => {
     let bsModal = bootstrap.Modal.getInstance(modal);
@@ -781,7 +842,9 @@ const showOrderConfirmationModal = (orderResponse : IOrder) => {
     }
   });
 
-  const modalBody = document.querySelector("#orderConfirmationModalForm .modal-body");
+  const modalBody = document.querySelector(
+    "#orderConfirmationModalForm .modal-body"
+  );
   if (modalBody) {
     modalBody.innerHTML = `
       <div class="card mt-5">
@@ -801,26 +864,28 @@ const showOrderConfirmationModal = (orderResponse : IOrder) => {
         </div>
       </div>`;
 
-    const orderConfirmationModalElement = document.getElementById("orderConfirmationModalForm");
+    const orderConfirmationModalElement = document.getElementById(
+      "orderConfirmationModalForm"
+    );
     if (orderConfirmationModalElement) {
-      const orderConfirmationModal = new bootstrap.Modal(orderConfirmationModalElement, {
-        backdrop: 'static', // Prevent closing when clicking outside
-        keyboard: false // Prevent closing with keyboard (Esc key)
-      });
+      const orderConfirmationModal = new bootstrap.Modal(
+        orderConfirmationModalElement,
+        {
+          backdrop: "static", // Prevent closing when clicking outside
+          keyboard: false, // Prevent closing with keyboard (Esc key)
+        }
+      );
       orderConfirmationModal.show();
 
       // Handle the close button click
-      orderConfirmationModalElement.querySelector('.btn-close-receipt')!.addEventListener("click", function () {
-        localStorage.clear();
-        window.location.reload();
-      });
-
+      orderConfirmationModalElement
+        .querySelector(".btn-close-receipt")!
+        .addEventListener("click", function () {
+          localStorage.clear();
+          window.location.reload();
+        });
     }
   }
 };
 
-
-
-
 orderSubmitForm();
-

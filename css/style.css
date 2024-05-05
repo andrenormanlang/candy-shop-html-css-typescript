@@ -47,7 +47,7 @@ nav {
   left: 0;
   right: 0;
   z-index: 100;
-  height: 6rem;
+  height: 7.5rem;
 }
 
 .stock-phrase {
@@ -65,7 +65,7 @@ nav {
 
 @media (max-width: 568px) {
   nav {
-    height: 6rem;
+    height: 7.5rem;
   }
   .stock-phrase {
     font-size: 0.6rem;
@@ -315,7 +315,7 @@ nav {
   font-weight: 900;
   color: white;
   top: 65px;
-  right: 260px;
+  right: 180px;
   width: 60px;
   height: 30px;
   border-radius: 15px;
@@ -326,8 +326,8 @@ nav {
 .stock-tag {
   position: absolute;
   font-weight: 900;
-  top: 320px;
-  right: 80px;
+  top: 250px;
+  right: 50px;
   width: 200px;
   height: 30px;
   border-radius: 15px;
