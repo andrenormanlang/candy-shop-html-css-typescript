@@ -157,39 +157,31 @@
         <div class="form-container">
           <form id="form-customer">
             <div class="form-group">
-              <!-- <label for="inputFirstName">First Name</label> -->
-              <input type="text" class="form-control mb-4" id="inputFirstName" minlength="3" placeholder="Förnamn">
+              <input type="text" class="form-control mb-4" id="inputFirstName" minlength="3" placeholder="Förnamn" required oninvalid="this.setCustomValidity('Please enter at least 3 characters for your first name.')" oninput="this.setCustomValidity('')">
               <span id="customer_first_name" class="error-message"></span>
             </div>
             <div class="form-group">
-              <!-- <label for="inputLastName">Lastname</label> -->
-              <input type="text" class="form-control mb-4" id="inputLastName" minlength="2" placeholder="Efternamn" required>
+              <input type="text" class="form-control mb-4" id="inputLastName" minlength="2" placeholder="Efternamn" required oninvalid="this.setCustomValidity('Last name is required.')" oninput="this.setCustomValidity('')">
               <span id="customer_last_name" class="error-message"></span>
             </div>
             <div class="form-group">
-              <!-- <label for="inputAddress">Adress</label> -->
-              <input type="text" class="form-control mb-4" id="inputAddress" minlength="5" placeholder="Adress">
+              <input type="text" class="form-control mb-4" id="inputAddress" minlength="5" placeholder="Adress" required oninvalid="this.setCustomValidity('Please enter a valid address.')" oninput="this.setCustomValidity('')">
               <span id="customer_address" class="error-message"></span>
             </div>
             <div class="form-group">
-              <!-- <label for="inputZip">Zip Code</label> -->
-              <input type="text" class="form-control mb-4" id="inputZip" minlength="5" pattern="^(s-|S-){0,1}[0-9]{3}\s?[0-9]{2}$"
-                placeholder="ZIP Code (format: 225 39)">
+              <input type="text" class="form-control mb-4" id="inputZip" pattern="^(s-|S-)?\d{3}\s?\d{2}$" placeholder="ZIP Code (format: 225 39)" required oninvalid="this.setCustomValidity('Please enter a ZIP code in the format 225 39.')" oninput="this.setCustomValidity('')">
               <span id="customer_postcode" class="error-message"></span>
             </div>
             <div class="form-group">
-              <!-- <label for="inputCity">City</label> -->
-              <input type="text" class="form-control mb-4" id="inputCity" minlength="2" placeholder="City" required>
+              <input type="text" class="form-control mb-4" id="inputCity" minlength="2" placeholder="City" required oninvalid="this.setCustomValidity('City is required.')" oninput="this.setCustomValidity('')">
               <span id="customer_city" class="error-message"></span>
             </div>
             <div class="form-group">
-              <!-- <label for="inputEmail">E-mail</label> -->
-              <input type="email" class="form-control mb-4" id="inputEmail" minlength="4" placeholder="E-mail" required>
+              <input type="email" class="form-control mb-4" id="inputEmail" minlength="4" placeholder="E-mail" required oninvalid="this.setCustomValidity('Please enter a valid email address.')" oninput="this.setCustomValidity('')">
               <span id="customer_email" class="error-message"></span>
             </div>
             <div class="form-group">
-              <!-- <label for="inputPhone">Telephone</label> -->
-              <input type="telephone" class="form-control mb-4" id="inputPhone" minlength="10" placeholder="Telephone (format: 07/+46)" required>
+              <input type="tel" class="form-control mb-4" id="inputPhone" minlength="10" pattern="\+?46|\d{10,12}" placeholder="Telephone (format: 07/+46)"  oninvalid="this.setCustomValidity('Please enter a valid telephone number.')" oninput="this.setCustomValidity('')">
               <span id="customer_phone" class="error-message"></span>
             </div>
             <button type="submit" class="btn btn-primary mt-4 mb-4">Purchase</button>
@@ -200,6 +192,7 @@
       </div>
     </div>
   </div>
+
   </div>
   <!-- Confirmation Delete from Cart Modal -->
   <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
