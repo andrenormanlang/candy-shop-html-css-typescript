@@ -205,10 +205,12 @@ const addToCart = (productId: string) => {
 
   let productQuantity = Number(localStorage.getItem(productId) || 0);
   if (renderProductQuantity(product) > 0) {
+
     productQuantity++;
     localStorage.setItem(productId, String(productQuantity));
     renderCart();
     renderCartinCheckout();
+
     updateProductQuantity(product);
     updateProductAddToCart(product);
     updateProductStatus(product);
