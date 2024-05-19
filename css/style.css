@@ -89,8 +89,8 @@ nav {
 
 .badge-notification {
   position: absolute;
-  top: -0.9rem;
-  left: 1.3rem;
+  top: -0.5rem;
+  left: 1rem;
   transform: translate(50%, -50%);
   background-color: #dc3545; /* Bootstrap danger color for contrast */
   color: white;
