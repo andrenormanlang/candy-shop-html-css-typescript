@@ -348,10 +348,9 @@ nav{
   cursor: pointer;
 }
 .price-tag {
-  position: absolute;
+
   font-weight: 900;
   color: white;
-  top: 65px;
   right: 250px;
   width: 60px;
   height: 30px;
@@ -360,20 +359,17 @@ nav{
   cursor: pointer;
 }
 .stock-tag {
-  position: absolute;
   font-weight: 900;
   top: 320px;
-  right: 80px;
-  width: 200px;
   height: 30px;
   border-radius: 15px;
+  margin-right: 10px;
   cursor: pointer;
 }
 
 
 .sold-out-message {
   position: absolute;
-  top: 100px;
   left: 0;
   width: 100%;
   height: 100%;
@@ -573,5 +569,13 @@ nav{
     align-items: center;
   }
 
+
+
+  .price-tag {
+    font-weight: 900;
+    color: white;
+    background-color: red;
+    margin-right: 2rem; /* Margin to the right to create space between price and stock */
+  }
 
 

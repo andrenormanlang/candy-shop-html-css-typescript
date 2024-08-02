@@ -119,40 +119,40 @@ const renderProducts = (products: IProduct[]) => {
       .map((product: IProduct) => {
         const isOutOfStock = renderProductQuantity(product) === 0;
         return `
-              <div class="card shadow-lg relative ${
-                isOutOfStock ? "sold-out" : ""
-              }" data-product-id=${product.id} style="width: 18rem;">
-                ${
-                  isOutOfStock
-                    ? '<div class="sold-out-message absolute top-0 left-0 w-full h-full flex items-center justify-center">SOLD OUT</div>'
-                    : ""
-                }
-                <h1 class="text-uppercase product-card-title mt-2">${
-                  product.name
-                }</h1>
-                <img class="card-img card-img-top img-fluid cardImg p-3 products-images" src="https://bortakvall.se${
-                  product.images.thumbnail
-                }" alt="picture of ${product.name}">
-                <div class="card-body">
-                  <i class="info-icon">i</i>
-                  <p class="price-tag">${product.price}kr</p>
-
-                  <p id="product-status${
-                    product.id
-                  }" class="stock-tag bg-red">${renderProductStatus(
+          <div class="card shadow-lg relative ${
+            isOutOfStock ? "sold-out" : ""
+          }" data-product-id=${product.id} style="width: 18rem;">
+            ${
+              isOutOfStock
+                ? '<div class="sold-out-message top-0 left-0 w-full h-full flex items-center justify-center">SOLD OUT</div>'
+                : ""
+            }
+            <h1 class="text-uppercase product-card-title mt-2">${
+              product.name
+            }</h1>
+            <img class="card-img card-img-top img-fluid cardImg p-3 products-images" src="https://bortakvall.se${
+              product.images.thumbnail
+            }" alt="picture of ${product.name}">
+            <div class="card-body">
+              <i class="info-icon">i</i>
+              <div class="d-flex justify-content-start align-items-center">
+                <p class="price-tag mr-2">${product.price}kr</p>
+                <p id="product-status${
+                  product.id
+                }" class="stock-tag bg-red ml-2">${renderProductStatus(
           product
         )}</p>
-                  <a href="#"></a>
-                  <div class="d-flex flex-column card-body card-buttons">
-                    <button type="button" id=${
-                      product.id
-                    } class="cart-btn btn btn-success card-btn" data-cart-id=${
+              </div>
+              <a href="#"></a>
+              <div class="d-flex flex-column card-body card-buttons">
+                <button type="button" id=${
+                  product.id
+                } class="cart-btn btn btn-success card-btn" data-cart-id=${
           product.id
         } ${isOutOfStock ? "disabled" : ""}>Add to cart</button>
-                  </div>
-                </div>
               </div>
-            `;
+            </div>
+          </div>`;
       })
       .join(""));
   addEventToCartButton();
