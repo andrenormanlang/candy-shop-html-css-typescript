@@ -33,6 +33,10 @@ $breakpoint-md: 768px;
 
 // _base.scss
 body {
+  background-image: url('./img/bg-candy-light.jpg');
+  background-repeat: repeat-y;  // Repeat the image vertically
+  background-size: contain;       // Make sure the image covers the entire container
+
   background-color: $background-color;
   font-size: 18px;
   font-family: $font-primary;
