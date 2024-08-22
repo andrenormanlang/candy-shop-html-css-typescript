@@ -110,6 +110,17 @@ const renderProductQuantity = (product: IProduct) => {
   );
 };
 
+const getImageUrl = (imagePath: string): string => {
+  // Check if the imagePath starts with 'http' or 'https', then use it directly
+  if (imagePath.startsWith("http")) {
+    return imagePath;
+  } else {
+    // Otherwise, prepend the domain to the relative path
+    return `https://bortakvall.se${imagePath}`;
+  }
+};
+
+
 const renderProducts = (products: IProduct[]) => {
   const cardItems = (document.querySelector("#card-container")!.innerHTML =
     products
@@ -130,9 +141,9 @@ const renderProducts = (products: IProduct[]) => {
             <h1 class="text-uppercase product-card-title mt-2">${
               product.name
             }</h1>
-            <img class="card-img card-img-top img-fluid cardImg p-3 products-images" src="https://bortakvall.se${
+            <img class="card-img card-img-top img-fluid cardImg p-3 products-images" src="${getImageUrl(
               product.images.thumbnail
-            }" alt="picture of ${product.name}">
+            )}" alt="picture of ${product.name}" class="img-fluid">
             <div class="card-body">
               <i class="info-icon">i</i>
               <div class="d-flex justify-content-start align-items-center">
@@ -278,7 +289,9 @@ function displayProductDetailsInModal(product: IProduct) {
         <div class="container-fluid">
           <div class="row">
           <div class="col-12 col-md-6 mb-3 mb-md-0 image-description">
-          <img src="https://bortakvall.se${product.images.thumbnail}" alt="${product.name}" class="img-fluid">
+          <img class="card-img card-img-top img-fluid cardImg p-3 products-images" src="${getImageUrl(
+              product.images.thumbnail
+            )}" alt="picture of ${product.name}" class="img-fluid">
         </div>
             <div class="card-product-description col-10 col-md-6">
               <p>${product.description}</p>
@@ -387,9 +400,9 @@ const renderCart = async () => {
                 </button>
               </div>
               <div class="col-4">
-                <img class="menu-img img-fluid" src="https://bortakvall.se${
-                  product.images.thumbnail
-                }" alt="picture of ${product.name}" />
+                <img class="card-img card-img-top img-fluid cardImg p-3 products-images" src="${getImageUrl(
+              product.images.thumbnail
+            )}" alt="picture of ${product.name}" class="img-fluid">
               </div>
               <div class="col-6">
                 <div class="row">
@@ -640,9 +653,9 @@ const renderCartinCheckout = async () => {
             <div class="row g-0">
               <!-- Image and product name on the left -->
               <div class="col-4 d-grid align-items-start pe-3"> <!-- Changed to use Bootstrap's grid system -->
-                <img src="https://bortakvall.se${
-                  product.images.thumbnail
-                }" class="img-fluid rounded-3 mb-2">
+                <img src="${getImageUrl(
+              product.images.thumbnail
+            )}" class="img-fluid rounded-3 mb-2">
                 <h6 class="product-name small text-muted">${product.name}</h6>
               </div>
 
