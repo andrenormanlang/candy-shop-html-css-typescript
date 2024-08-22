@@ -7,6 +7,7 @@ import { IOrderRequest } from './interfaces'
 const urlProducts = 'https://candy-shop-rest-api.onrender.com/products';
 const urlOrders = 'https://candy-shop-rest-api.onrender.com/orders'
 
+
 export const fetchProducts = async () => {
   try {
     const response = await axios.get(urlProducts);
