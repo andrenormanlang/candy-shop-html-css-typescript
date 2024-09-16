@@ -21,11 +21,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Create a new Image object and set its source to the background image
   const img = new Image();
-  img.src = './src/img/bg-candy-light.jpg'; // Correct relative path to your background image
+  img.src = 'https://raw.githubusercontent.com/andrenormanlang/candy-shop-html-css-typescript/main/src/img/bg-candy-light.jpg'; // Correct relative path to your background image
 
   // When the image has fully loaded
   img.onload = function() {
-    document.body.style.backgroundImage = 'url(./src/img/bg-candy-light.jpg)'; // Set background image
+    document.body.style.backgroundImage = 'url(https://raw.githubusercontent.com/andrenormanlang/candy-shop-html-css-typescript/main/src/img/bg-candy-light.jpg)'; // Set background image
     if (spinner) {
       spinner.style.display = 'none'; // Hide spinner after image has loaded
     }
