@@ -9,7 +9,7 @@ body {
   background-attachment: fixed;
   background-size: cover;
   -webkit-transition: background 0.3s ease-in-out;
-  transition: background 0.3s ease-in-out; /* Add smooth transition for the image */
+  transition: background 0.3s ease-in-out;
   background-color: pink;
   font-size: 18px;
   font-family: "Varela Round", sans-serif;
@@ -19,27 +19,22 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Anton", sans-serif;
 }
 
-/*font-size for stock heading */
 .small-font h5 {
   font-size: 0.8rem;
 }
 
-/*Pushing all the cards down so the nav wont clip em */
 .padding-top {
   padding-top: 12vh;
 }
 
-/*Does affect the flow of the page */
 .hide {
   display: none;
 }
 
-/*Does not affect the flow of the page*/
 .hidden {
   visibility: hidden;
 }
 
-/*NAVBAR */
 .container-nav {
   max-width: 1200px;
 }
@@ -57,6 +52,11 @@ nav {
   height: 7.5rem;
 }
 
+@media (max-width: 568px) {
+  nav {
+    height: 7.5rem;
+  }
+}
 .stock-phrase {
   display: -webkit-box;
   display: -ms-flexbox;
