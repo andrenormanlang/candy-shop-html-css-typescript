@@ -4,7 +4,7 @@ font-family: 'Varela Round', sans-serif; */
 @import url("https://fonts.googleapis.com/css2?family=Varela&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Anton&family=Varela&display=swap");
 body {
-  background-image: url("https://raw.githubusercontent.com/andrenormanlang/candy-shop-html-css-typescript/main/src/img/bg-candy-light.jpg");
+  background-image: url("https://raw.githubusercontent.com/andrenormanlang/candy-shop-html-css-typescript/main/src/images/bg-candy-light.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
