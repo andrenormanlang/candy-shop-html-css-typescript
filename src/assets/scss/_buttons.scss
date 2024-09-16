@@ -1,0 +1,28 @@
+.btn-menu-toggle {
+  margin-top: 0.2rem;
+  position: relative;
+  background-color: #17a2b8;
+  border: none;
+  padding: 0.3rem 0.3rem;
+  @include transition(background-color, 0.3s, ease-in-out);
+  &:hover, &:focus {
+    background-color: #138496;
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.btn-checkout {
+  padding: 10px 20px;
+  font-size: 1.2em;
+  color: white;
+  background-color: $btn-warning-bg-color;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  @include transition(background-color, 0.3s, ease-in-out);
+  &:hover {
+    background-color: #e0a800;
+  }
+}

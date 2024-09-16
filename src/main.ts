@@ -1,9 +1,3 @@
-// import {
-//   fetchProduct,
-//   fetchProducts,
-//   createOrders,
-//   updateProductQuantityInDB,
-// } from "./api";
 import { fetchProducts, createOrders } from "./api";
 import {
   IProduct,
@@ -15,7 +9,7 @@ import {
 } from "./interfaces";
 import "bootstrap/dist/css/bootstrap.css";
 import * as bootstrap from "bootstrap";
-import "./style.scss";
+import "./assets/css/styles.css";
 
 
 // Wait for the DOM to load before executing the image logic

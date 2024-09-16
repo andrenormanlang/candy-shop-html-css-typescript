@@ -1,0 +1,30 @@
+body {
+  background-image: url("./images/bg-candy-light.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  transition: background 0.3s ease-in-out;
+  background-color: $background-color;
+  font-size: 18px;
+  font-family: $font-primary;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-secondary;
+}
+
+.small-font h5 {
+  font-size: 0.8rem;
+}
+
+.padding-top {
+  padding-top: 12vh;
+}
+
+.hide {
+  display: none;
+}
+
+.hidden {
+  visibility: hidden;
+}

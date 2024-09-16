@@ -1,0 +1,25 @@
+@media (max-width: 568px) {
+  .stock-phrase {
+    font-size: 0.6rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .image-description img {
+    max-width: 80%;
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .image-description {
+    max-width: 80%;
+    height: auto;
+  }
+}
+
+@media (min-width: 500px) {
+  .cart-item-card .card-body {
+    padding: 1rem;
+  }
+}

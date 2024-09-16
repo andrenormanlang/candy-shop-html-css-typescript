@@ -1,0 +1,28 @@
+/* Sold-Out Product Card Styling */
+.card.sold-out {
+  background-color: rgba(255, 0, 0, 0.1); /* Light red background */
+  border: 2px solid red;
+
+  .btn-add-to-cart {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .sold-out-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+    z-index: 10;
+  }
+
+  .stock-tag {
+    display: none;
+  }
+}
