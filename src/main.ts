@@ -17,6 +17,27 @@ import "bootstrap/dist/css/bootstrap.css";
 import * as bootstrap from "bootstrap";
 import "./style.scss";
 
+
+// Wait for the DOM to load before executing the image logic
+document.addEventListener("DOMContentLoaded", function() {
+  const spinner = document.getElementById('spinner');
+  if (spinner) {
+    spinner.style.display = 'block'; // Show spinner while image is loading
+  }
+
+  // Create a new Image object and set its source to the background image
+  const img = new Image();
+  img.src = './src/img/bg-candy-light.jpg'; // Correct relative path to your background image
+
+  // When the image has fully loaded
+  img.onload = function() {
+    document.body.style.backgroundImage = 'url(./src/img/bg-candy-light.jpg)'; // Set background image
+    if (spinner) {
+      spinner.style.display = 'none'; // Hide spinner after image has loaded
+    }
+  };
+})
+
 let products: IProduct[] = JSON.parse(localStorage.getItem("products") ?? "[]");
 
 let productsResponse: IProductsResponse;
