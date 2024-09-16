@@ -33,7 +33,10 @@ $breakpoint-md: 768px;
 
 // _base.scss
 body {
-  background-image: none; /* Hide the background image initially */
+  background-image: url("./images/bg-candy-light.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
   transition: background 0.3s ease-in-out; /* Add smooth transition for the image */
 
   background-color: $background-color;
