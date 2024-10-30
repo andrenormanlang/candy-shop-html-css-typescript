@@ -6,31 +6,33 @@ import {
   IOrderItemRequest,
   // IOrderResponse,
   IOrder,
+  IOrderItem,
 } from "./interfaces";
 import "bootstrap/dist/css/bootstrap.css";
 import * as bootstrap from "bootstrap";
 import "./assets/css/styles.css";
 
-
 // Wait for the DOM to load before executing the image logic
-document.addEventListener("DOMContentLoaded", function() {
-  const spinner = document.getElementById('spinner');
+document.addEventListener("DOMContentLoaded", function () {
+  const spinner = document.getElementById("spinner");
   if (spinner) {
-    spinner.style.display = 'block'; // Show spinner while image is loading
+    spinner.style.display = "block"; // Show spinner while image is loading
   }
 
   // Create a new Image object and set its source to the background image
   const img = new Image();
-  img.src = 'https://raw.githubusercontent.com/andrenormanlang/candy-shop-html-css-typescript/main/src/images/bg-candy-light.jpg'; // Correct relative path to your background image
+  img.src =
+    "https://raw.githubusercontent.com/andrenormanlang/candy-shop-html-css-typescript/main/src/images/bg-candy-light.jpg"; // Correct relative path to your background image
 
   // When the image has fully loaded
-  img.onload = function() {
-    document.body.style.backgroundImage = 'url(https://raw.githubusercontent.com/andrenormanlang/candy-shop-html-css-typescript/main/src/images/bg-candy-light.jpg)'; // Set background image
+  img.onload = function () {
+    document.body.style.backgroundImage =
+      "url(https://raw.githubusercontent.com/andrenormanlang/candy-shop-html-css-typescript/main/src/images/bg-candy-light.jpg)"; // Set background image
     if (spinner) {
-      spinner.style.display = 'none'; // Hide spinner after image has loaded
+      spinner.style.display = "none"; // Hide spinner after image has loaded
     }
   };
-})
+});
 
 let products: IProduct[] = JSON.parse(localStorage.getItem("products") ?? "[]");
 
@@ -135,7 +137,6 @@ const getImageUrl = (imagePath: string): string => {
   }
 };
 
-
 const renderProducts = (products: IProduct[]) => {
   const cardItems = (document.querySelector("#card-container")!.innerHTML =
     products
@@ -221,7 +222,6 @@ const addEventToCartButton = () => {
 };
 
 const addToCart = (productId: string) => {
-
   let product = products.find((e) => e.id === Number(productId));
   if (!product) {
     console.error("Product not found");
@@ -231,7 +231,6 @@ const addToCart = (productId: string) => {
 
   let productQuantity = Number(localStorage.getItem(productId) || 0);
   if (renderProductQuantity(product) > 0) {
-
     productQuantity++;
     localStorage.setItem(productId, String(productQuantity));
     renderCart();
@@ -252,7 +251,7 @@ const addToCart = (productId: string) => {
 };
 
 const removeFromCart = (productId: string) => {
- // Start spinner at the beginning of the operation
+  // Start spinner at the beginning of the operation
   let product = products.find((e) => e.id === Number(productId));
   if (!product) {
     console.error("Product not found");
@@ -274,8 +273,6 @@ const removeFromCart = (productId: string) => {
     updateProductAddToCart(product);
     updateProductStatus(product);
     stockPhrase();
-
-
   }
 };
 
@@ -305,13 +302,15 @@ function displayProductDetailsInModal(product: IProduct) {
           <div class="row">
           <div class="col-12 col-md-6 mb-3 mb-md-0 image-description">
           <img class="card-img card-img-top img-fluid cardImg p-3 products-images" src="${getImageUrl(
-              product.images.thumbnail
-            )}" alt="picture of ${product.name}" class="img-fluid">
+            product.images.thumbnail
+          )}" alt="picture of ${product.name}" class="img-fluid">
         </div>
             <div class="card-product-description col-10 col-md-6">
               <p>${product.description}</p>
               <p class="fw-bold">Price: ${product.price} kr</p>
-              <button type="button" id="product-description-add" class="cart-btn btn btn-success" data-product-id=${product.id}>
+              <button type="button" id="product-description-add" class="cart-btn btn btn-success" data-product-id=${
+                product.id
+              }>
                 Add to cart
               </button>
           </div>
@@ -416,8 +415,8 @@ const renderCart = async () => {
               </div>
               <div class="col-4">
                 <img class="card-img card-img-top img-fluid cardImg p-3 products-images" src="${getImageUrl(
-              product.images.thumbnail
-            )}" alt="picture of ${product.name}" class="img-fluid">
+                  product.images.thumbnail
+                )}" alt="picture of ${product.name}" class="img-fluid">
               </div>
               <div class="col-6">
                 <div class="row">
@@ -645,7 +644,6 @@ const removeFromCheckout = (productId: string) => {
   }
 };
 
-
 const renderCartinCheckout = async () => {
   let productsInCart = productsAddedInCart();
 
@@ -669,17 +667,23 @@ const renderCartinCheckout = async () => {
               <!-- Image and product name on the left -->
               <div class="col-4 d-grid align-items-start pe-3"> <!-- Changed to use Bootstrap's grid system -->
                 <img src="${getImageUrl(
-              product.images.thumbnail
-            )}" class="img-fluid rounded-3 mb-2">
+                  product.images.thumbnail
+                )}" class="img-fluid rounded-3 mb-2">
                 <h6 class="product-name small text-muted">${product.name}</h6>
               </div>
 
              <!-- Quantity in the middle -->
              <div class="col-4 d-flex align-items-center justify-content-center">
               <div class="d-flex align-items-center">
-                <button class="reduce-btn-checkout btn btn-outline-secondary btn-sm" data-product-id=${product.id}>-</button>
-                <span class="sum-products mx-2">${localStorage.getItem(String(product.id))}</span>
-                <button class="increase-btn-checkout btn btn-outline-secondary btn-sm" data-product-id=${product.id}>+</button>
+                <button class="reduce-btn-checkout btn btn-outline-secondary btn-sm" data-product-id=${
+                  product.id
+                }>-</button>
+                <span class="sum-products mx-2">${localStorage.getItem(
+                  String(product.id)
+                )}</span>
+                <button class="increase-btn-checkout btn btn-outline-secondary btn-sm" data-product-id=${
+                  product.id
+                }>+</button>
               </div>
             </div>
 
@@ -717,24 +721,21 @@ const renderCartinCheckout = async () => {
   `;
   }
 
- // Re-attach event listeners to the newly added buttons in the checkout
-document.querySelectorAll('.increase-btn-checkout').forEach((element) => {
-  element.addEventListener('click', (e) =>
-    {
+  // Re-attach event listeners to the newly added buttons in the checkout
+  document.querySelectorAll(".increase-btn-checkout").forEach((element) => {
+    element.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
       console.log(target);
       addToCheckout(target.dataset.productId!);
     });
-});
-
-document?.querySelectorAll(".reduce-btn-checkout").forEach((element) => {
-  element?.addEventListener("click", (e) => {
-    const target = e.target as HTMLElement;
-    removeFromCheckout(target.dataset.productId!);
   });
-});
 
-
+  document?.querySelectorAll(".reduce-btn-checkout").forEach((element) => {
+    element?.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      removeFromCheckout(target.dataset.productId!);
+    });
+  });
 
   // Re-attach event listeners to the newly added buttons in the checkout
 };
@@ -832,7 +833,6 @@ document
     window.location.reload();
   });
 
-
 const orderSubmitForm = () => {
   const formCustomer = document.querySelector("#form-customer");
   if (formCustomer) {
@@ -864,7 +864,7 @@ const orderSubmitForm = () => {
   }
 };
 const showOrderConfirmationModal = (orderResponse: IOrder) => {
-  // Close all active Bootstrap modals
+  // Close all active Bootstrap modals to prevent overlapping
   document.querySelectorAll(".modal").forEach((modal) => {
     let bsModal = bootstrap.Modal.getInstance(modal);
     if (bsModal) {
@@ -872,50 +872,65 @@ const showOrderConfirmationModal = (orderResponse: IOrder) => {
     }
   });
 
-  const modalBody = document.querySelector(
-    "#orderConfirmationModalForm .modal-body"
-  );
-  if (modalBody) {
-    modalBody.innerHTML = `
-      <div class="card mt-5">
-        <div class="card-body mx-4">
-          <div class="container">
-            <h5 class="my-5 mx-5" style="font-size: 30px;">Thank you for your order!</h5>
-            <div class="row">
-              <ul class="list-unstyled">
-                <li class="text-black font-weight-bold">${orderResponse.customer_first_name} ${orderResponse.customer_last_name}</li>
-                <li class="text-muted mt-1"><span class="text-black">Order#:</span> ${orderResponse.id}</li>
-                <li class="text-black mt-1">${orderResponse.order_date}</li>
-                <li class="text-black mt-1">ORDER TOTAL: ${orderResponse.order_total} Kr</li>
-              </ul>
-              <hr style="border: 2px solid black;">
-            </div>
-          </div>
-        </div>
-      </div>`;
+  // Format date
+  const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat("en-GB", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(date);
+  };
 
-    const orderConfirmationModalElement = document.getElementById(
-      "orderConfirmationModalForm"
-    );
-    if (orderConfirmationModalElement) {
-      const orderConfirmationModal = new bootstrap.Modal(
-        orderConfirmationModalElement,
-        {
-          backdrop: "static", // Prevent closing when clicking outside
-          keyboard: false, // Prevent closing with keyboard (Esc key)
-        }
-      );
-      orderConfirmationModal.show();
+  // Populate customer and receipt information
+  document.getElementById("customerName")!.textContent = `${orderResponse.customer_first_name} ${orderResponse.customer_last_name}`;
+  document.getElementById("customerAddress")!.textContent = `${orderResponse.customer_address}`;
+  document.getElementById("customerCity")!.textContent = `${orderResponse.customer_city}`;
+  document.getElementById("receiptNumber")!.textContent = `${orderResponse.id}`;
+  document.getElementById("receiptDate")!.textContent = formatDate(new Date(orderResponse.created_at));
 
-      // Handle the close button click
-      orderConfirmationModalElement
-        .querySelector(".btn-close-receipt")!
-        .addEventListener("click", function () {
-          localStorage.clear();
-          window.location.reload();
-        });
-    }
+  // Populate order items in the table
+  const orderItemsTable = document.getElementById("orderItemsTable")!;
+  orderItemsTable.innerHTML = orderResponse.items.map((item: IOrderItem) => {
+    const product = products.find((p) => p.id === item.product_id);
+    const productName = product ? product.name : "Unknown Product";
+
+    return `
+      <tr>
+        <td>${productName}</td>
+        <td>${item.item_price.toFixed(2)} Kr</td>
+        <td>${item.qty}</td>
+        <td>${item.item_total.toFixed(2)} Kr</td>
+      </tr>
+    `;
+  }).join("");
+
+  // Calculate and populate summary information
+  const subtotal = orderResponse.items.reduce((acc, item) => acc + item.item_total, 0);
+  document.getElementById("subtotal")!.textContent = `${subtotal.toFixed(2)} Kr`;
+  document.getElementById("totalPaid")!.textContent = `${orderResponse.order_total.toFixed(2)} Kr`;
+
+  // Show the modal
+  const orderConfirmationModalElement = document.getElementById("orderConfirmationModalForm");
+  if (orderConfirmationModalElement) {
+    const orderConfirmationModal = new bootstrap.Modal(orderConfirmationModalElement, {
+      backdrop: "static", // Prevent closing when clicking outside
+      keyboard: false, // Prevent closing with keyboard (Esc key)
+    });
+    orderConfirmationModal.show();
+
+    // Handle the close button click
+    orderConfirmationModalElement
+      .querySelector(".btn-close-receipt")!
+      .addEventListener("click", function () {
+        localStorage.clear();
+        window.location.reload();
+      });
   }
 };
+
+
+
 
 // orderSubmitForm();

@@ -1,19 +1,141 @@
 /* font-family: 'Open Sans', sans-serif;
 font-family: 'Varela Round', sans-serif; */
-@import url('https://fonts.googleapis.com/css2?family=Chicle&family=Libre+Franklin:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Varela+Round&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Varela&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Chicle&family=Libre+Franklin:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Varela+Round&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Varela&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Varela&display=swap");
+body {
+  background-image: url("https://raw.githubusercontent.com/andrenormanlang/candy-shop-html-css-typescript/main/src/images/bg-candy-light.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  -webkit-transition: background 0.3s ease-in-out;
+  transition: background 0.3s ease-in-out;
+  background-color: pink;
+  font-size: 18px;
+  font-family: "Varela Round", sans-serif;
+}
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Anton", sans-serif;
+}
 
-@import 'variables';
-@import 'mixins';
-@import 'base';
-@import 'navbar';
-@import 'order_receipt';
+.small-font h5 {
+  font-size: 0.8rem;
+}
 
+.padding-top {
+  padding-top: 12vh;
+}
 
+.hide {
+  display: none;
+}
 
-.stock-phrase{
+.hidden {
+  visibility: hidden;
+}
+
+.container-nav {
+  max-width: 1200px;
+}
+
+nav {
+  background-color: #fff;
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 7.5rem;
+}
+
+@media (max-width: 568px) {
+  nav {
+    height: 7.5rem;
+  }
+}
+/* Make sure the modal fits well on small screens */
+.modal-content {
+  margin: 10px;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+}
+
+#orderConfirmationModalBody {
+  font-size: 14px;
+}
+
+#orderItemsTable th,
+#orderItemsTable td {
+  padding: 10px;
+  text-align: center;
+}
+
+#orderItemsTable th {
+  background-color: #f8f8f8;
+}
+
+.table-bordered {
+  border: 1px solid #ddd;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #ddd;
+}
+
+/* Improve the look of the table on small screens */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Enables smooth scrolling on iOS */
+}
+
+.table th, .table td {
+  vertical-align: middle;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* Reduce padding for better alignment on smaller screens */
+.table-bordered th, .table-bordered td {
+  padding: 8px;
+}
+
+/* Adjust padding for the modal header and footer */
+.modal-header, .modal-footer {
+  padding: 10px 20px;
+}
+
+/* Add space between the close button and modal border */
+.btn-close {
+  margin-right: 5px;
+}
+
+/* Ensure the receipt information looks well on mobile */
+#customer-info {
+  line-height: 1.3;
+}
+
+.order-label {
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  font-size: 1.2em;
+}
+
+.order-number {
+  margin-left: 4px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.1em;
+}
+
+.stock-phrase {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   margin: auto;
   font-family: Anton;
@@ -23,18 +145,18 @@ font-family: 'Varela Round', sans-serif; */
   padding: 0.5rem 1rem;
   font-size: 1rem;
   cursor: pointer;
+  -webkit-transition: background-color 0.3s;
   transition: background-color 0.3s;
 }
 
 @media (max-width: 568px) {
   nav {
-    height: 7.5rem; // adjust this value as needed
+    height: 7.5rem;
   }
   .stock-phrase {
-    font-size: 0.6rem; // adjust this value as needed
+    font-size: 0.6rem;
   }
 }
-
 /* Additional styles for the menu toggle */
 .btn-menu-toggle {
   margin-top: 0.2rem;
@@ -42,49 +164,79 @@ font-family: 'Varela Round', sans-serif; */
   background-color: #17a2b8; /* Bootstrap info color or your custom color */
   border: none;
   padding: 0.3rem 0.3rem;
-  transition: background-color 0.3s, transform 0.1s; // Added transform to the transition
-
-  &:hover, &:focus {
-    background-color: #138496; /* A darker shade for interaction */
-  }
-
-  &:active { // When the button is actively being clicked
-    transform: scale(0.95); // Scale down the button
-  }
+  -webkit-transition: background-color 0.3s, -webkit-transform 0.1s;
+  transition: background-color 0.3s, -webkit-transform 0.1s;
+  transition: background-color 0.3s, transform 0.1s;
+  transition: background-color 0.3s, transform 0.1s, -webkit-transform 0.1s;
 }
+.btn-menu-toggle:hover, .btn-menu-toggle:focus {
+  background-color: #138496; /* A darker shade for interaction */
+}
+.btn-menu-toggle:active {
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
+}
+
 .badge-notification {
   position: absolute;
   top: -0.5rem;
   left: 1rem;
-  transform: translate(50%, -50%);
+  -webkit-transform: translate(50%, -50%);
+          transform: translate(50%, -50%);
   background-color: #dc3545; /* Bootstrap danger color for contrast */
   color: white;
   border-radius: 50%;
   width: 20px;
   height: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   font-size: 0.7rem;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
   transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
 }
 
 .badge-notification::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   right: 0;
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  animation: badge-bump 0.5s infinite alternate;
+  -webkit-animation: badge-bump 0.5s infinite alternate;
+          animation: badge-bump 0.5s infinite alternate;
+}
+
+@-webkit-keyframes badge-bump {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  100% {
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+  }
 }
 
 @keyframes badge-bump {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.1); }
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  100% {
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+  }
 }
-
 .counter-span {
   position: relative;
   z-index: 2; /* Ensure the number is above the pseudo-element */
@@ -92,14 +244,15 @@ font-family: 'Varela Round', sans-serif; */
 
 /* Ensure button scales well for accessibility */
 .btn-menu-toggle, .badge-notification, .counter-span {
-  transform-origin: center;
-  transform: scale(var(--scale-factor, 1));
+  -webkit-transform-origin: center;
+          transform-origin: center;
+  -webkit-transform: scale(var(--scale-factor, 1));
+          transform: scale(var(--scale-factor, 1));
 }
 
 :root:hover {
   --scale-factor: 1.15; /* Scale up on hover */
 }
-
 
 /* CART */
 #dropdown-menu {
@@ -111,19 +264,20 @@ font-family: 'Varela Round', sans-serif; */
   overflow-y: auto; /* Enable vertical scrolling */
   z-index: 101; /* Above the navbar */
   display: none; /* Initially hidden */
-  background-color: $dropdown-bg-color; /* Theming variable for background */
-  box-shadow: $shadow-color 0px 4px 8px; /* Theming variable for shadow */
+  background-color: rgb(255, 254, 254); /* Theming variable for background */
+  -webkit-box-shadow: rgba(68, 68, 68, 0.4) 0px 4px 8px;
+          box-shadow: rgba(68, 68, 68, 0.4) 0px 4px 8px; /* Theming variable for shadow */
   padding: 1rem; /* Inner padding */
-  transform: translateY(-20px);
+  -webkit-transform: translateY(-20px);
+          transform: translateY(-20px);
   opacity: 0;
   visibility: hidden;
-  // transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s;
   will-change: opacity, transform; /* Optimize for transitions */
-
 }
 
 #dropdown-menu.show {
-  transform: translateY(0);
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
   opacity: 1;
   visibility: visible;
 }
@@ -137,22 +291,30 @@ font-family: 'Varela Round', sans-serif; */
 
 /* Cart Item Styling */
 .cart-items {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   padding: 10px 0; /* Spacing between cart items */
 }
-
 
 .cart-item-image {
   width: 50px; /* Small thumbnail size */
   height: 50px;
   border-radius: 4px; /* Slightly rounded corners for images */
-  object-fit: cover; /* Ensure the image covers the thumbnail area */
+  -o-object-fit: cover;
+     object-fit: cover; /* Ensure the image covers the thumbnail area */
 }
 
 .cart-item-details {
-  flex-grow: 1;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
   padding-left: 10px; /* Space between image and details */
 }
 
@@ -172,6 +334,7 @@ font-family: 'Varela Round', sans-serif; */
   cursor: pointer;
   font-size: 0.85rem; /* Smaller font size for text inside the button */
 }
+
 .reduce-btn {
   background-color: #f0f0f0; /* Light background for buttons */
   border: 1px solid #d1d1d1; /* Border to distinguish the buttons */
@@ -188,8 +351,12 @@ font-family: 'Varela Round', sans-serif; */
 }
 
 .cart-item-quantity {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .quantity-btn {
@@ -201,12 +368,16 @@ font-family: 'Varela Round', sans-serif; */
   cursor: pointer;
 }
 
-
-
 .total-cart {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   border-radius: 10px;
   font-size: 0.8rem;
 }
@@ -230,6 +401,7 @@ font-family: 'Varela Round', sans-serif; */
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  -webkit-transition: background-color 0.3s;
   transition: background-color 0.3s;
 }
 
@@ -238,16 +410,20 @@ font-family: 'Varela Round', sans-serif; */
 }
 
 /* PRODUCT CARD */
-.product-card-title{
-  font-family: 'Anton', sans-serif;
+.product-card-title {
+  font-family: "Anton", sans-serif;
   font-size: 1.2rem;
   font-weight: 900;
   padding-top: 10px;
 }
 
 .card {
-  perspective: 1000px; /* Create perspective */
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transition for hover effect */
+  -webkit-perspective: 1000px;
+          perspective: 1000px; /* Create perspective */
+  -webkit-transition: -webkit-transform 0.2s ease-in-out, -webkit-box-shadow 0.2s ease-in-out;
+  transition: -webkit-transform 0.2s ease-in-out, -webkit-box-shadow 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out, -webkit-box-shadow 0.2s ease-in-out; /* Smooth transition for hover effect */
   cursor: pointer; /* Change cursor to indicate clickable */
 }
 
@@ -256,19 +432,14 @@ font-family: 'Varela Round', sans-serif; */
   width: 80%;
   display: block;
   margin: auto;
-   // adjust this value as needed
 }
-
 
 @media screen and (max-width: 768px) {
   .image-description img {
     max-width: 80%; /* Adjust the max-width for smaller screens */
     height: auto; /* This maintains the aspect ratio of the image */
   }
-
-
 }
-
 .info-icon {
   position: absolute;
   font-weight: 900;
@@ -280,8 +451,8 @@ font-family: 'Varela Round', sans-serif; */
   background-color: #ffc107;
   cursor: pointer;
 }
-.price-tag {
 
+.price-tag {
   font-weight: 900;
   color: white;
   right: 250px;
@@ -291,6 +462,7 @@ font-family: 'Varela Round', sans-serif; */
   background-color: red;
   cursor: pointer;
 }
+
 .stock-tag {
   font-weight: 900;
   top: 320px;
@@ -300,16 +472,21 @@ font-family: 'Varela Round', sans-serif; */
   cursor: pointer;
 }
 
-
 .sold-out-message {
   position: absolute;
   left: 0;
   width: 100%;
   height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(255, 0, 0, 0.5); // semi-transparent red
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: rgba(255, 0, 0, 0.5);
   color: white;
   font-size: 2.5em;
   font-weight: bold;
@@ -320,8 +497,6 @@ font-family: 'Varela Round', sans-serif; */
   position: relative;
 }
 
-
-
 .card #product-status {
   position: absolute;
   top: 10px;
@@ -330,15 +505,11 @@ font-family: 'Varela Round', sans-serif; */
   padding: 10px;
 }
 
-// .products-images{
-//   max-width: 80%;
-//   justify-content: center;
-//   padding-left: 3rem;
-// }
-
 /* PRODUCT DESCRIPTION */
-.modal-header{
-  justify-content: center;
+.modal-header {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 /* Default styles for larger screens */
@@ -353,35 +524,27 @@ font-family: 'Varela Round', sans-serif; */
     max-width: 80%; /* Adjust the max-width for smaller screens */
     height: auto; /* This maintains the aspect ratio of the image */
   }
-
-
 }
-
 /* Even smaller screens */
 @media screen and (max-width: 480px) {
-  .image-description  {
+  .image-description {
     max-width: 80%; /* Further adjust the max-width for very small screens */
     height: auto; /* This maintains the aspect ratio of the image */
   }
-
-
-
 }
-
 .modal-title {
-  font-family: 'Anton', sans-serif;
+  font-family: "Anton", sans-serif;
   font-size: 1.6rem;
   font-weight: 300;
 }
 
 .card-product-description {
-  font-family: 'Varela Round', sans-serif;
+  font-family: "Varela Round", sans-serif;
   font-size: 0.8em;
   font-weight: 300;
- text-align: left;
- word-spacing: -0.09rem;
+  text-align: left;
+  word-spacing: -0.09rem;
 }
-
 
 /* CHECKOUT SUMMARY */
 .checkout-item {
@@ -389,7 +552,8 @@ font-family: 'Varela Round', sans-serif; */
   margin-bottom: 1rem;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .checkout-header {
@@ -409,12 +573,15 @@ font-family: 'Varela Round', sans-serif; */
 }
 
 .checkout-image-container {
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .checkout-image {
   max-height: 200px;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   padding: 1rem;
   border-radius: 4px;
 }
@@ -435,6 +602,7 @@ font-family: 'Varela Round', sans-serif; */
   border-radius: 4px;
   padding: 0.5rem 1rem;
   cursor: pointer;
+  -webkit-transition: background-color 0.3s;
   transition: background-color 0.3s;
 }
 
@@ -453,59 +621,60 @@ font-family: 'Varela Round', sans-serif; */
   opacity: 0.5; /* You can adjust the opacity level to control the dimming effect */
 }
 
-
-// Add media query for screens with a minimum width of 500px
 @media (min-width: 500px) {
   /* This will apply only to screens wider than 500px */
   .cart-item-card .card-body {
     padding: 1rem; /* Add more padding */
   }
-
   .cart-item-card .product-name {
     font-size: 1rem; /* Increase the font size slightly for readability */
     text-align: left; /* Align text to the left */
   }
-
   .cart-item-card .quantity-controls {
-    justify-content: start; /* Align the quantity controls to the start on larger screens */
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: start; /* Align the quantity controls to the start on larger screens */
     margin-right: 1rem; /* Add some space between quantity controls and the price */
   }
-
   .cart-item-card .price {
     font-size: 1.2rem; /* Make the price stand out more */
     font-weight: bold; /* Optional: Make the price font bold */
   }
-
   .cart-item-card .img-fluid {
     width: 120px; /* Make the image a bit larger */
   }
-
 }
-
-#total-cart-checkout{
+#total-cart-checkout {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   background-color: #ffc107;
   color: white;
   border: none;
   border-radius: 6px;
-
-
-
 }
-  .total-price-checkout {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: green;
-    justify-content:center;
-    align-items: center;
-  }
 
-  .price-tag {
-    font-weight: 900;
-    color: white;
-    background-color: red;
-    margin-right: 2rem; /* Margin to the right to create space between price and stock */
-  }
+.total-price-checkout {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: green;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
 
+.price-tag {
+  font-weight: 900;
+  color: white;
+  background-color: red;
+  margin-right: 2rem; /* Margin to the right to create space between price and stock */
+}/*# sourceMappingURL=styles.css.map */

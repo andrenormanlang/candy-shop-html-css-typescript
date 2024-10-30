@@ -49,6 +49,7 @@ export interface IOrder{
     customer_email: string,
     customer_phone?: string,
     order_total: number,
+    
     created_at: string,
     updated_at: string,
     items: IOrderItem[]}

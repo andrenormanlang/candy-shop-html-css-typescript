@@ -181,7 +181,12 @@
               <span id="customer_email" class="error-message"></span>
             </div>
             <div class="form-group">
-              <input type="tel" class="form-control mb-4" id="inputPhone" minlength="10" pattern="\+?46|\d{10,12}" placeholder="Telephone (format: 07/+46)"  oninvalid="this.setCustomValidity('Please enter a valid telephone number.')" oninput="this.setCustomValidity('')">
+              <input type="tel" class="form-control mb-4" id="inputPhone" minlength="10"
+                pattern="^\+?[1-9]\d{1,14}$"
+                placeholder="Telephone (e.g., +46709182403 or 0701234567)"
+                required
+                oninvalid="this.setCustomValidity('Please enter a valid telephone number with a country code (e.g., +46).')"
+                oninput="this.setCustomValidity('')">
               <span id="customer_phone" class="error-message"></span>
             </div>
             <button type="submit" class="btn btn-primary mt-4 mb-4">Purchase</button>
@@ -234,27 +239,93 @@
   </div>
 
   <!--CHECKOUTFORM -->
+<!-- Order Confirmation Modal -->
+<div class="modal fade" id="orderConfirmationModalForm" tabindex="-1" aria-labelledby="orderConfirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderConfirmationModalLabel">RECEIPT</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="orderConfirmationModalBody">
+        <!-- Start of Receipt -->
+        <div class="container mt-4">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <p><strong>Billed To:</strong></p>
+              <p id="customer-info">
+                Name: <span id="customerName"></span><br>
+                Address: <span id="customerAddress"></span><br>
+                City: <span id="customerCity"></span><br>
+              </p>
+            </div>
+            <div class="col-12 col-md-6 text-md-end">
+              <p class="order-label">
+                <strong>Order Nº <span id="receiptNumber" class="order-number"></span></strong>
+              </p>
+              <p><strong>Date:</strong> <span id="receiptDate"></span></p>
+            </div>
+          </div>
+          <hr>
 
-  <!-- Order Confirmation Modal -->
-  <div class="modal fade" id="orderConfirmationModalForm" tabindex="-1" aria-labelledby="orderConfirmationModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="orderConfirmationModalLabel">Order Confirmation</h5>
-          <!-- <button type="button" class="btn-close" data-bs-dismiss="orderModal" aria-label="Close"></button> -->
+          <!-- Items Table -->
+          <div class="row mt-3">
+            <div class="col-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead class="text-center">
+                    <tr>
+                      <th>Description</th>
+                      <th>Cost per unit</th>
+                      <th>Qty</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody id="orderItemsTable">
+                    <!-- Items will be dynamically injected here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <div class="row">
+            <div class="col-12 col-md-6 mt-3">
+              <!-- Empty space for alignment on larger screens -->
+            </div>
+            <div class="col-12 col-md-6 mt-3">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td class="text-end"><strong>Subtotal:</strong></td>
+                    <td class="text-end" id="subtotal"></td>
+                  </tr>
+                  <tr>
+                    <td class="text-end"><strong>Discount:</strong></td>
+                    <td class="text-end" id="discount">0.00</td>
+                  </tr>
+                  <tr>
+                    <td class="text-end"><strong>Tax:</strong></td>
+                    <td class="text-end" id="taxAmount">0.00</td>
+                  </tr>
+                  <tr>
+                    <td class="text-end"><strong>Total Paid:</strong></td>
+                    <td class="text-end" id="totalPaid"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-        <div class="modal-body">
-          <!-- Order details will be injected here -->
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn-close-receipt btn btn-info" data-bs-dismiss="orderModal">Close</button>
-        </div>
+        <!-- End of Receipt -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info btn-close-receipt" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
-
-
+</div>
 
   <!-- Script -->
   <script type="module" src="/src/main.ts">

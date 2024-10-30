@@ -1,0 +1,75 @@
+/* Make sure the modal fits well on small screens */
+.modal-content {
+  margin: 10px;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+}
+
+#orderConfirmationModalBody {
+  font-size: 14px;
+}
+
+
+#orderItemsTable th,
+#orderItemsTable td {
+  padding: 10px;
+  text-align: center;
+}
+
+#orderItemsTable th {
+  background-color: #f8f8f8;
+}
+
+.table-bordered {
+  border: 1px solid #ddd;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #ddd;
+}
+
+/* Improve the look of the table on small screens */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Enables smooth scrolling on iOS */
+}
+
+.table th, .table td {
+  vertical-align: middle;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* Reduce padding for better alignment on smaller screens */
+.table-bordered th, .table-bordered td {
+  padding: 8px;
+}
+
+/* Adjust padding for the modal header and footer */
+.modal-header, .modal-footer {
+  padding: 10px 20px;
+}
+
+/* Add space between the close button and modal border */
+.btn-close {
+  margin-right: 5px;
+}
+
+/* Ensure the receipt information looks well on mobile */
+#customer-info {
+  line-height: 1.3;
+}
+
+.order-label {
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  font-size: 1.2em;
+}
+.order-number {
+  margin-left: 4px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.1em;
+}
