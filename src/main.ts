@@ -907,8 +907,8 @@ const showOrderConfirmationModal = (orderResponse: IOrder) => {
   }).join("");
 
   // Calculate and populate summary information
-  const subtotal = orderResponse.items.reduce((acc, item) => acc + item.item_total, 0);
-  document.getElementById("subtotal")!.textContent = `${subtotal.toFixed(2)} Kr`;
+  // const subtotal = orderResponse.items.reduce((acc, item) => acc + item.item_total, 0);
+  // document.getElementById("subtotal")!.textContent = `${subtotal.toFixed(2)} Kr`;
   document.getElementById("totalPaid")!.textContent = `${orderResponse.order_total.toFixed(2)} Kr`;
 
   // Show the modal
@@ -921,12 +921,12 @@ const showOrderConfirmationModal = (orderResponse: IOrder) => {
     orderConfirmationModal.show();
 
     // Handle the close button click
-    orderConfirmationModalElement
-      .querySelector(".btn-close-receipt")!
-      .addEventListener("click", function () {
-        localStorage.clear();
-        window.location.reload();
-      });
+    // orderConfirmationModalElement
+    //   .querySelector(".btn-close-receipt")!
+    //   .addEventListener("click", function () {
+    //     localStorage.clear();
+    //     window.location.reload();
+    //   });
   }
 };
 
